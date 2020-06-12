@@ -37,6 +37,11 @@ python -c 'import requests;print(requests.get("https://github.com/stealthcopter/
 python3 -c 'import requests;print(requests.get("https://github.com/stealthcopter/deepce/raw/master/deepce.sh").content.decode("utf-8"))' > deepce.sh 
 ```
 
+# Screenshots
+
+![screenshot1](tests/results/busybox.log.png "Screenshot 1")
+![screenshot2](tests/results/alpine-privileged.log.png "Screenshot 2")
+
 ## Enumerations
 
 The following is the list of enumerations performed by DEEPCE. 
