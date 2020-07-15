@@ -30,5 +30,7 @@ The following POC is modified from https://blog.trailofbits.com/2019/07/19/under
 The solution is to avoid using privileged containers when possible.
 
 ## Resources
-https://blog.trailofbits.com/2019/07/19/understanding-docker-container-escapes/
-https://www.exploit-db.com/exploits/47147
+- [understanding-docker-container-escapes](https://blog.trailofbits.com/2019/07/19/understanding-docker-container-escapes/)
+- [exploit-db](https://www.exploit-db.com/exploits/47147)
+
+

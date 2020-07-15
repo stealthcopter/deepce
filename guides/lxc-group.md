@@ -18,4 +18,5 @@ lxc exec privesc chroot /mnt/root /bin/bash
 TODO: Add solutions
 
 ## Resources
-https://www.exploit-db.com/exploits/46978
+[exploit-db](https://www.exploit-db.com/exploits/46978)
+
