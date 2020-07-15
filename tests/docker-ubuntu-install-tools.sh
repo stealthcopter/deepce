@@ -14,4 +14,4 @@ docker stop $name 2>/dev/null
 docker rm $name 2>/dev/null
 
 # Run the test using -nn (no network) so we're not waiting around
-docker run --rm -it --name $name -v "$scriptPath":/root/deepce.sh archlinux /root/deepce.sh -nn
+docker run --rm -it --name $name -v "$scriptPath":/root/deepce.sh ubuntu /root/deepce.sh --install

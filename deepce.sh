@@ -15,7 +15,7 @@ B="${C}[1;34m"
 LG="${C}[1;37m" #LightGray
 DG="${C}[1;90m" #DarkGray
 NC="${C}[0m"
-UNDERLINED="${C}[5m"
+UNDERLINED="${C}[4m"
 EX="${C}[48;5;1m"
 
 banner() {
@@ -108,17 +108,20 @@ GREP_SOCK_INFOS="Architecture\|OSType\|Name\|DockerRootDir\|NCPU\|OperatingSyste
 GREP_SOCK_INFOS_IGNORE="IndexConfig"
 GREP_IGNORE_MOUNTS="/ /\|/cgroup\|/var/lib/docker/\|/null \| proc proc \|/dev/console\|docker.sock"
 
-TIP_NETWORK_ENUM="By default docker containers can communicate with other containers on the same network and the host machine, this can be used to enumerate further"
-TIP_WRITABLE_SOCK="The docker sock is writable, we should be able to enumerate docker, create containers and obtain root privs on the host machine"
+TIP_NETWORK_ENUM="By default containers can communicate with other containers on the same network and the host machine, this can be used to enumerate further"
+TIP_WRITABLE_SOCK="The docker sock is writable, we should be able to enumerate docker, create containers and obtain root privs on the host machine\nSee ${UNDERLINED}https://github.com/stealthcopter/deepce/blob/master/guides/docker-sock.md${NC}"
 TIP_DNS_CONTAINER_NAME="Reverse DNS lookup of container name requires host, dig or nslookup to get the container name"
-TIP_DOCKER_GROUP="Users in the docker group can escalate to root on the host by mounting the host partition inside the container and chrooting into it.\ndeepce.sh -e DOCKER"
+TIP_DOCKER_GROUP="Users in the docker group can escalate to root on the host by mounting the host partition inside the container and chrooting into it.\ndeepce.sh -e DOCKER\nSee ${UNDERLINED}https://github.com/stealthcopter/deepce/blob/master/guides/docker-group.md${NC}"
 TIP_DOCKER_CMD="If we have permission to create new docker containers we can mount the host's root partition and chroot into it and execute commands on the host OS."
-TIP_PRIVILEGED_MODE="The container appears to be running in privilege mode, we should be able to access the raw disks and mount the hosts root partition in order to gain code execution."
+TIP_PRIVILEGED_MODE="The container appears to be running in privilege mode, we should be able to access the raw disks and mount the hosts root partition in order to gain code execution.\nSee ${UNDERLINED}https://github.com/stealthcopter/deepce/blob/master/guides/docker-privileged.md${NC}"
 
 TIP_CVE_2019_5021="Alpine linux version 3.3.x-3.5.x accidentally allow users to login as root with a blank password, if we have command execution in the container we can become root using su root"
 TIP_CVE_2019_13139="Docker versions before 18.09.4 are vulnerable to a command execution vulnerability when parsing URLs"
 TIP_CVE_2019_5736="Docker versions before 18.09.2 are vulnerable to a container escape by overwriting the runC binary"
 
+DANGEROUS_GROUPS="docker\|lxd\|root\|sudo\|wheel"
+
+CONTAINER_CMDS="docker lxc rkt kubectl"
 USEFUL_CMDS="curl wget gcc nc netcat ncat jq nslookup host hostname dig python python2 python3 nmap"
 
 ###########################################
@@ -254,7 +257,20 @@ installPackages() {
   printSection "Installing Packages"
   if [ -x "$(command -v apt)" ]; then
     # Debian based OSes
-    apt install -y dnsutils curl nmap
+    printQuestion "Installing Packages ....."
+    
+    export DEBIAN_FRONTEND=noninteractive
+    if ! [ "$(apt update 2>/dev/null)" ]; then #
+        printError "Failed"
+        return
+    fi
+
+    if apt install --no-install-recommends --force-yes -y dnsutils curl nmap iputils-ping >/dev/null 2>&1; then
+        printSuccess "Success"
+    else
+        printError "Failed"
+    fi
+    
   elif [ -x "$(command -v apk)" ]; then
     # Alpine
     apk add bind-tools curl nmap
@@ -265,7 +281,6 @@ installPackages() {
     # Old Debian
     apt-get install -y dnsutils curl nmap
   fi
-  nl
 }
 
 unsetColors(){
@@ -329,6 +344,10 @@ userCheck() {
   else
     printSuccess "$(whoami)"
   fi
+
+  printQuestion "Groups .................."
+  groups=$(groups| sed "s/\($DANGEROUS_GROUPS\)/${LG}${EX}&${NC}${DG}/g")
+  printStatus "$groups" "None"
 }
 
 dockerSockCheck() {
@@ -381,7 +400,7 @@ dockerSockCheck() {
     fi
 
   else
-    printNo
+    printFail "Not Found"
   fi
 
 }
@@ -441,6 +460,13 @@ containerIPs() {
   fi
 
   printResult "Host IP ................." "$hostIP" "Could not find Host IP"
+}
+
+containerTools(){
+  for CMD in ${CONTAINER_CMDS}; do
+    tools="$tools $(command -v ${CMD})"
+  done
+  printResultLong "Container tools ........." "$(echo $tools | tr ' ' '\n')" "None"
 }
 
 containerName() {
@@ -562,24 +588,50 @@ containerExploits() {
 
 enumerateContainers() {
   printSection "Enumerating Containers"
-  printTip "$TIP_NETWORK_ENUM"
 
   # TODO: Use http api
 
-  # Find containers...
-  if [ "$dockerCommand" ]; then
-    # Enumerate containers using docker
-    # TODO: Make tidier
-    docker ps -a
-  elif [ "$dockerSockPath" ]; then
-    # Enumerate containers using sock
-    # TODO: Use sock GET /containers/json
-    TODO
-  else
-    pingSweep
+  if [ "$inContainer" ]; then # If inside a container
+  
+    printTip "$TIP_NETWORK_ENUM"
+  
+    # Find containers...
+    if [ "$dockerCommand" ]; then
+        # Enumerate containers using docker
+        dockercontainers=`docker ps --format "{{.Names}}" 2>/dev/null | wc -l`
+        printMsg "Docker Containers........" "$dockercontainers"
+        docker ps -a
+    elif [ "$dockerSockPath" ]; then
+        # Enumerate containers using sock
+        # TODO: Use sock GET /containers/json
+        TODO
+    else
+        pingSweep
+    fi
+  
+    portScan
+  
+  else # Not in a container
+  
+    if docker ps >/dev/null 2>&1; then # Enumerate docker containers
+        dockercontainers=`docker ps --format "{{.Names}}" 2>/dev/null | wc -l`
+        dockercontainersTotal=`docker ps -a --format "{{.Names}}" 2>/dev/null | wc -l`
+        printMsg "Docker Containers........" "$dockercontainers Running, $dockercontainersTotal Total"
+        docker ps -a
+    fi
+    if lxc list >/dev/null 2>&1; then # Enumerate lxc containers
+        lxccontainers=`lxc list|grep "| RUNNING |" 2>/dev/null | wc -l`
+        lxccontainersTotal=`lxc list|grep "| CONTAINER |" 2>/dev/null | wc -l`
+        printMsg "LXC Containers..........." "$lxccontainers Running, $lxccontainersTotal Total"
+        lxc list
+    fi
+    if rkt list >/dev/null 2>&1; then # Enumerate rkt containers
+        rktcontainers=`rkt list 2>/dev/null | tail -n +2  | wc -l`
+        printMsg "RKT Containers..........." "$rktcontainers Total" # TODO: Test and add total
+        rkt list
+    fi
   fi
-
-  portScan
+  
 }
 
 pingSweep() {
@@ -591,6 +643,8 @@ pingSweep() {
     # Enumerate containers the hard way (network enumeration)
     subnet=$(echo $containerIP | cut -d'.' -f1-3)
 
+    which nmap
+    
     if [ -x "$(command -v nmap)" ]; then
       # Method 1: nmap
       printQuestion "Attempting ping sweep of $subnet.0/24 (nmap)"
@@ -766,7 +820,7 @@ getDockerVersion() {
       printNo
     fi
   else
-    printNo
+    printFail "Not Found"
   fi
 }
 
@@ -1110,6 +1164,7 @@ if ! [ "$skipEnum" ]; then
     # Inside Container
     printYes
     containerType
+    containerTools
     userCheck
     if [ "$containerType" = "docker" ]; then
       getDockerVersion
@@ -1124,6 +1179,7 @@ if ! [ "$skipEnum" ]; then
     # Outside Container
     printNo
     userCheck
+    containerTools
     getDockerVersion
     dockerSockCheck
     checkDockerVersionExploits

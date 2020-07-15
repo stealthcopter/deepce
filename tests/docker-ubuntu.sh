@@ -10,8 +10,8 @@ name=deepce-$(basename $0 .sh)
 scriptPath=$(dirname "$PWD")/deepce.sh
 
 # Remove and delete previous container if it exists
-docker stop $name
-docker rm $name
+docker stop $name 2>/dev/null
+docker rm $name 2>/dev/null
 
 # Run the test using -nn (no network) so we're not waiting around
 docker run --rm -it --name $name -v "$scriptPath":/root/deepce.sh ubuntu /root/deepce.sh -nn
