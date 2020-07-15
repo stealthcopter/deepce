@@ -34,8 +34,7 @@ wget https://github.com/stealthcopter/deepce/raw/master/deepce.sh
 curl -s https://github.com/stealthcopter/deepce/raw/master/deepce.sh -o deepce.sh
 # Or using python requests
 python -c 'import requests;print(requests.get("https://github.com/stealthcopter/deepce/raw/master/deepce.sh").content)' > deepce.sh 
-python3 -c 'import requests;print(requests.get("https://github.com/stealthcopter/deepce/raw/master/deepce.sh").content.decode("utf-8"))' > deepce.sh 
-```
+python3 -c 'import requests;print(requests.get("https://github.com/stealthcopter/deepce/raw/master/deepce.sh").content.decode("utf-8"))' > deepce.sh  
 
 # Screenshots
 

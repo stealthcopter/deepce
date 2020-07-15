@@ -1,0 +1,68 @@
+
+[1;90m                      ##[1;37m         .
+[1;90m                ## ## ##[1;37m        ==
+[1;90m             ## ## ## ##[1;37m       ===
+[1;37m         /"""""""""""""""""\___/ ===
+[1;34m    ~~~ [1;90m{[1;34m~~ ~~~~ ~~~ ~~~~ ~~~ ~[1;90m /  [1;37m===-[1;34m ~~~[0m
+[1;90m         \______ X           __/
+[1;90m           \    \         __/
+[1;90m            \____\_______/[0m
+          __                        
+     ____/ /__  ___  ____  ________ 
+    / __  / _ \/ _ \/ __ \/ ___/ _ \ [1;90m  ENUMERATE[0m
+   / /_/ /  __/  __/ /_/ / (__/  __/ [1;90m ESCALATE[0m
+   \__,_/\___/\___/ .___/\___/\___/[1;90m  ESCAPE[0m
+                 /_/
+
+ Docker Enumeration, Escalation of Privileges and Container Escapes (DEEPCE)
+ by stealthcopter
+  
+[1;34m===================================[1;32m( Enumerating Platform )[1;34m===================================[0m
+[1;33m[+][1;32m Inside Container ........ [0m[1;33mYes[0m
+[1;33m[+][1;32m Container Platform ...... [0m[1;33mdocker[0m
+[1;33m[+][1;32m User .................... [0m[1;33mroot[0m
+[1;33m[+][1;32m Docker Executable ....... [0m[1;90mNo[0m
+[1;33m[+][1;32m Docker Sock ............. [0m[1;90mNo[0m
+[1;33m[+][1;32m Docker Exploits ......... [0m[1;31mVersion Unknown[0m
+[1;34m==================================[1;32m( Enumerating Container )[1;34m===================================[0m
+[1;33m[+][1;32m Container ID ............ [0m[1;33mf14c6f148013[0m
+[1;33m[+][1;32m Container Full ID ....... [0m[1;33mf14c6f14801336c5db808202a0146f059614d5999e8a85e91ee7df92a8befe0f[0m
+[1;33m[+][1;32m Container Name .......... [0m[1;31mCould not get container name through reverse DNS[0m
+[1;33m[+][1;32m Container IP ............ [0m[1;33m172.17.0.2[0m
+[1;33m[+][1;32m DNS Server(s) ........... [0m[1;33m192.168.0.233 9.9.9.9 [0m
+[1;33m[+][1;32m Host IP ................. [0m[1;33m172.17.0.1[0m
+[1;33m[+][1;32m Operating System ........ [0m[1;90mLinux[0m
+[1;33m[+][1;32m Kernel .................. [0m[1;90m5.4.0-7634-generic[0m
+[1;33m[+][1;32m Arch .................... [0m[1;90mx86_64[0m
+[1;33m[+][1;32m CPU ..................... [0m[1;90mAMD Ryzen 7 2700X Eight-Core Processor[0m
+[1;33m[+][1;32m Useful tools installed .. [0m[1;33mYes[0m
+[1;90m/usr/bin/wget
+/usr/bin/nc
+/usr/bin/nslookup
+/bin/hostname[0m
+[1;33m[+][1;32m SSHD Service ............ [0m[1;90mNo[0m
+[1;33m[+][1;32m Privileged Mode ......... [0m[1;90mNo[0m
+[1;33m[+][1;32m Alpine Linux Version ...... [0m[1;33m3.11.6[0m
+[1;33m[+][1;32m CVE-2019-5021 Vulnerable .. [0m[1;90mNo[0m
+[1;34m====================================[1;32m( Enumerating Mounts )[1;34m====================================[0m
+[1;33m[+][1;32m Docker sock mounted ....... [0m[1;90mNo[0m
+[1;33m[+][1;32m Other mounts .............. [0m[1;33mYes[0m
+[1;90m/Cloud/coursework/Final Year Project/deepce/deepce.sh /root/deepce.sh rw,nosuid,nodev,relatime - ecryptfs /home/mat/.Private rw,ecryptfs_fnek_sig=55393e130c32f455,ecryptfs_sig=72a85161d0670831,ecryptfs_cipher=aes,ecryptfs_key_bytes=16,ecryptfs_unlink_sigs[0m
+[1;33m[+][1;32m Possible host usernames ... [0m[1;33mmat [0m
+[1;33m[+][1;32m Encrypted home directory .. [0m[1;33mDetected[0m
+
+[1;34m====================================[1;32m( Interesting Files )[1;34m=====================================[0m
+[1;33m[+][1;32m Interesting environment variables ... [0m[1;90mNo[0m
+[1;33m[+][1;32m Any common entrypoint files ......... [0m
+[1;33m[+][1;32m Interesting files in root ........... [0m
+
+[1;33m[+][1;32m Passwords in common files ........... [0m[1;90mNo[0m
+[1;33m[+][1;32m Home directories .................... [0m[1;90mNo[0m
+[1;33m[+][1;32m Hashes in shadow file ............... [0m[1;90mNo[0m
+
+[1;33m[+][1;32m Searching for app dirs .............. [0m
+[1;34m==================================[1;32m( Enumerating Containers )[1;34m==================================[0m
+[1;90mBy default docker containers can communicate with other containers on the same network 
+and the host machine, this can be used to enumerate further[0m
+
+[1;34m===============================================[1;32m[1;34m===============================================[0m
