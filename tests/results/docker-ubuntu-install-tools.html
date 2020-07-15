@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="application/xml+xhtml; charset=UTF-8" />
-<title>results/docker-ubuntu.log</title>
+<title>results/docker-ubuntu-install-tools.log</title>
 </head>
 <body style="color:white; background-color:black">
 <pre>
@@ -27,6 +27,8 @@
  Docker Enumeration, Escalation of Privileges and Container Escapes (DEEPCE)
  by stealthcopter
   
+<span style="font-weight:bold;color:#3333FF;">===================================</span><span style="font-weight:bold;color:lime;">( Installing Packages )</span><span style="font-weight:bold;color:#3333FF;">====================================</span>
+<span style="font-weight:bold;color:yellow;">[+]</span><span style="font-weight:bold;color:lime;"> Installing Packages ..... </span><span style="font-weight:bold;color:yellow;">Success</span>
 <span style="font-weight:bold;color:#3333FF;">===================================</span><span style="font-weight:bold;color:lime;">( Enumerating Platform )</span><span style="font-weight:bold;color:#3333FF;">===================================</span>
 <span style="font-weight:bold;color:yellow;">[+]</span><span style="font-weight:bold;color:lime;"> Inside Container ........ </span><span style="font-weight:bold;color:yellow;">Yes</span>
 <span style="font-weight:bold;color:yellow;">[+]</span><span style="font-weight:bold;color:lime;"> Container Platform ...... </span><span style="font-weight:bold;color:yellow;">docker</span>
@@ -37,8 +39,8 @@
 <span style="font-weight:bold;color:yellow;">[+]</span><span style="font-weight:bold;color:lime;"> Docker Sock ............. </span><span style="font-weight:bold;filter: contrast(70%) brightness(190%);color:dimgray;">Not Found</span>
 <span style="font-weight:bold;color:yellow;">[+]</span><span style="font-weight:bold;color:lime;"> Docker Exploits ......... </span><span style="font-weight:bold;color:red;">Version Unknown</span>
 <span style="font-weight:bold;color:#3333FF;">==================================</span><span style="font-weight:bold;color:lime;">( Enumerating Container )</span><span style="font-weight:bold;color:#3333FF;">===================================</span>
-<span style="font-weight:bold;color:yellow;">[+]</span><span style="font-weight:bold;color:lime;"> Container ID ............ </span><span style="font-weight:bold;color:yellow;">ceee1bb71248</span>
-<span style="font-weight:bold;color:yellow;">[+]</span><span style="font-weight:bold;color:lime;"> Container Full ID ....... </span><span style="font-weight:bold;color:yellow;">ceee1bb71248b853d8c20dfa7bf2796d62f1ca8898c3980d0054431d6dff1778</span>
+<span style="font-weight:bold;color:yellow;">[+]</span><span style="font-weight:bold;color:lime;"> Container ID ............ </span><span style="font-weight:bold;color:yellow;">a6011a67073c</span>
+<span style="font-weight:bold;color:yellow;">[+]</span><span style="font-weight:bold;color:lime;"> Container Full ID ....... </span><span style="font-weight:bold;color:yellow;">a6011a67073caa6d22eacca93863cfefa291caaefd7d10f70d077446c40072fe</span>
 <span style="font-weight:bold;color:yellow;">[+]</span><span style="font-weight:bold;color:lime;"> Container Name .......... </span><span style="font-weight:bold;color:red;">Could not get container name through reverse DNS</span>
 <span style="font-weight:bold;color:yellow;">[+]</span><span style="font-weight:bold;color:lime;"> Container IP ............ </span><span style="font-weight:bold;color:yellow;">172.17.0.6 </span>
 <span style="font-weight:bold;color:yellow;">[+]</span><span style="font-weight:bold;color:lime;"> DNS Server(s) ........... </span><span style="font-weight:bold;color:yellow;">192.168.0.233 9.9.9.9 </span>
@@ -48,7 +50,12 @@
 <span style="font-weight:bold;color:yellow;">[+]</span><span style="font-weight:bold;color:lime;"> Arch .................... </span><span style="font-weight:bold;filter: contrast(70%) brightness(190%);color:dimgray;">x86_64</span>
 <span style="font-weight:bold;color:yellow;">[+]</span><span style="font-weight:bold;color:lime;"> CPU ..................... </span><span style="font-weight:bold;filter: contrast(70%) brightness(190%);color:dimgray;">AMD Ryzen 7 2700X Eight-Core Processor</span>
 <span style="font-weight:bold;color:yellow;">[+]</span><span style="font-weight:bold;color:lime;"> Useful tools installed .. </span><span style="font-weight:bold;color:yellow;">Yes</span>
-<span style="font-weight:bold;filter: contrast(70%) brightness(190%);color:dimgray;">/usr/bin/hostname</span>
+<span style="font-weight:bold;filter: contrast(70%) brightness(190%);color:dimgray;">/usr/bin/curl
+/usr/bin/nslookup
+/usr/bin/host
+/usr/bin/hostname
+/usr/bin/dig
+/usr/bin/nmap</span>
 <span style="font-weight:bold;color:yellow;">[+]</span><span style="font-weight:bold;color:lime;"> SSHD Service ............ </span><span style="font-weight:bold;filter: contrast(70%) brightness(190%);color:dimgray;">No</span>
 <span style="font-weight:bold;color:yellow;">[+]</span><span style="font-weight:bold;color:lime;"> Privileged Mode ......... </span><span style="font-weight:bold;filter: contrast(70%) brightness(190%);color:dimgray;">No</span>
 <span style="font-weight:bold;color:#3333FF;">====================================</span><span style="font-weight:bold;color:lime;">( Enumerating Mounts )</span><span style="font-weight:bold;color:#3333FF;">====================================</span>
@@ -72,6 +79,34 @@
 <span style="font-weight:bold;filter: contrast(70%) brightness(190%);color:dimgray;">By default containers can communicate with other containers on the same network and the 
 host machine, this can be used to enumerate further</span>
 
+/usr/bin/nmap
+<span style="font-weight:bold;color:yellow;">[+]</span><span style="font-weight:bold;color:lime;"> Attempting ping sweep of 172.17.0.0/24 (nmap) </span>
+Host: 172.17.0.1 ()	Status: Up
+Host: 172.17.0.2 ()	Status: Up
+Host: 172.17.0.3 ()	Status: Up
+Host: 172.17.0.4 ()	Status: Up
+Host: 172.17.0.5 ()	Status: Up
+Host: 172.17.0.6 (a6011a67073c)	Status: Up
+<span style="font-weight:bold;color:#3333FF;">======================================</span><span style="font-weight:bold;color:lime;">( Scanning Host )</span><span style="font-weight:bold;color:#3333FF;">=======================================</span>
+<span style="font-weight:bold;color:yellow;">[+]</span><span style="font-weight:bold;color:lime;"> Scanning host 172.17.0.1 (nmap) </span>Starting Nmap 7.80 ( https://nmap.org ) at 2020-07-15 12:18 UTC
+Nmap scan report for 172.17.0.1
+Host is up (0.0000050s latency).
+Not shown: 65524 closed ports
+PORT      STATE SERVICE
+22/tcp    open  ssh
+111/tcp   open  rpcbind
+1716/tcp  open  xmsg
+2049/tcp  open  nfs
+8080/tcp  open  http-proxy
+44531/tcp open  unknown
+47211/tcp open  unknown
+48979/tcp open  unknown
+56273/tcp open  unknown
+57621/tcp open  unknown
+57731/tcp open  unknown
+MAC Address: 02:42:BB:1B:C5:9A (Unknown)
+
+Nmap done: 1 IP address (1 host up) scanned in 1.00 seconds
 <span style="font-weight:bold;color:#3333FF;">===============================================</span><span style="font-weight:bold;color:lime;"></span><span style="font-weight:bold;color:#3333FF;">===============================================</span>
 </pre>
 </body>
