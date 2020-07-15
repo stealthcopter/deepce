@@ -38,9 +38,8 @@ python3 -c 'import requests;print(requests.get("https://github.com/stealthcopter
 ```
 
 # Screenshots
-
-![screenshot1](docs/busybox.log.png "Screenshot 1")
-![screenshot2](docs/alpine-privileged.log.png "Screenshot 2")
+For more please view the [docs folder](https://github.com/stealthcopter/deepce/tree/master/docs)
+![screenshot1](docs/ubuntu-install-tools.png "Screenshot 1")
 
 ## Enumerations
 
@@ -92,10 +91,10 @@ curl -s https://github.com/stealthcopter/deepce/raw/master/deepce.sh | sh
 
 There are some great container enumeration/escape scripts and enumeration tools that I've got inspiration from when writing this. Howevr I felt the need to write one purely in `sh` in order to avoid having to install go / ruby dependancies or be reliant on a static binary. I also wanted to be able to perform more enumerations to try to discover what the docker container is as during as test we may end up inside an unknown container. The number of things this script can enumerate got away from me as every time I added something new I thought of more additional things I could add.
 
-- LinEnum.sh
-- LinPEAS
-- BotB - Break out the box
-- Harpoon
+- [LinPEAS](https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite/tree/master/linPEAS)
+- [LinEnum](https://github.com/rebootuser/LinEnum)
+- [BotB](https://github.com/brompwnie/botb)
+- [Harpoon](https://github.com/ProfessionallyEvil/harpoon)
 
 # Resources
 
