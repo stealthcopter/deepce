@@ -160,9 +160,9 @@ printSection() {
     s="$1"
   fi
   size=${#s}
-  no=$(( "$l" - "$size"))
-  start=$(( "$no" / 2 ))
-  end=$(( "$no" - "$start"))
+  no=$((l-size))
+  start=$((no/2))
+  end=$((no-start))
   printf "%s%${start}s" "$B" | tr " " "="
   printf "%s%s%s" "$GREEN" "$s" "$B"
   printf "%${end}s" | tr " " "="
