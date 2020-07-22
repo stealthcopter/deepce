@@ -19,11 +19,11 @@
 
 Docker Enumeration, Escalation of Privileges and Container Escapes (DEEPCE)
 
-In order for it to be compatible with the maximum number of containers DEEPCE is written in pure `sh` with no dependancies. It will make use of additional tools such as curl, nmap, nslookup and dig if avaliable but for the most part is not reliant upon them for enumeration.
+In order for it to be compatible with the maximum number of containers DEEPCE is written in pure `sh` with no dependencies. It will make use of additional tools such as curl, nmap, nslookup and dig if available but for the most part is not reliant upon them for enumeration.
 
-None of the enumeration should touch the disk, however most of the exploits create new containers which will cause disk writes and some of the exploits overwrite runC which can be destructive, so be careful!
+None of the enumeration should touch the disk, however most of the exploits create new containers which will cause disk writes, and some exploits will overwrite runC which can be destructive, so be careful!
 
-Please see below for a list of the enumerations, exploits and payloads DEEPCE can use. If you have ideas for any more please submit an issue in github!
+Please see below for a list of the enumerations, exploits and payloads DEEPCE can use. If you have ideas for anymore please submit an issue in github!
 
 # Downloading
 
@@ -54,13 +54,13 @@ The following is the list of enumerations performed by DEEPCE.
 - Password hashes
 - Common sensitive files stored in containers
 - Other containers on same network
-- Port scan other container and the host machine
+- Port scan other containers, and the host machine itself
 - Find exposed docker sock
 
 ## Exploits
 
-- Docker Group Privledge Escaltion
-- Priveledged mode host command execution
+- Docker Group Privilege Escalation
+- Privileged mode host command execution
 - Exposed Docker Sock
 
 ## Payloads
@@ -82,7 +82,7 @@ chmod +x ./deepce.sh
 
 # Advanced Usage
 
-It is possible to download and run deepce without touching the disk, however you will be unable easily set arguments (direct maniuplation of variables is possible using export).
+It is possible to download and run deepce without touching the disk, however you will be unable to easily set arguments (direct manipulation of variables is possible using export).
 
 ```bash
 wget -O - https://github.com/stealthcopter/deepce/raw/master/deepce.sh | sh
@@ -91,7 +91,7 @@ curl -s https://github.com/stealthcopter/deepce/raw/master/deepce.sh | sh
 
 # Inspiration
 
-There are some great container enumeration/escape scripts and enumeration tools that I've got inspiration from when writing this. Howevr I felt the need to write one purely in `sh` in order to avoid having to install go / ruby dependancies or be reliant on a static binary. I also wanted to be able to perform more enumerations to try to discover what the docker container is as during as test we may end up inside an unknown container. The number of things this script can enumerate got away from me as every time I added something new I thought of more additional things I could add.
+There are some great container enumeration/escape scripts and enumeration tools that I've got inspiration from when writing this. However I felt the need to write one purely in `sh` in order to avoid having to install go / ruby dependencies or be reliant on a static binary. I also wanted to be able to perform more enumerations to try to discover what the docker container is as during as test we may end up inside an unknown container. The number of things this script can enumerate got away from me as every time I added something new I thought of more additional things I could add.
 
 - [LinPEAS](https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite/tree/master/linPEAS)
 - [LinEnum](https://github.com/rebootuser/LinEnum)

@@ -830,6 +830,8 @@ checkDockerVersionExploits() {
   if ! [ "$dockerVersion" ]; then
     return
   fi
+  
+  # TODO: Add more CVEs
 
   printQuestion "CVE–2019–13139 .........."
   if [ "$(ver "$dockerVersion")" -lt "$(ver 18.9.5)" ]; then
