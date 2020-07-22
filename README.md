@@ -75,6 +75,8 @@ For each of the exploits above payloads can be defined in order to exploit the h
 
 # Examples
 ```bash
+# Make the script executable and then run it
+chmod +x ./deepce.sh
 ./deepce.sh 
 ```
 

