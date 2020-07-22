@@ -13,9 +13,9 @@ printTest() {
     printf "Test #%03d:%s %s " "$1" "$2" "${line:${#NAME}}"
 }
 
-printPass() { printf "${GREEN}Pass$NC\n"; }
-printIgnore() { printf "${Y}Ignore$NC\n"; }
-printFail() { printf "${RED}Fail$NC\n"; }
+printPass() { printf "%sPass%s\n" "${GREEN}" "$NC"; }
+printIgnore() { printf "%sIgnore%s\n" "${Y}" "$NC"; }
+printFail() { printf "%sFail%s\n" "${RED}" "$NC"; }
 
 # Empty results folder
 rm -f results/*
@@ -31,11 +31,11 @@ for filename in *.sh; do
 
     testNo=$((testNo+1))
 
-    name=$(basename $filename .sh)
+    name=$(basename "$filename" .sh)
     
-    printTest $testNo $name
+    printTest "$testNo" "$name"
     
-    ./$filename 2>/dev/null 1> results/$name.log
+    "./$filename" 2>/dev/null 1> "results/$name.log"
     RESULT=$?
 
     # Check if any commands were not found on this platform
@@ -52,7 +52,7 @@ for filename in *.sh; do
     
     # If possible generate html output for the logs
     if [ -x "$(command -v aha)" ]; then
-        aha -b -f results/$name.log > results/$name.html
+        aha -b -f "results/$name.log" > "results/$name.html"
     fi
     
 done
