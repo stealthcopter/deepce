@@ -35,14 +35,10 @@ for filename in *.sh; do
     
     printTest "$testNo" "$name"
     
-    "./$filename" 2>/dev/null 1> "results/$name.log"
+    "./$filename" 2>/dev/null 1>&2
     RESULT=$?
 
-    # Check if any commands were not found on this platform
-    if grep -q "command not found" "results/$name.log"; then
-      printFail
-      grep "command not found" "results/$name.log"
-    elif [ $RESULT -eq 0 ]; then
+    if [ $RESULT -eq 0 ]; then
         printPass
     elif [ $RESULT -eq 1 ]; then 
         printIgnore

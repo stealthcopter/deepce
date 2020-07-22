@@ -1,6 +1,4 @@
-Creating deepce-lxc-ubuntu
-Starting deepce-lxc-ubuntu
-Pushing /var/lib/snapd/hostfs/home/mat/Cloud/coursework/Final Year Project/deepce/deepce.sh to /deepce/deepce.sh: 99% (148.95GB/s)Pushing /var/lib/snapd/hostfs/home/mat/Cloud/coursework/Final Year Project/deepce/deepce.sh to /deepce/deepce.sh: 100% (283.90MB/s)                                                                                                                                    
+
 [1;90m                      ##[1;37m         .
 [1;90m                ## ## ##[1;37m        ==
 [1;90m             ## ## ## ##[1;37m       ===
@@ -23,13 +21,15 @@ Starting deepce-lxc-ubuntu
 [1;33m[+][1;32m Inside Container ........ [0m[1;33mYes[0m
 [1;33m[+][1;32m Container Platform ...... [0m[1;33mlxc[0m
 [1;33m[+][1;32m Container tools ......... [0m[1;33mYes[0m
-[1;90m/usr/bin/lxc[0m
+[1;90m
+
+/usr/bin/lxc[0m
 [1;33m[+][1;32m User .................... [0m[1;33mroot[0m
 [1;33m[+][1;32m Groups .................. [0m[1;90m[1;37m[48;5;1mroot[0m[1;90m[0m
 [1;34m==================================[1;32m( Enumerating Container )[1;34m===================================[0m
 [1;33m[+][1;32m Container ID ............ [0m[1;33mdeepce-lxc-ubuntu[0m
 [1;33m[+][1;32m Container Name .......... [0m[1;33mdeepce-lxc-ubuntu[0m
-[1;33m[+][1;32m Container IP ............ [0m[1;33m10.132.199.50 fd42:53d9:b4c9:609e:216:3eff:fe65:ae72 [0m
+[1;33m[+][1;32m Container IP ............ [0m[1;33m10.132.199.132 fd42:53d9:b4c9:609e:216:3eff:fe79:1056 [0m
 [1;33m[+][1;32m DNS Server(s) ........... [0m[1;33m127.0.0.53 [0m
 [1;33m[+][1;32m Host IP ................. [0m[1;33m10.132.199.1[0m
 [1;33m[+][1;32m Operating System ........ [0m[1;90mUbuntu[0m
@@ -52,18 +52,18 @@ Starting deepce-lxc-ubuntu
 [1;34m====================================[1;32m( Enumerating Mounts )[1;34m====================================[0m
 [1;33m[+][1;32m Docker sock mounted ....... [0m[1;90mNo[0m
 [1;33m[+][1;32m Other mounts .............. [0m[1;33mYes[0m
-[1;90m/rootfs / rw master:911 - zfs default/containers/deepce-lxc-ubuntu rw,xattr,posixacl
+[1;90m/rootfs / rw master:93 - zfs default/containers/deepce-lxc-ubuntu rw,xattr,posixacl
 /fuse /dev/fuse rw,nosuid,noexec,relatime master:2 - devtmpfs udev rw,size=16368960k,nr_inodes=4092240,mode=755
 /net/tun /dev/net/tun rw,nosuid,noexec,relatime master:2 - devtmpfs udev rw,size=16368960k,nr_inodes=4092240,mode=755
 /deepce-lxc-ubuntu /dev/.lxd-mounts rw,relatime master:1022 - tmpfs tmpfs rw,size=100k,mode=711
-/proc/cpuinfo /proc/cpuinfo rw,nosuid,nodev,relatime master:942 - fuse.lxcfs lxcfs rw,user_id=0,group_id=0,allow_other
-/proc/diskstats /proc/diskstats rw,nosuid,nodev,relatime master:942 - fuse.lxcfs lxcfs rw,user_id=0,group_id=0,allow_other
-/proc/loadavg /proc/loadavg rw,nosuid,nodev,relatime master:942 - fuse.lxcfs lxcfs rw,user_id=0,group_id=0,allow_other
-/proc/meminfo /proc/meminfo rw,nosuid,nodev,relatime master:942 - fuse.lxcfs lxcfs rw,user_id=0,group_id=0,allow_other
-/proc/stat /proc/stat rw,nosuid,nodev,relatime master:942 - fuse.lxcfs lxcfs rw,user_id=0,group_id=0,allow_other
-/proc/swaps /proc/swaps rw,nosuid,nodev,relatime master:942 - fuse.lxcfs lxcfs rw,user_id=0,group_id=0,allow_other
-/proc/uptime /proc/uptime rw,nosuid,nodev,relatime master:942 - fuse.lxcfs lxcfs rw,user_id=0,group_id=0,allow_other
-/sys/devices/system/cpu/online /sys/devices/system/cpu/online rw,nosuid,nodev,relatime master:942 - fuse.lxcfs lxcfs rw,user_id=0,group_id=0,allow_other
+/proc/cpuinfo /proc/cpuinfo rw,nosuid,nodev,relatime master:958 - fuse.lxcfs lxcfs rw,user_id=0,group_id=0,allow_other
+/proc/diskstats /proc/diskstats rw,nosuid,nodev,relatime master:958 - fuse.lxcfs lxcfs rw,user_id=0,group_id=0,allow_other
+/proc/loadavg /proc/loadavg rw,nosuid,nodev,relatime master:958 - fuse.lxcfs lxcfs rw,user_id=0,group_id=0,allow_other
+/proc/meminfo /proc/meminfo rw,nosuid,nodev,relatime master:958 - fuse.lxcfs lxcfs rw,user_id=0,group_id=0,allow_other
+/proc/stat /proc/stat rw,nosuid,nodev,relatime master:958 - fuse.lxcfs lxcfs rw,user_id=0,group_id=0,allow_other
+/proc/swaps /proc/swaps rw,nosuid,nodev,relatime master:958 - fuse.lxcfs lxcfs rw,user_id=0,group_id=0,allow_other
+/proc/uptime /proc/uptime rw,nosuid,nodev,relatime master:958 - fuse.lxcfs lxcfs rw,user_id=0,group_id=0,allow_other
+/sys/devices/system/cpu/online /sys/devices/system/cpu/online rw,nosuid,nodev,relatime master:958 - fuse.lxcfs lxcfs rw,user_id=0,group_id=0,allow_other
 /full /dev/full rw,nosuid,noexec,relatime master:2 - devtmpfs udev rw,size=16368960k,nr_inodes=4092240,mode=755
 /random /dev/random rw,nosuid,noexec,relatime master:2 - devtmpfs udev rw,size=16368960k,nr_inodes=4092240,mode=755
 /tty /dev/tty rw,nosuid,noexec,relatime master:2 - devtmpfs udev rw,size=16368960k,nr_inodes=4092240,mode=755
@@ -75,18 +75,19 @@ Starting deepce-lxc-ubuntu
 
 [1;34m====================================[1;32m( Interesting Files )[1;34m=====================================[0m
 [1;33m[+][1;32m Interesting environment variables ... [0m[1;90mNo[0m
+[1;90mBinary file (standard input) matches[0m
 [1;33m[+][1;32m Any common entrypoint files ......... [0m
 [1;33m[+][1;32m Interesting files in root ........... [0m
 
 [1;33m[+][1;32m Passwords in common files ........... [0m[1;90mNo[0m
 [1;33m[+][1;32m Home directories .................... [0m[1;90mNo[0m
-[1;33m[+][1;32m Hashes in shadow file ............... [0m[1;90mNo[0m
+[1;33m[+][1;32m Hashes in shadow file ............... [0m[1;90mNo permission[0m
 
 [1;33m[+][1;32m Searching for app dirs .............. [0m
 [1;34m==================================[1;32m( Enumerating Containers )[1;34m==================================[0m
 [1;90mBy default containers can communicate with other containers on the same network and the 
 host machine, this can be used to enumerate further[0m
 
-[1;33m[+][1;32m Attempting ping sweep of 10.132.199.50 fd42:53d9:b4c9:609e:216:3eff:fe65:ae72 /24 (ping) [0m
+[1;33m[+][1;32m Attempting ping sweep of 10.132.199.132 fd42:53d9:b4c9:609e:216:3eff:fe79:1056 /24 (ping) [0m
 10.132.199.1 is Up
 [1;34m===============================================[1;32m[1;34m===============================================[0m

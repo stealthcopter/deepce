@@ -29,10 +29,10 @@
 [1;33m[+][1;32m Docker Sock ............. [0m[1;90mNot Found[0m
 [1;33m[+][1;32m Docker Exploits ......... [0m[1;31mVersion Unknown[0m
 [1;34m==================================[1;32m( Enumerating Container )[1;34m===================================[0m
-[1;33m[+][1;32m Container ID ............ [0m[1;33ma6011a67073c[0m
-[1;33m[+][1;32m Container Full ID ....... [0m[1;33ma6011a67073caa6d22eacca93863cfefa291caaefd7d10f70d077446c40072fe[0m
+[1;33m[+][1;32m Container ID ............ [0m[1;33m02144700a35d[0m
+[1;33m[+][1;32m Container Full ID ....... [0m[1;33m02144700a35de9bb04c3790b33b138d376177a37c4f46316260cbc42e3f50fed[0m
 [1;33m[+][1;32m Container Name .......... [0m[1;31mCould not get container name through reverse DNS[0m
-[1;33m[+][1;32m Container IP ............ [0m[1;33m172.17.0.6 [0m
+[1;33m[+][1;32m Container IP ............ [0m[1;33m172.17.0.3 [0m
 [1;33m[+][1;32m DNS Server(s) ........... [0m[1;33m192.168.0.233 9.9.9.9 [0m
 [1;33m[+][1;32m Host IP ................. [0m[1;33m172.17.0.1[0m
 [1;33m[+][1;32m Operating System ........ [0m[1;90mGNU/Linux[0m
@@ -51,36 +51,33 @@
 [1;34m====================================[1;32m( Enumerating Mounts )[1;34m====================================[0m
 [1;33m[+][1;32m Docker sock mounted ....... [0m[1;90mNo[0m
 [1;33m[+][1;32m Other mounts .............. [0m[1;33mYes[0m
-[1;90m/Cloud/coursework/Final Year Project/deepce/deepce.sh /root/deepce.sh rw,nosuid,nodev,relatime - ecryptfs /home/mat/.Private rw,ecryptfs_fnek_sig=55393e130c32f455,ecryptfs_sig=72a85161d0670831,ecryptfs_cipher=aes,ecryptfs_key_bytes=16,ecryptfs_unlink_sigs[0m
+[1;90m/Cloud/coursework/Final\040Year\040Project/deepce/deepce.sh /root/deepce.sh rw,nosuid,nodev,relatime - ecryptfs /home/mat/.Private rw,ecryptfs_fnek_sig=55393e130c32f455,ecryptfs_sig=72a85161d0670831,ecryptfs_cipher=aes,ecryptfs_key_bytes=16,ecryptfs_unlink_sigs[0m
 [1;33m[+][1;32m Possible host usernames ... [0m[1;33mmat [0m
 [1;33m[+][1;32m Encrypted home directory .. [0m[1;33mDetected[0m
 
 [1;34m====================================[1;32m( Interesting Files )[1;34m=====================================[0m
 [1;33m[+][1;32m Interesting environment variables ... [0m[1;90mNo[0m
+[1;90mBinary file (standard input) matches[0m
 [1;33m[+][1;32m Any common entrypoint files ......... [0m
 [1;33m[+][1;32m Interesting files in root ........... [0m
 
 [1;33m[+][1;32m Passwords in common files ........... [0m[1;90mNo[0m
 [1;33m[+][1;32m Home directories .................... [0m[1;90mNo[0m
-[1;33m[+][1;32m Hashes in shadow file ............... [0m[1;90mNo[0m
+[1;33m[+][1;32m Hashes in shadow file ............... [0m[1;90mNo permission[0m
 
 [1;33m[+][1;32m Searching for app dirs .............. [0m
 [1;34m==================================[1;32m( Enumerating Containers )[1;34m==================================[0m
 [1;90mBy default containers can communicate with other containers on the same network and the 
 host machine, this can be used to enumerate further[0m
 
-/usr/bin/nmap
 [1;33m[+][1;32m Attempting ping sweep of 172.17.0.0/24 (nmap) [0m
 Host: 172.17.0.1 ()	Status: Up
 Host: 172.17.0.2 ()	Status: Up
-Host: 172.17.0.3 ()	Status: Up
-Host: 172.17.0.4 ()	Status: Up
-Host: 172.17.0.5 ()	Status: Up
-Host: 172.17.0.6 (a6011a67073c)	Status: Up
+Host: 172.17.0.3 (02144700a35d)	Status: Up
 [1;34m======================================[1;32m( Scanning Host )[1;34m=======================================[0m
-[1;33m[+][1;32m Scanning host 172.17.0.1 (nmap) [0mStarting Nmap 7.80 ( https://nmap.org ) at 2020-07-15 12:18 UTC
+[1;33m[+][1;32m Scanning host 172.17.0.1 (nmap) [0mStarting Nmap 7.80 ( https://nmap.org ) at 2020-07-22 19:57 UTC
 Nmap scan report for 172.17.0.1
-Host is up (0.0000050s latency).
+Host is up (0.0000060s latency).
 Not shown: 65524 closed ports
 PORT      STATE SERVICE
 22/tcp    open  ssh
@@ -88,13 +85,13 @@ PORT      STATE SERVICE
 1716/tcp  open  xmsg
 2049/tcp  open  nfs
 8080/tcp  open  http-proxy
-44531/tcp open  unknown
-47211/tcp open  unknown
-48979/tcp open  unknown
-56273/tcp open  unknown
+33851/tcp open  unknown
+38271/tcp open  unknown
+39253/tcp open  unknown
+40687/tcp open  unknown
+41211/tcp open  unknown
 57621/tcp open  unknown
-57731/tcp open  unknown
-MAC Address: 02:42:BB:1B:C5:9A (Unknown)
+MAC Address: 02:42:DC:1F:98:83 (Unknown)
 
-Nmap done: 1 IP address (1 host up) scanned in 1.00 seconds
+Nmap done: 1 IP address (1 host up) scanned in 1.04 seconds
 [1;34m===============================================[1;32m[1;34m===============================================[0m
