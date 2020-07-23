@@ -9,78 +9,77 @@
 <body style="color:white; background-color:black">
 <pre>
 
-<span style="font-weight:bold;filter: contrast(70%) brightness(190%);color:dimgray;">                      ##</span><span style="font-weight:bold;color:white;">         .
-</span><span style="font-weight:bold;filter: contrast(70%) brightness(190%);color:dimgray;">                ## ## ##</span><span style="font-weight:bold;color:white;">        ==
-</span><span style="font-weight:bold;filter: contrast(70%) brightness(190%);color:dimgray;">             ## ## ## ##</span><span style="font-weight:bold;color:white;">       ===
+<span style="font-weight:bold;">                      ##</span><span style="color:white;font-weight:bold;">         .
+                ## ## ##        ==
+             ## ## ## ##       ===
          /&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;\___/ ===
-</span><span style="font-weight:bold;color:#3333FF;">    ~~~ </span><span style="font-weight:bold;filter: contrast(70%) brightness(190%);color:dimgray;">{</span><span style="font-weight:bold;color:#3333FF;">~~ ~~~~ ~~~ ~~~~ ~~~ ~</span><span style="font-weight:bold;filter: contrast(70%) brightness(190%);color:dimgray;"> /  </span><span style="font-weight:bold;color:white;">===-</span><span style="font-weight:bold;color:#3333FF;"> ~~~</span>
-<span style="font-weight:bold;filter: contrast(70%) brightness(190%);color:dimgray;">         \______ X           __/
+</span><span style="color:#3333FF;font-weight:bold;">    ~~~ {~~ ~~~~ ~~~ ~~~~ ~~~ ~ /  </span><span style="color:white;font-weight:bold;">===-</span><span style="color:#3333FF;font-weight:bold;"> ~~~</span>
+<span style="font-weight:bold;">         \______ X           __/
            \    \         __/
             \____\_______/</span>
           __                        
      ____/ /__  ___  ____  ________ 
-    / __  / _ \/ _ \/ __ \/ ___/ _ \ <span style="font-weight:bold;filter: contrast(70%) brightness(190%);color:dimgray;">  ENUMERATE</span>
-   / /_/ /  __/  __/ /_/ / (__/  __/ <span style="font-weight:bold;filter: contrast(70%) brightness(190%);color:dimgray;"> ESCALATE</span>
-   \__,_/\___/\___/ .___/\___/\___/<span style="font-weight:bold;filter: contrast(70%) brightness(190%);color:dimgray;">  ESCAPE</span>
+    / __  / _ \/ _ \/ __ \/ ___/ _ \ <span style="font-weight:bold;">  ENUMERATE</span>
+   / /_/ /  __/  __/ /_/ / (__/  __/ <span style="font-weight:bold;"> ESCALATE</span>
+   \__,_/\___/\___/ .___/\___/\___/<span style="font-weight:bold;">  ESCAPE</span>
                  /_/
 
  Docker Enumeration, Escalation of Privileges and Container Escapes (DEEPCE)
  by stealthcopter
   
-<span style="font-weight:bold;color:#3333FF;">===================================</span><span style="font-weight:bold;color:lime;">( Enumerating Platform )</span><span style="font-weight:bold;color:#3333FF;">===================================</span>
-<span style="font-weight:bold;color:yellow;">[+]</span><span style="font-weight:bold;color:lime;"> Inside Container ........ </span><span style="font-weight:bold;color:yellow;">Yes</span>
-<span style="font-weight:bold;color:yellow;">[+]</span><span style="font-weight:bold;color:lime;"> Container Platform ...... </span><span style="font-weight:bold;color:yellow;">docker</span>
-<span style="font-weight:bold;color:yellow;">[+]</span><span style="font-weight:bold;color:lime;"> Container tools ......... </span><span style="font-weight:bold;color:red;">None</span>
-<span style="font-weight:bold;color:yellow;">[+]</span><span style="font-weight:bold;color:lime;"> User .................... </span><span style="font-weight:bold;color:yellow;">root</span>
-<span style="font-weight:bold;color:yellow;">[+]</span><span style="font-weight:bold;color:lime;"> Groups .................. </span><span style="font-weight:bold;filter: contrast(70%) brightness(190%);color:dimgray;"></span><span style="font-weight:bold;color:white;"></span><span style="font-weight:bold;color:white;background-color:red;">root</span><span style="font-weight:bold;filter: contrast(70%) brightness(190%);color:dimgray;"> </span><span style="font-weight:bold;color:white;"></span><span style="font-weight:bold;color:white;background-color:red;">wheel</span><span style="font-weight:bold;filter: contrast(70%) brightness(190%);color:dimgray;"></span>
-<span style="font-weight:bold;color:yellow;">[+]</span><span style="font-weight:bold;color:lime;"> Docker Executable ....... </span><span style="font-weight:bold;filter: contrast(70%) brightness(190%);color:dimgray;">Not Found</span>
-<span style="font-weight:bold;color:yellow;">[+]</span><span style="font-weight:bold;color:lime;"> Docker Sock ............. </span><span style="font-weight:bold;filter: contrast(70%) brightness(190%);color:dimgray;">Not Found</span>
-<span style="font-weight:bold;color:yellow;">[+]</span><span style="font-weight:bold;color:lime;"> Docker Exploits ......... </span><span style="font-weight:bold;color:red;">Version Unknown</span>
-<span style="font-weight:bold;color:#3333FF;">==================================</span><span style="font-weight:bold;color:lime;">( Enumerating Container )</span><span style="font-weight:bold;color:#3333FF;">===================================</span>
-<span style="font-weight:bold;color:yellow;">[+]</span><span style="font-weight:bold;color:lime;"> Container ID ............ </span><span style="font-weight:bold;color:yellow;">aa16afd88c16</span>
-<span style="font-weight:bold;color:yellow;">[+]</span><span style="font-weight:bold;color:lime;"> Container Full ID ....... </span><span style="font-weight:bold;color:yellow;">aa16afd88c16ca3c4918f805e98a84bc0204b85b0887ac347f6adfcc4a0f0789</span>
-<span style="font-weight:bold;color:yellow;">[+]</span><span style="font-weight:bold;color:lime;"> Container Name .......... </span><span style="font-weight:bold;color:red;">Could not get container name through reverse DNS</span>
-<span style="font-weight:bold;color:yellow;">[+]</span><span style="font-weight:bold;color:lime;"> Container IP ............ </span><span style="font-weight:bold;color:yellow;">172.17.0.6</span>
-<span style="font-weight:bold;color:yellow;">[+]</span><span style="font-weight:bold;color:lime;"> DNS Server(s) ........... </span><span style="font-weight:bold;color:yellow;">192.168.0.233 9.9.9.9 </span>
-<span style="font-weight:bold;color:yellow;">[+]</span><span style="font-weight:bold;color:lime;"> Host IP ................. </span><span style="font-weight:bold;color:yellow;">172.17.0.1</span>
-<span style="font-weight:bold;color:yellow;">[+]</span><span style="font-weight:bold;color:lime;"> Operating System ........ </span><span style="font-weight:bold;filter: contrast(70%) brightness(190%);color:dimgray;">GNU/Linux</span>
-<span style="font-weight:bold;color:yellow;">[+]</span><span style="font-weight:bold;color:lime;"> Kernel .................. </span><span style="font-weight:bold;filter: contrast(70%) brightness(190%);color:dimgray;">5.4.0-7634-generic</span>
-<span style="font-weight:bold;color:yellow;">[+]</span><span style="font-weight:bold;color:lime;"> Arch .................... </span><span style="font-weight:bold;filter: contrast(70%) brightness(190%);color:dimgray;">x86_64</span>
-<span style="font-weight:bold;color:yellow;">[+]</span><span style="font-weight:bold;color:lime;"> CPU ..................... </span><span style="font-weight:bold;filter: contrast(70%) brightness(190%);color:dimgray;">AMD Ryzen 7 2700X Eight-Core Processor</span>
-<span style="font-weight:bold;color:yellow;">[+]</span><span style="font-weight:bold;color:lime;"> Useful tools installed .. </span><span style="font-weight:bold;color:yellow;">Yes</span>
-<span style="font-weight:bold;filter: contrast(70%) brightness(190%);color:dimgray;">/bin/wget
+<span style="color:#3333FF;font-weight:bold;">===================================</span><span style="color:lime;font-weight:bold;">( Enumerating Platform )</span><span style="color:#3333FF;font-weight:bold;">===================================</span>
+<span style="color:yellow;font-weight:bold;">[+]</span><span style="color:lime;font-weight:bold;"> Inside Container ........ </span><span style="color:yellow;font-weight:bold;">Yes</span>
+<span style="color:yellow;font-weight:bold;">[+]</span><span style="color:lime;font-weight:bold;"> Container Platform ...... </span><span style="color:yellow;font-weight:bold;">docker</span>
+<span style="color:yellow;font-weight:bold;">[+]</span><span style="color:lime;font-weight:bold;"> Container tools ......... </span><span style="color:red;font-weight:bold;">None</span>
+<span style="color:yellow;font-weight:bold;">[+]</span><span style="color:lime;font-weight:bold;"> User .................... </span><span style="color:yellow;font-weight:bold;">root</span>
+<span style="color:yellow;font-weight:bold;">[+]</span><span style="color:lime;font-weight:bold;"> Groups .................. </span><span style="font-weight:bold;"></span><span style="color:white;font-weight:bold;"></span><span style="color:white;background-color:black;font-weight:bold;text-decoration:blink;">root</span><span style="font-weight:bold;"> </span><span style="color:white;font-weight:bold;"></span><span style="color:white;background-color:black;font-weight:bold;text-decoration:blink;">wheel</span><span style="font-weight:bold;"></span>
+<span style="color:yellow;font-weight:bold;">[+]</span><span style="color:lime;font-weight:bold;"> Docker Executable ....... </span><span style="font-weight:bold;">Not Found</span>
+<span style="color:yellow;font-weight:bold;">[+]</span><span style="color:lime;font-weight:bold;"> Docker Sock ............. </span><span style="font-weight:bold;">Not Found</span>
+<span style="color:yellow;font-weight:bold;">[+]</span><span style="color:lime;font-weight:bold;"> Docker Exploits ......... </span><span style="color:red;font-weight:bold;">Version Unknown</span>
+<span style="color:#3333FF;font-weight:bold;">==================================</span><span style="color:lime;font-weight:bold;">( Enumerating Container )</span><span style="color:#3333FF;font-weight:bold;">===================================</span>
+<span style="color:yellow;font-weight:bold;">[+]</span><span style="color:lime;font-weight:bold;"> Container ID ............ </span><span style="color:yellow;font-weight:bold;">c97b98b85474</span>
+<span style="color:yellow;font-weight:bold;">[+]</span><span style="color:lime;font-weight:bold;"> Container Full ID ....... </span><span style="color:yellow;font-weight:bold;">c97b98b854742d3e60c029ec909b623527286070f4cd12f8e62d06d02b3f88a9</span>
+<span style="color:yellow;font-weight:bold;">[+]</span><span style="color:lime;font-weight:bold;"> Container Name .......... </span><span style="color:red;font-weight:bold;">Could not get container name through reverse DNS</span>
+<span style="color:yellow;font-weight:bold;">[+]</span><span style="color:lime;font-weight:bold;"> Container IP ............ </span><span style="color:yellow;font-weight:bold;">172.17.0.2</span>
+<span style="color:yellow;font-weight:bold;">[+]</span><span style="color:lime;font-weight:bold;"> DNS Server(s) ........... </span><span style="color:yellow;font-weight:bold;">168.63.129.16 </span>
+<span style="color:yellow;font-weight:bold;">[+]</span><span style="color:lime;font-weight:bold;"> Host IP ................. </span><span style="color:yellow;font-weight:bold;">172.17.0.1</span>
+<span style="color:yellow;font-weight:bold;">[+]</span><span style="color:lime;font-weight:bold;"> Operating System ........ </span><span style="font-weight:bold;">GNU/Linux</span>
+<span style="color:yellow;font-weight:bold;">[+]</span><span style="color:lime;font-weight:bold;"> Kernel .................. </span><span style="font-weight:bold;">5.3.0-1032-azure</span>
+<span style="color:yellow;font-weight:bold;">[+]</span><span style="color:lime;font-weight:bold;"> Arch .................... </span><span style="font-weight:bold;">x86_64</span>
+<span style="color:yellow;font-weight:bold;">[+]</span><span style="color:lime;font-weight:bold;"> CPU ..................... </span><span style="font-weight:bold;">Intel(R) Xeon(R) Platinum 8171M CPU @ 2.60GHz</span>
+<span style="color:yellow;font-weight:bold;">[+]</span><span style="color:lime;font-weight:bold;"> Useful tools installed .. </span><span style="color:yellow;font-weight:bold;">Yes</span>
+<span style="font-weight:bold;">/bin/wget
 /bin/nc
 /bin/nslookup
 /bin/hostname</span>
-<span style="font-weight:bold;color:yellow;">[+]</span><span style="font-weight:bold;color:lime;"> SSHD Service ............ </span><span style="font-weight:bold;filter: contrast(70%) brightness(190%);color:dimgray;">No</span>
-<span style="font-weight:bold;color:yellow;">[+]</span><span style="font-weight:bold;color:lime;"> Privileged Mode ......... </span><span style="font-weight:bold;filter: contrast(70%) brightness(190%);color:dimgray;">No</span>
-<span style="font-weight:bold;color:#3333FF;">====================================</span><span style="font-weight:bold;color:lime;">( Enumerating Mounts )</span><span style="font-weight:bold;color:#3333FF;">====================================</span>
-<span style="font-weight:bold;color:yellow;">[+]</span><span style="font-weight:bold;color:lime;"> Docker sock mounted ....... </span><span style="font-weight:bold;filter: contrast(70%) brightness(190%);color:dimgray;">No</span>
-<span style="font-weight:bold;color:yellow;">[+]</span><span style="font-weight:bold;color:lime;"> Other mounts .............. </span><span style="font-weight:bold;color:yellow;">Yes</span>
-<span style="font-weight:bold;filter: contrast(70%) brightness(190%);color:dimgray;">/Cloud/coursework/Final\040Year\040Project/deepce/deepce.sh /root/deepce.sh rw,nosuid,nodev,relatime - ecryptfs /home/mat/.Private rw,ecryptfs_fnek_sig=55393e130c32f455,ecryptfs_sig=72a85161d0670831,ecryptfs_cipher=aes,ecryptfs_key_bytes=16,ecryptfs_unlink_sigs</span>
-<span style="font-weight:bold;color:yellow;">[+]</span><span style="font-weight:bold;color:lime;"> Possible host usernames ... </span><span style="font-weight:bold;color:yellow;">mat </span>
-<span style="font-weight:bold;color:yellow;">[+]</span><span style="font-weight:bold;color:lime;"> Encrypted home directory .. </span><span style="font-weight:bold;color:yellow;">Detected</span>
+<span style="color:yellow;font-weight:bold;">[+]</span><span style="color:lime;font-weight:bold;"> SSHD Service ............ </span><span style="font-weight:bold;">No</span>
+<span style="color:yellow;font-weight:bold;">[+]</span><span style="color:lime;font-weight:bold;"> Privileged Mode ......... </span><span style="font-weight:bold;">No</span>
+<span style="color:#3333FF;font-weight:bold;">====================================</span><span style="color:lime;font-weight:bold;">( Enumerating Mounts )</span><span style="color:#3333FF;font-weight:bold;">====================================</span>
+<span style="color:yellow;font-weight:bold;">[+]</span><span style="color:lime;font-weight:bold;"> Docker sock mounted ....... </span><span style="font-weight:bold;">No</span>
+<span style="color:yellow;font-weight:bold;">[+]</span><span style="color:lime;font-weight:bold;"> Other mounts .............. </span><span style="color:yellow;font-weight:bold;">Yes</span>
+<span style="font-weight:bold;">/home/runner/work/deepce/deepce/deepce.sh /root/deepce.sh rw,relatime - ext4 /dev/sda1 rw,discard</span>
+<span style="color:yellow;font-weight:bold;">[+]</span><span style="color:lime;font-weight:bold;"> Possible host usernames ... </span><span style="color:yellow;font-weight:bold;">runner/work/deepce/deepce/deepce.sh /root/deepce.sh rw,relatime - ext4 /dev </span>
 
-<span style="font-weight:bold;color:#3333FF;">====================================</span><span style="font-weight:bold;color:lime;">( Interesting Files )</span><span style="font-weight:bold;color:#3333FF;">=====================================</span>
-<span style="font-weight:bold;color:yellow;">[+]</span><span style="font-weight:bold;color:lime;"> Interesting environment variables ... </span><span style="font-weight:bold;filter: contrast(70%) brightness(190%);color:dimgray;">No</span>
-<span style="font-weight:bold;filter: contrast(70%) brightness(190%);color:dimgray;">HOME=/root
-HOSTNAME=aa16afd88c16
+<span style="color:#3333FF;font-weight:bold;">====================================</span><span style="color:lime;font-weight:bold;">( Interesting Files )</span><span style="color:#3333FF;font-weight:bold;">=====================================</span>
+<span style="color:yellow;font-weight:bold;">[+]</span><span style="color:lime;font-weight:bold;"> Interesting environment variables ... </span><span style="font-weight:bold;">No</span>
+<span style="font-weight:bold;">HOME=/root
+HOSTNAME=c97b98b85474
 PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 PWD=/
 SHLVL=1</span>
-<span style="font-weight:bold;color:yellow;">[+]</span><span style="font-weight:bold;color:lime;"> Any common entrypoint files ......... </span>
-<span style="font-weight:bold;color:yellow;">[+]</span><span style="font-weight:bold;color:lime;"> Interesting files in root ........... </span>
+<span style="color:yellow;font-weight:bold;">[+]</span><span style="color:lime;font-weight:bold;"> Any common entrypoint files ......... </span>
+<span style="color:yellow;font-weight:bold;">[+]</span><span style="color:lime;font-weight:bold;"> Interesting files in root ........... </span>
 
-<span style="font-weight:bold;color:yellow;">[+]</span><span style="font-weight:bold;color:lime;"> Passwords in common files ........... </span><span style="font-weight:bold;filter: contrast(70%) brightness(190%);color:dimgray;">No</span>
-<span style="font-weight:bold;color:yellow;">[+]</span><span style="font-weight:bold;color:lime;"> Home directories .................... </span><span style="font-weight:bold;filter: contrast(70%) brightness(190%);color:dimgray;">No</span>
-<span style="font-weight:bold;color:yellow;">[+]</span><span style="font-weight:bold;color:lime;"> Hashes in shadow file ............... </span><span style="font-weight:bold;filter: contrast(70%) brightness(190%);color:dimgray;">No permission</span>
+<span style="color:yellow;font-weight:bold;">[+]</span><span style="color:lime;font-weight:bold;"> Passwords in common files ........... </span><span style="font-weight:bold;">No</span>
+<span style="color:yellow;font-weight:bold;">[+]</span><span style="color:lime;font-weight:bold;"> Home directories .................... </span><span style="font-weight:bold;">No</span>
+<span style="color:yellow;font-weight:bold;">[+]</span><span style="color:lime;font-weight:bold;"> Hashes in shadow file ............... </span><span style="font-weight:bold;">No permission</span>
 
-<span style="font-weight:bold;color:yellow;">[+]</span><span style="font-weight:bold;color:lime;"> Searching for app dirs .............. </span>
-<span style="font-weight:bold;color:#3333FF;">==================================</span><span style="font-weight:bold;color:lime;">( Enumerating Containers )</span><span style="font-weight:bold;color:#3333FF;">==================================</span>
-<span style="font-weight:bold;filter: contrast(70%) brightness(190%);color:dimgray;">By default containers can communicate with other containers on the same network and the 
+<span style="color:yellow;font-weight:bold;">[+]</span><span style="color:lime;font-weight:bold;"> Searching for app dirs .............. </span>
+<span style="color:#3333FF;font-weight:bold;">==================================</span><span style="color:lime;font-weight:bold;">( Enumerating Containers )</span><span style="color:#3333FF;font-weight:bold;">==================================</span>
+<span style="font-weight:bold;">By default containers can communicate with other containers on the same network and the 
 host machine, this can be used to enumerate further</span>
 
-<span style="font-weight:bold;color:#3333FF;">===============================================</span><span style="font-weight:bold;color:lime;"></span><span style="font-weight:bold;color:#3333FF;">===============================================</span>
+<span style="color:#3333FF;font-weight:bold;">===============================================</span><span style="color:lime;font-weight:bold;"></span><span style="color:#3333FF;font-weight:bold;">===============================================</span>
 </pre>
 </body>
 </html>
