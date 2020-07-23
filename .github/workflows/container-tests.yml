@@ -51,7 +51,7 @@ jobs:
       run: |
         ls -lah /tmp/results
         rm -rf results
-        cp /tmp/results results
+        cp -r /tmp/results results
         ls -lah ./results
         
     # Checkout gh-pages branch

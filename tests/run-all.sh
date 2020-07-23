@@ -57,7 +57,7 @@ for filename in *.sh; do
     fi
     
     # If possible generate html output for the logs
-    if [ -x "$(command -v aha)" ]; then
+    if [ -x "$(command -v aha)" ] & [ -f "results/$name.log" ]; then
         aha -b -f "results/$name.log" > "results/$name.html"
     fi
     
