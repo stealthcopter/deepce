@@ -22,6 +22,8 @@ rm -f results/*
 
 testNo=0
 
+exitCode=0
+
 # Run all tests found in this folder
 for filename in *.sh; do
 
@@ -44,6 +46,7 @@ for filename in *.sh; do
         printIgnore
     else
         printFail
+        exitCode=1
     fi
     
     # If possible generate html output for the logs
@@ -52,3 +55,5 @@ for filename in *.sh; do
     fi
     
 done
+
+exit $exitCode
