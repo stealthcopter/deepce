@@ -1,1 +1,3 @@
+tests/results/*.html
+tests/results/*.log
 .vagrant
