@@ -31,4 +31,10 @@ jobs:
     - name: Run all tests
       run: | 
        cd tests 
-       ./run-all.sh
+       ./docker-alpine-privileged.sh
+
+    # Runs all container tests
+    - name: Run all tests
+      run: | 
+       cd tests 
+       ./docker-ubuntu-install-tools.sh
