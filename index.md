@@ -1,5 +1,6 @@
 ---
-title: Screenshots
+layout: default
+title: deepce
 ---
 
 # Screenshots
