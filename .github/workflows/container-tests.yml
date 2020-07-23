@@ -29,5 +29,6 @@ jobs:
 
     # Runs all container tests
     - name: Run all tests
-      run: cd tests 
-        ./run-all.sh
+      run: | 
+       cd tests 
+       ./run-all.sh
