@@ -1,1 +1,5 @@
+title: deepe
+logo: /docs/logo.png
+description: Container enumeration and exploitation script
+show_downloads: true
 theme: jekyll-theme-hacker
