@@ -45,3 +45,11 @@ jobs:
       with:
         name: logs
         path: tests/results/
+
+    # Checkout gh-pages branch
+    - name: Switch to gh-pages
+      run: |
+        cp tests/results /tmp/results
+        git checkout gh-pages
+        ls -lah
+        ls -lah /tmp/results

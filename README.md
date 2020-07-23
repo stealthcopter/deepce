@@ -42,7 +42,7 @@ python3 -c 'import requests;print(requests.get("https://github.com/stealthcopter
 
 # Screenshots
 For more please view the [docs folder](https://github.com/stealthcopter/deepce/tree/master/docs)
-![screenshot1](docs/ubuntu-install-tools.png "Screenshot 1")
+![screenshot1](docs/images/ubuntu-install-tools.png "Screenshot 1")
 
 ## Enumerations
 

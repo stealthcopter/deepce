@@ -1,5 +1,7 @@
 #!/bin/bash
 
+echo "Running all tests"
+
 # Printing functions
 C=$(printf '\033')
 RED="${C}[1;31m"
@@ -21,8 +23,10 @@ printFail() { printf "%sFail%s\n" "${RED}" "$NC"; }
 rm -f results/*
 
 testNo=0
-
 exitCode=0
+index="results/index.md"
+
+echo -e "# Test Results\n" > $index
 
 # Run all tests found in this folder
 for filename in *.sh; do
@@ -42,11 +46,14 @@ for filename in *.sh; do
 
     if [ $RESULT -eq 0 ]; then
         printPass
+        echo "- [$name]($name.html) - PASS" >> $index
     elif [ $RESULT -eq 1 ]; then 
         printIgnore
+        echo "- [$name]($name.html) - IGNORED" >> $index
     else
         printFail
         exitCode=1
+        echo "- [$name]($name.html) - FAILED" >> $index
     fi
     
     # If possible generate html output for the logs
