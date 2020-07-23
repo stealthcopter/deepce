@@ -12,27 +12,26 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+    - name: Install required tools
+      run: sudo apt install -y aha
+
     - name: Checkout code
       uses: actions/checkout@v2
 
-    # Check docker is installed
     - name: Check docker is installed
       run: docker ps -a
 
-    # Runs all container tests
-    - name: Run all tests
+    - name: Run all container tests
       run: | 
        cd tests 
        ./run-all.sh
 
-    # Show all logs
-    - name: Showing logs
+    - name: Showing all logs
       run: |
        ls -lah tests/results
        tail -n +1 tests/results/*.log
 
-    # Upload logs
-    - name: Upload logs
+    - name: Upload all logs
       uses: actions/upload-artifact@v2
       with:
         name: logs
@@ -48,16 +47,18 @@ jobs:
         clean: true
       
     # Checkout gh-pages branch
-    - name: Copy test results
+    - name: Copy test results into branch
       run: |
-        ls -lah
         ls -lah /tmp/results
+        rm -rf results
+        cp /tmp/results results
+        ls -lah ./results
         
     # Checkout gh-pages branch
-    - name: test1
+    - name: Push Changes
       run: |
         git status
+        git config --global user.name 'stealthcopter-ci'
+        git config --global user.email 'stealthcopter@users.noreply.github.com'
+        git commit -am "Automated update from CI"
 
-#git config --global user.name 'Your Name'
-#git config --global user.email 'your-username@users.noreply.github.com'
-#git commit -am "Automated report"
