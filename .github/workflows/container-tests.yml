@@ -50,6 +50,5 @@ jobs:
     - name: Switch to gh-pages
       run: |
         cp -r tests/results /tmp/results
-        git checkout gh-pages
         ls -lah
         ls -lah /tmp/results
