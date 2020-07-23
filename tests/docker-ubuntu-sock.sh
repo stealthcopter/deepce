@@ -15,7 +15,7 @@ docker stop "$name" 2>/dev/null
 docker rm "$name" 2>/dev/null
 
 # Run the test using -nn (no network) so we're not waiting around
-result=$(docker run --rm -it --name "$name" \
+result=$(docker run --rm --name "$name" \
            -v "$scriptPath":/root/deepce.sh \
            -v /var/run/docker.sock:/var/run/docker.sock \
            ubuntu /root/deepce.sh -nn)

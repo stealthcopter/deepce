@@ -15,7 +15,7 @@ docker stop "$name" 2>/dev/null
 docker rm "$name" 2>/dev/null
 
 # Run the test using -nn (no network) so we're not waiting around
-result=$(docker run --rm -it --name "$name" -v "$scriptPath":/root/deepce.sh fedora /root/deepce.sh -nn)
+result=$(docker run --rm --name "$name" -v "$scriptPath":/root/deepce.sh fedora /root/deepce.sh -nn)
 
 # Save the output
 echo "$result" | tee "$log"

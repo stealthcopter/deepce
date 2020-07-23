@@ -17,6 +17,9 @@
                  /_/
 ```
 
+![ShellCheck](https://github.com/stealthcopter/deepce/workflows/ShellCheck/badge.svg)
+![ContainerTests](https://github.com/stealthcopter/deepce/workflows/ContainerTests/badge.svg)
+
 Docker Enumeration, Escalation of Privileges and Container Escapes (DEEPCE)
 
 In order for it to be compatible with the maximum number of containers DEEPCE is written in pure `sh` with no dependencies. It will make use of additional tools such as curl, nmap, nslookup and dig if available but for the most part is not reliant upon them for enumeration.
@@ -118,7 +121,7 @@ There are some great container enumeration/escape scripts and enumeration tools 
 
 # Resources
 
-Developer looking for Docker security tips
+Developers looking for Docker security tips
 https://github.com/OWASP/CheatSheetSeries/blob/master/cheatsheets/Docker_Security_Cheat_Sheet.md
 
 
