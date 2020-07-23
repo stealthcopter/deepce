@@ -1,7 +1,9 @@
 ---
-title: About deepce
+layout: page
+title: About
+permalink: /about/
 ---
 
-# About deepcec
+# About deepce
 
 Source is in [this GitHub Repository](https://github.com/stealthcopter/deepce/).
