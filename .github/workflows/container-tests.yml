@@ -1,6 +1,6 @@
 # This is a basic workflow to help you get started with Actions
 
-name: ShellCheck
+name: ContainerTests
 
 # Controls when the action will run. Triggers the workflow on push or pull request
 # events but only for the master branch
@@ -22,6 +22,19 @@ jobs:
     # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
     - name: Checkout code
       uses: actions/checkout@v2
-      
-    - name: Shell Linter
-      uses: azohra/shell-linter@v0.4.0
+
+    # Check docker is installed
+    - name: Check docker is installed
+      run: docker ps -a
+
+    # Runs all container tests
+    - name: Run all tests
+      run: | 
+       cd tests 
+       ./docker-alpine-privileged.sh
+
+    # Runs all container tests
+    - name: Run all tests
+      run: | 
+       cd tests 
+       ./docker-ubuntu-install-tools.sh
