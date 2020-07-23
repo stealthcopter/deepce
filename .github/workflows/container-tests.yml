@@ -37,4 +37,4 @@ jobs:
     - name: Showing logs
       run: |
        ls -lah tests/results
-       tail -n +1 -f tests/results/*.log
+       tail -n +1 tests/results/*.log
