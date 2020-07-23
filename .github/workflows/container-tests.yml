@@ -52,3 +52,14 @@ jobs:
         cp -r tests/results /tmp/results
         ls -lah
         ls -lah /tmp/results
+        
+    # Checkout gh-pages branch
+    - name: test1
+      run: |
+        git status
+        
+        
+    # Checkout gh-pages branch
+    - name: test2
+      run: |
+        git checkout gh-pages        
