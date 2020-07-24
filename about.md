@@ -1,8 +1,10 @@
 ---
 page: test
 title: About
-permalink: /about/
+permalink: /about
 ---
+
+{% include header.html %}
 
 # About deepce
 

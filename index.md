@@ -3,6 +3,8 @@ layout: default
 title: deepce
 ---
 
+{% include header.html %}
+
 # Screenshots
 
 ## Help
