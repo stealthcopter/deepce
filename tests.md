@@ -21,8 +21,3 @@ bbb
 {% endif %}
 
 ccc
-
-{% for page in site.tests %}
-<h3><a title="{{ page.title }}" href="{{ page.url | prepend: site.baseurl }}">{{ page.title }}</a></h3>
-<p>{{page.content}}</p>
-{% endfor %}     
