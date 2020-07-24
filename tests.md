@@ -1,12 +1,10 @@
 ---
-page: test
-title: About
-permalink: /about/
+page: default
+title: tests
+permalink: /tests/
 ---
 
-# About deepce
-
-Source is in [GitHub](https://github.com/stealthcopter/deepce/).
+# Tests
 
 {% for test in site.tests %}
   <h2>
