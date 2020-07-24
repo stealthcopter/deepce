@@ -19,7 +19,7 @@ result=$(docker run --rm --name "$name" \
           -v "$scriptPath":/root/deepce.sh \
           -v /var/run/docker.sock:/var/run/docker.sock \
           alpine \
-          /root/deepce.sh -ne \
+          /root/deepce.sh -nn \
           --install \
           -e SOCK \
           --command "touch /tmp/$name.hacked" \

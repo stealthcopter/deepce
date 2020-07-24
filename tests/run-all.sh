@@ -23,7 +23,7 @@ printFail() { printf "%sFail%s\n" "${RED}" "$NC"; }
 rm -f results/*
 
 # Ensure tests are executable
-chmod +x *.sh
+chmod +x ./*.sh
 
 testNo=0
 exitCode=0

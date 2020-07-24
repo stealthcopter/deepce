@@ -39,6 +39,11 @@ Vagrant.configure("2") do |config|
   # Copy files to home dir
   config.vm.provision "file", source: "home", destination: "/tmp/home"
   config.vm.provision "shell",inline: "chown -R ubuntu:ubuntu /tmp/home && mv /tmp/home/* /home/ubuntu/"
+  
+  # Add some flags in
+  config.vm.provision "shell",inline: "echo deepce{w4rm1ng_up} >> /home/ubuntu/flag.txt"
+  config.vm.provision "shell",inline: "echo deepce{r00ty_t00ty_p01nty_sh00ty} >> /root/flag.txt"
+  
 end
 
 # TODO
