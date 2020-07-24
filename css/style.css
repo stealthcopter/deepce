@@ -1,0 +1,14 @@
+.imageRot {
+   -webkit-animation:spin 0.6s ease-in-out;
+    -moz-animation:spin 0.6s ease-in-out;
+    animation:spin 0.6s ease-in-out;
+}
+@-moz-keyframes spin {
+    100% { -webkit-transform: rotate(360deg); transform:rotate(360deg); }
+}
+@-webkit-keyframes spin {
+    100% { -webkit-transform: rotate(360deg); transform:rotate(360deg); }
+}
+@keyframes spin { 
+    100% { -webkit-transform: rotate(360deg); transform:rotate(360deg); } 
+} 

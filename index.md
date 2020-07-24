@@ -3,7 +3,7 @@ layout: default
 title: deepce
 ---
 
-![image](images/logo.png)
+<img id="theimage" src="images/logo.png" alt=""  />
 
 ## What is it?
 
