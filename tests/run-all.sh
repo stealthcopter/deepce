@@ -22,6 +22,9 @@ printFail() { printf "%sFail%s\n" "${RED}" "$NC"; }
 # Empty results folder
 rm -f results/*
 
+# Ensure tests are executable
+chmod +x *.sh
+
 testNo=0
 exitCode=0
 index="results/index.md"
@@ -63,4 +66,4 @@ for filename in *.sh; do
     
 done
 
-exit 0 # FIXME: Change back
+exit $exitCode
