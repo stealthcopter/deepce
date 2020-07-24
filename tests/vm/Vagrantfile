@@ -1,15 +1,26 @@
 Vagrant.configure("2") do |config|
   config.vm.box = "ubuntu/xenial64"
   
-  config.vm.name = "deepce"
+    config.vm.provider :virtualbox do |vbox|
+      vbox.gui = false
+      vbox.name = "deepce"
+    end
+  
   config.vm.hostname = "deepce"
   
   config.vm.provision :shell, :inline => "sudo apt update"
-  config.vm.provision :shell, :inline => "sudo apt install docker.io zip"
+  config.vm.provision :shell, :inline => "sudo apt install -y docker.io zip nmap aha"
   config.vm.provision :shell, :inline => "echo ubuntu:ubuntu | sudo chpasswd"
   config.vm.provision :shell, :inline => "sudo usermod -aG docker ubuntu"
   config.vm.provision :shell, :inline => "sudo git clone https://github.com/stealthcopter/deepce /opt/deepce && sudo chown -R ubuntu:ubuntu /opt/deepce"
-  config.vm.provision :shell, :inline => "sudo zip -r /opt/deepce /opt/deepce.zip"
+  config.vm.provision :shell, :inline => "sudo zip -r /opt/deepce.zip /opt/deepce"
   
+  # Run all tests so that all docker images are pulled down
+  config.vm.provision :shell, :inline => "cd /opt/deepce/tests && ./run-all.sh"
   
+  # Symlinks to apps
+  config.vm.provision :shell, :inline => "ln -s /opt/deepce/tests /home/ubuntu/deepce"
+  
+  # Copy files to home dir
+  config.vm.provision "file", source: "home", destination: "/home/ubuntu"
 end
