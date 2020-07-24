@@ -3,24 +3,17 @@ layout: default
 title: deepce
 ---
 
-{% include header.html %}
+![image](images/logo.png)
 
-# Screenshots
+## What is it?
 
-## Help
-Help text
-![help](images/help.png "Help")
+**tldr;** linpeas/linenum for containers.
 
-## Inside a container
-A Docker Ubuntu container with the network scanning and automatically install packages (`--install`) options turned on 
-![install](images/ubuntu-install-tools.png "Install")
+Deepce is a container enumeration and exploit script designed for pen testers, hackers and developers.
 
-A Docker Busybox container
-![busybox](images/busybox.png "Busybox")
+## Have a play!
+A virtual machine has been developed that can be used to practice using deepce to exploit and escape containers in a safe environment. 
 
-A privileged Docker Alpine container
-![alpine-privileged](images/alpine-privileged.png "alpine-privileged")
+Follow the walkthrough on [tryhackme](https://tryhackme.com/room/deepce) \[TODO: NOT PUBLISHED YET\]
 
-## On a Host
-An example showing the script running on a host rather than inside of a container
-![screenshot4](images/host.png "Screenshot 4")
+or Download VM Directly [download](https://google.com) \[TODO: Not uploaded yet\]

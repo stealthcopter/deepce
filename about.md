@@ -4,8 +4,8 @@ title: About
 permalink: /about
 ---
 
-{% include header.html %}
-
 # About deepce
 
-Source is in [GitHub](https://github.com/stealthcopter/deepce/).
+Deepce was developed by [stealthcopter](https://github.com/stealthcopter/) as part of a master thesis in computer securtiy systems.
+
+Source code is in [GitHub](https://github.com/stealthcopter/deepce/).
