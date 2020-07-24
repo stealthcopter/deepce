@@ -9,3 +9,9 @@ collections:
     output: true
   guides:
     output: true
+
+defaults:
+  - scope:
+      path: "_tests"
+    values:
+      test: true

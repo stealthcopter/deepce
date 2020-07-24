@@ -6,11 +6,7 @@ permalink: /tests/
 
 # Tests
 
-{% for test in site.tests %}
-  <h2>
-    <a href="{{ test.url }}">
-      {{ test.name }} - {{ test.position }}
-    </a>
-  </h2>
-  <p>{{ test.content | markdownify }}</p>
+{% assign image_files = site.static_files | where: "test", true %}
+{% for myimage in image_files %}
+  {{ myimage.path }}
 {% endfor %}
