@@ -4,6 +4,6 @@ title: About
 permalink: /about/
 ---
 
-# About deepce2
+# About deepce
 
-Source is in [this GitHub Repository](https://github.com/stealthcopter/deepce/).
+Source is in [GitHub](https://github.com/stealthcopter/deepce/).

@@ -2,5 +2,5 @@ title: deepe
 author: Stealthcopter
 logo: /images/logo.png
 description: Container enumeration and exploitation script
-show_downloads: true
+show_downloads: false
 theme: jekyll-theme-hacker
