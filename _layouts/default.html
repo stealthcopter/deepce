@@ -15,7 +15,8 @@
         $("#theimage").on("click", function(){     
             console.log("hi");
             $(this).addClass("imageRot").one('webkitAnimationEnd mozAnimationEnd oAnimationEnd msAnimationEnd animationend', function () {
-            $(this).removeClass("imageRot");   
+            $(this).removeClass("imageRot");
+            console.log("deepce{d01ng_fl1pz_4nd-5h1t}")
         });
         });
     });
@@ -37,7 +38,7 @@
             <a href="{{site.url}}" class="btn">Home</a>
             <a href="{{site.url}}/guides" class="btn">Guides</a>
             <a href="{{site.url}}/media" class="btn">Media</a>
-            <a href="{{site.url}}/tests" class="btn">Tests</a>
+            <a href="{{site.url}}/results" class="btn">Tests</a>
             <a href="{{site.url}}/about" class="btn">About</a>
             <a href="{{ site.github.repository_url }}" class="btn btn-github"><span class="icon"></span>View on GitHub</a>
             {% if site.show_downloads %}

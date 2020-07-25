@@ -1,5 +1,5 @@
 ---
-page: test
+page: default
 title: About
 permalink: /about
 ---

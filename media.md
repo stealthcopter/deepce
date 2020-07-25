@@ -1,6 +1,7 @@
 ---
 layout: default
 title: deepce
+permalink: /media
 ---
 
 # Screenshots
