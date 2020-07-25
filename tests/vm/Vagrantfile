@@ -11,11 +11,12 @@ Vagrant.configure("2") do |config|
   config.vm.provision :shell, :inline => "sudo apt update"
   config.vm.provision :shell, :inline => "sudo apt install -y zip nmap aha"
   
-  config.vm.provision "shell", keep_color: true, name: "docker.sh", path: "scripts/docker.sh"
-  
   config.vm.provision :shell, :inline => "echo ubuntu:ubuntu | sudo chpasswd"
-  config.vm.provision :shell, :inline => "echo root:iamroot| sudo chpasswd" # Give them something to crack if they want
+  config.vm.provision :shell, :inline => "echo root:rootbeer| sudo chpasswd" # Give them something to crack if they want
   config.vm.provision :shell, :inline => "sudo usermod -aG docker ubuntu"
+  
+  
+  config.vm.provision "shell", keep_color: true, name: "docker.sh", path: "scripts/docker.sh"
   
   # Add alias
   config.vm.provision :shell, :inline => "echo alias deepce='/opt/deepce/deepce.sh'>> /home/ubuntu/.bashrc"
@@ -43,8 +44,12 @@ Vagrant.configure("2") do |config|
   # Add some flags in
   config.vm.provision "shell",inline: "echo deepce{w4rm1ng_up} >> /home/ubuntu/flag.txt"
   config.vm.provision "shell",inline: "echo deepce{r00ty_t00ty_p01nty_sh00ty} >> /root/flag.txt"
-  
+    
 end
 
 # TODO
+# - add a container auto running on boot
+# - add a container with environment vars
+
 # - Install metasploit & modules
+# - Remove vagrant user
