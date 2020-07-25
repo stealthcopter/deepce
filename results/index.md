@@ -1,5 +1,4 @@
-# Test Results
-
+{% include tests.md %}
 - [docker-alpine-cve-2019-5021](docker-alpine-cve-2019-5021.html) - PASS
 - [docker-alpine-payload-command](docker-alpine-payload-command.html) - PASS
 - [docker-alpine-payload-new-root-user](docker-alpine-payload-new-root-user.html) - PASS
