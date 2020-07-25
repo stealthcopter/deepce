@@ -27,8 +27,8 @@
 [1;33m[+][1;32m Docker Sock ............. [0m[1;90mNot Found[0m
 [1;33m[+][1;32m Docker Exploits ......... [0m[1;31mVersion Unknown[0m
 [1;34m==================================[1;32m( Enumerating Container )[1;34m===================================[0m
-[1;33m[+][1;32m Container ID ............ [0m[1;33mfa5a15722c54[0m
-[1;33m[+][1;32m Container Full ID ....... [0m[1;33mfa5a15722c549f38b5d48bc154fa796a0d60a64433e58356a9051276e22370ba[0m
+[1;33m[+][1;32m Container ID ............ [0m[1;33m04780b6ecda0[0m
+[1;33m[+][1;32m Container Full ID ....... [0m[1;33m04780b6ecda08c22496d3c3cb83c725b1a804bcaeddaf240f8e7a453f9b13ef5[0m
 [1;33m[+][1;32m Container Name .......... [0m[1;31mCould not get container name through reverse DNS[0m
 [1;33m[+][1;32m Container IP ............ [0m[1;33m172.17.0.2 [0m
 [1;33m[+][1;32m DNS Server(s) ........... [0m[1;33m168.63.129.16 [0m
@@ -36,7 +36,7 @@
 [1;33m[+][1;32m Operating System ........ [0m[1;90mGNU/Linux[0m
 [1;33m[+][1;32m Kernel .................. [0m[1;90m5.3.0-1032-azure[0m
 [1;33m[+][1;32m Arch .................... [0m[1;90mx86_64[0m
-[1;33m[+][1;32m CPU ..................... [0m[1;90mIntel(R) Xeon(R) Platinum 8171M CPU @ 2.60GHz[0m
+[1;33m[+][1;32m CPU ..................... [0m[1;90mIntel(R) Xeon(R) CPU E5-2673 v3 @ 2.40GHz[0m
 [1;33m[+][1;32m Useful tools installed .. [0m[1;33mYes[0m
 [1;90m/usr/bin/hostname[0m
 [1;33m[+][1;32m SSHD Service ............ [0m[1;90mNo[0m
