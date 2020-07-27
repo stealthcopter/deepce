@@ -570,9 +570,9 @@ containerExploits() {
   # If we are on an alpine linux disto check for CVE–2019–5021
   if [ -f "/etc/alpine-release" ]; then
     alpineVersion=$(cat /etc/alpine-release)
-    printQuestion "Alpine Linux Version ......"
+    printQuestion "Alpine Linux Version ...."
     printSuccess "$alpineVersion"
-    printQuestion "CVE-2019-5021 Vulnerable .."
+    printQuestion "└── CVE-2019-5021 ......."
 
     if [ "$(ver "$alpineVersion")" -ge "$(ver 3.3.0)" ] && [ "$(ver "$alpineVersion")" -le "$(ver 3.6.0)" ]; then
       printYesEx
