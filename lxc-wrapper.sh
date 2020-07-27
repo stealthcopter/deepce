@@ -1,6 +1,9 @@
 #!/bin/sh
-
 # This script will run deepce on every active lxc container it finds
+
+# Get the path to this script so we can find the deepce.sh script
+SCRIPT=$(realpath "$0")
+SCRIPTPATH=$(dirname "$SCRIPT")
 
 # Check if lxc is accessible
 if [ "$(command -v lxc)" ]; then
@@ -27,7 +30,7 @@ for container in $containers
 do
     echo "Running deepce on lxc container: $container"
     lxc exec "$container" -- mkdir -p /deepce
-    lxc file push ./deepce.sh "$container/deepce/"
-    lxc exec "$container" "/deepce/deepce.sh" > "lxc-$container.log"
+    lxc file push "$SCRIPTPATH/deepce.sh" "$container/deepce/"
+    lxc exec "$container" "/deepce/deepce.sh" | tee "lxc-$container.log"
     lxc exec "$container" -- rm -rf /deepce
 done

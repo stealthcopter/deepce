@@ -1,6 +1,9 @@
 #!/bin/sh
-
 # This script will run deepce on every active docker container it finds
+
+# Get the path to this script so we can find the deepce.sh script
+SCRIPT=$(realpath "$0")
+SCRIPTPATH=$(dirname "$SCRIPT")
 
 # Check if docker is accessible
 if [ "$(command -v docker)" ]; then
@@ -27,7 +30,7 @@ for container in $containers
 do
     echo "Running deepce on docker container: $container"
     docker exec "$container" mkdir -p /deepce
-    docker cp ./deepce.sh "$container:/deepce/"
-    docker exec "$container" /deepce/deepce.sh > "docker-$container.log"
+    docker cp "$SCRIPTPATH/deepce.sh" "$container:/deepce/"
+    docker exec "$container" /deepce/deepce.sh | tee "docker-$container.log"
     docker exec "$container" rm -rf /deepce
 done
