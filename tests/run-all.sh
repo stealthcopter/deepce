@@ -20,6 +20,7 @@ printIgnore() { printf "%sIgnore%s\n" "${Y}" "$NC"; }
 printFail() { printf "%sFail%s\n" "${RED}" "$NC"; }
 
 # Empty results folder
+mkdir -p results
 rm -f results/*
 
 # Ensure tests are executable
