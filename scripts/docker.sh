@@ -1,3 +1,5 @@
+#!/bin/bash
+
 sudo apt-get install -y \
     apt-transport-https \
     ca-certificates \
@@ -14,3 +16,16 @@ sudo add-apt-repository \
    
 sudo apt-get update
 sudo apt-get install -y docker-ce docker-ce-cli containerd.io
+
+sudo usermod -aG docker ubuntu
+
+docker run -d --restart=unless-stopped --name alpine-with-secrets -e MYSQL_PASSWORD=S00perS3rect alpine tail -f /dev/null
+docker run -d --restart=unless-stopped --name ubuntu-with-files ubuntu tail -f /dev/null
+
+docker cp /tmp/scripts/flag.txt ubuntu-with-files:/
+
+docker pull alpine:3.5
+docker pull archlinux 
+docker pull busybox 
+docker pull fedora 
+docker pull php
