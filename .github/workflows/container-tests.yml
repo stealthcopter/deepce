@@ -26,7 +26,7 @@ jobs:
        cd tests 
        ./run-all.sh
       env:
-        - DEEPCE_DANGEROUS_TESTS: 1
+        DEEPCE_DANGEROUS_TESTS: 1
 
     - name: Showing all logs
       run: |
