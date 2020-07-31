@@ -745,10 +745,10 @@ findInterestingFiles() {
   nl
 
   if [ -x "$(command -v find)" ]; then
-    find / -maxdepth 1 -type f | grep -v "/.dockerenv"
+    find / -maxdepth 1 -type f | grep -v "/.dockerenv\|deepce.sh"
   else
     # shellcheck disable=SC2010
-    ls -lah / | grep -v '^d\|^l\|^total\|.dockerenv'
+    ls -lah / | grep -v '^d\|^l\|^total\|.dockerenv\|deepce.sh'
   fi
   nl
 

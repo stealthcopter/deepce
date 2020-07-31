@@ -1,5 +1,12 @@
 #!/bin/bash
 
+if [ -z "$DEEPCE_DANGEROUS_TESTS" ] ; then
+  # To run this test define DEEPCE_DANGEROUS_TESTS using the following:
+  # export DEEPCE_DANGEROUS_TESTS=1
+  echo "DEEPCE_DANGEROUS_TESTS not defined, skipping dangerous test"
+  exit 1
+fi
+
 # check docker is available
 docker ps >/dev/null 2>&1 || exit 1
 
