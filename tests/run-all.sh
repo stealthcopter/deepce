@@ -29,8 +29,11 @@ chmod +x ./*.sh
 testNo=0
 exitCode=0
 index="results/index.md"
+passCount=0
+ignoreCount=0
+failCount=0
 
-echo -e "{% include tests.md %}" >$index
+echo -e "{% include tests.md %}\n\n| Test | Status |\n|-------|-------|" >$index
 
 # Run all tests found in this folder
 for filename in *.sh; do
@@ -50,14 +53,17 @@ for filename in *.sh; do
 
   if [ $RESULT -eq 0 ]; then
     printPass
-    echo "- [$name]($name.html) - PASS" >>$index
+    echo "| [$name]($name.html) | PASSED |" >>$index
+    passCount=$((passCount + 1))
   elif [ $RESULT -eq 1 ]; then
     printIgnore
-    echo "- [$name]($name.html) - IGNORED" >>$index
+    echo "| [$name]($name.html) | IGNORED |" >>$index
+    ignoreCount=$((ignoreCount + 1))
   else
     printFail
     exitCode=1
-    echo "- [$name]($name.html) - FAILED" >>$index
+    echo "| [$name]($name.html) | FAILED |" >>$index
+    failCount=$((failCount + 1))
   fi
 
   # If possible generate html output for the logs
@@ -69,5 +75,7 @@ for filename in *.sh; do
   fi
 
 done
+
+echo -e "\n\n| Status | Frequency |\n|-------|-------|\n|Passed|$passCount|\n|Ignored|$ignoreCount|\n|Failed|$failCount|" >>$index
 
 exit $exitCode
