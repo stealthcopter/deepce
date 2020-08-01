@@ -42,8 +42,8 @@ See [4mhttps://stealthcopter.github.io/deepce[0m[0m
 [1;33m[+][1;32m Docker Sock ............. [0m[1;90mNot Found[0m
 [1;33m[+][1;32m Docker Exploits ......... [0m[1;31mVersion Unknown[0m
 [1;34m==================================[1;32m( Enumerating Container )[1;34m===================================[0m
-[1;33m[+][1;32m Container ID ............ [0m[1;33ma926b9320e6c[0m
-[1;33m[+][1;32m Container Full ID ....... [0m[1;33ma926b9320e6c2f31e3eb066b5c4cf8113244af4937bce46ca68c015669d26268[0m
+[1;33m[+][1;32m Container ID ............ [0m[1;33meb643527fad7[0m
+[1;33m[+][1;32m Container Full ID ....... [0m[1;33meb643527fad7deb0d924cbd76c4cf556f51c5f0b543fee11ac5ca4b2c5a23c8d[0m
 [1;33m[+][1;32m Container Name .......... [0m[1;31mCould not get container name through reverse DNS[0m
 [1;33m[+][1;32m Container IP ............ [0m[1;33m172.17.0.2 [0m
 [1;33m[+][1;32m DNS Server(s) ........... [0m[1;33m168.63.129.16 [0m
@@ -51,7 +51,7 @@ See [4mhttps://stealthcopter.github.io/deepce[0m[0m
 [1;33m[+][1;32m Operating System ........ [0m[1;90mGNU/Linux[0m
 [1;33m[+][1;32m Kernel .................. [0m[1;90m5.3.0-1032-azure[0m
 [1;33m[+][1;32m Arch .................... [0m[1;90mx86_64[0m
-[1;33m[+][1;32m CPU ..................... [0m[1;90mIntel(R) Xeon(R) CPU E5-2673 v4 @ 2.30GHz[0m
+[1;33m[+][1;32m CPU ..................... [0m[1;90mIntel(R) Xeon(R) Platinum 8171M CPU @ 2.60GHz[0m
 [1;33m[+][1;32m Useful tools installed .. [0m[1;33mYes[0m
 [1;90m/usr/bin/curl
 /usr/bin/nslookup
@@ -64,17 +64,15 @@ See [4mhttps://stealthcopter.github.io/deepce[0m[0m
 [1;34m====================================[1;32m( Enumerating Mounts )[1;34m====================================[0m
 [1;33m[+][1;32m Docker sock mounted ....... [0m[1;90mNo[0m
 [1;33m[+][1;32m Other mounts .............. [0m[1;33mYes[0m
-[1;90m/home/runner/work/deepce/deepce/deepce.sh /root/deepce.sh rw,relatime - ext4 /dev/sdb1 rw,discard[0m
-[1;33m[+][1;32m Possible host usernames ... [0m[1;33mrunner/work/deepce/deepce/deepce.sh /root/deepce.sh rw,relatime - ext4 /dev [0m
+[1;90m/home/runner/work/deepce/deepce/deepce.sh /root/deepce.sh rw,relatime - ext4 /dev/sda1 rw,discard[0m
+[1;33m[+][1;32m Possible host usernames ... [0m[1;33mrunner [0m
 [1;34m====================================[1;32m( Interesting Files )[1;34m=====================================[0m
 [1;33m[+][1;32m Interesting environment variables ... [0m[1;90mNo[0m
-[1;90mBinary file (standard input) matches[0m
 [1;33m[+][1;32m Any common entrypoint files ......... [0m[1;90mNo[0m
 [1;33m[+][1;32m Interesting files in root ........... [0m[1;90mNo[0m
 [1;33m[+][1;32m Passwords in common files ........... [0m[1;90mNo[0m
 [1;33m[+][1;32m Home directories .................... [0m[1;90mNo[0m
 [1;33m[+][1;32m Hashes in shadow file ............... [0m[1;90mNo permission[0m
-
 [1;33m[+][1;32m Searching for app dirs .............. [0m
 [1;34m==================================[1;32m( Enumerating Containers )[1;34m==================================[0m
 [1;90mBy default containers can communicate with other containers on the same network and the 
@@ -82,15 +80,15 @@ host machine, this can be used to enumerate further[0m
 
 [1;33m[+][1;32m Attempting ping sweep of 172.17.0.0/24 (nmap) [0m
 Host: 172.17.0.1 ()	Status: Up
-Host: 172.17.0.2 (a926b9320e6c)	Status: Up
+Host: 172.17.0.2 (eb643527fad7)	Status: Up
 [1;34m======================================[1;32m( Scanning Host )[1;34m=======================================[0m
-[1;33m[+][1;32m Scanning host 172.17.0.1 (nmap) [0mStarting Nmap 7.80 ( https://nmap.org ) at 2020-08-01 13:35 UTC
+[1;33m[+][1;32m Scanning host 172.17.0.1 (nmap) [0mStarting Nmap 7.80 ( https://nmap.org ) at 2020-08-01 14:31 UTC
 Nmap scan report for 172.17.0.1
-Host is up (0.0000050s latency).
+Host is up (0.0000060s latency).
 Not shown: 65534 closed ports
 PORT   STATE SERVICE
 22/tcp open  ssh
-MAC Address: 02:42:30:B0:AF:53 (Unknown)
+MAC Address: 02:42:5C:76:D5:07 (Unknown)
 
-Nmap done: 1 IP address (1 host up) scanned in 0.98 seconds
+Nmap done: 1 IP address (1 host up) scanned in 0.96 seconds
 [1;34m===============================================[1;32m[1;34m===============================================[0m
