@@ -24,8 +24,10 @@ docker run -d --restart=unless-stopped --name ubuntu-with-files ubuntu tail -f /
 
 docker cp /tmp/scripts/flag.txt ubuntu-with-files:/
 
+# Grab all the images we might need
 docker pull alpine:3.5
 docker pull archlinux 
 docker pull busybox 
 docker pull fedora 
 docker pull php
+docker pull mysq

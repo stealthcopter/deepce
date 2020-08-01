@@ -49,7 +49,7 @@ cp /tmp/scripts/start_local_meterpreter_shell.sh /home/metasploit/
 cp /tmp/scripts/start_vulnerable_docker.sh /home/metasploit/
 
 chown -R metasploit:metasploit /home/metasploit/.msf4/
-sudo -u metaspliot 'echo -e "yes\n\n\n"|msfdb init'
+sudo -u metasploit 'echo -e "yes\n\n\n"|msfdb init'
 
 # Generate some meterpreter shells
 msfvenom -p linux/x64/meterpreter/bind_tcp LPORT=4444 -f elf -o /home/metasploit/bind4444.bin

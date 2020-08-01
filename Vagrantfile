@@ -1,7 +1,9 @@
+# Version 0.3
+
 RUN_TESTS = false
 
 Vagrant.configure("2") do |config|
-  config.vm.box = "ubuntu/xenial64"
+  config.vm.box = "ubuntu/bionic64"
   
     config.vm.provider :virtualbox do |vbox|
       vbox.gui = false
@@ -38,14 +40,18 @@ Vagrant.configure("2") do |config|
     config.vm.provision :shell, :inline => "cd /opt/deepce/tests && ./run-all.sh || echo some tests failed, but lets carry on..."
   end
     
-  # Copy files to home dir
-  config.vm.provision "file", source: "home", destination: "/tmp/home"
-  config.vm.provision "shell",inline: "chown -R ubuntu:ubuntu /tmp/home && mv /tmp/home/* /home/ubuntu/"
+  # Copy files to tmp dir
+  config.vm.provision "file", source: "users", destination: "/tmp/users"
   
-  # Add some flags in
-  config.vm.provision "shell",inline: "echo deepce{w4rm1ng_up} >> /home/ubuntu/flag.txt"
-  config.vm.provision "shell",inline: "echo deepce{r00ty_t00ty_p01nty_sh00ty} >> /root/flag.txt"
-
+  # Ubuntu's Files
+  config.vm.provision "shell",inline: "chown -R ubuntu:ubuntu /tmp/users/ubuntu && mv /tmp/users/ubuntu/* /home/ubuntu/"
+  
+  # Metasploits's Files
+  config.vm.provision "shell",inline: "chown -R metasploit:metasploit /tmp/users/metasploit && mv /tmp/users/metasploit/* /home/metasploit/"  
+  
+  # Root's Files
+  config.vm.provision "shell",inline: "mv /tmp/users/root/* /root/"
+  
   # Clean up
   config.vm.provision :shell, :inline => "rm -rf /tmp/*"
 end

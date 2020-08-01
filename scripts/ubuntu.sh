@@ -9,4 +9,4 @@ ln -s /opt/deepce /home/ubuntu/deepce
 # Launch bash so a .bashrc profile is generated
 sudo -u ubuntu /bin/bash -c whoami
 
-echo 'export MSFLOGO=~/.msf4/deepce.txt' >> /home/ubuntu/.bashrc
+echo 'export PATH=\"/opt/deepce:$PATH\"' >> /home/metasploit/.bashrc
