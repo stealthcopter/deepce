@@ -53,16 +53,16 @@ for filename in *.sh; do
 
   if [ $RESULT -eq 0 ]; then
     printPass
-    echo "| [$name]($name.html) | PASSED |" >>$index
+    echo "| [$name]($name.html) [🖹]($name.log) | ✅ PASSED |" >>$index
     passCount=$((passCount + 1))
   elif [ $RESULT -eq 1 ]; then
     printIgnore
-    echo "| [$name]($name.html) | IGNORED |" >>$index
+    echo "| $name | 🤷‍♂️ IGNORED |" >>$index
     ignoreCount=$((ignoreCount + 1))
   else
     printFail
     exitCode=1
-    echo "| [$name]($name.html) | FAILED |" >>$index
+    echo "| [$name]($name.html) [🖹]($name.log) | ❌ FAILED |" >>$index
     failCount=$((failCount + 1))
   fi
 
