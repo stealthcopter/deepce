@@ -7,8 +7,8 @@
 [1;90m         \______ X           __/
 [1;90m           \    \         __/
 [1;90m            \____\_______/[0m
-          __                        
-     ____/ /__  ___  ____  ________ 
+          __
+     ____/ /__  ___  ____  ________
     / __  / _ \/ _ \/ __ \/ ___/ _ \ [1;90m  ENUMERATE[0m
    / /_/ /  __/  __/ /_/ / (__/  __/ [1;90m ESCALATE[0m
    \__,_/\___/\___/ .___/\___/\___/[1;90m  ESCAPE[0m
@@ -16,7 +16,20 @@
 
  Docker Enumeration, Escalation of Privileges and Container Escapes (DEEPCE)
  by stealthcopter
-  
+
+[1;34m==========================================[1;32m( Colors )[1;34m==========================================[0m
+[1;33m[+][1;32m Exploit Test ............ [0m[48;5;1mExploitable - Check this out[0m
+[1;33m[+][1;32m Basic Test .............. [0m[1;33mPositive Result[0m
+[1;33m[+][1;32m Another Test ............ [0m[1;31mError running check[0m
+[1;33m[+][1;32m Negative Test ........... [0m[1;90mNo[0m
+[1;33m[+][1;32m Multi line test ......... [0m[1;33mYes[0m
+[1;90mCommand output
+spanning multiple lines[0m
+
+[1;90mTips will look like this and often contains links with additional info. You can usually 
+ctrl+click links in modern terminal to open in a browser window
+See [4mhttps://stealthcopter.github.io/deepce[0m[0m
+
 [1;34m==================================[1;32m( Exploiting Privileged )[1;34m===================================[0m
 [1;90mThe container appears to be running in privilege mode, we should be able to access the 
 raw disks and mount the hosts root partition in order to gain code execution.\nSee 

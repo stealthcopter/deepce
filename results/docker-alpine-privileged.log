@@ -7,8 +7,8 @@
 [1;90m         \______ X           __/
 [1;90m           \    \         __/
 [1;90m            \____\_______/[0m
-          __                        
-     ____/ /__  ___  ____  ________ 
+          __
+     ____/ /__  ___  ____  ________
     / __  / _ \/ _ \/ __ \/ ___/ _ \ [1;90m  ENUMERATE[0m
    / /_/ /  __/  __/ /_/ / (__/  __/ [1;90m ESCALATE[0m
    \__,_/\___/\___/ .___/\___/\___/[1;90m  ESCAPE[0m
@@ -16,7 +16,20 @@
 
  Docker Enumeration, Escalation of Privileges and Container Escapes (DEEPCE)
  by stealthcopter
-  
+
+[1;34m==========================================[1;32m( Colors )[1;34m==========================================[0m
+[1;33m[+][1;32m Exploit Test ............ [0m[48;5;1mExploitable - Check this out[0m
+[1;33m[+][1;32m Basic Test .............. [0m[1;33mPositive Result[0m
+[1;33m[+][1;32m Another Test ............ [0m[1;31mError running check[0m
+[1;33m[+][1;32m Negative Test ........... [0m[1;90mNo[0m
+[1;33m[+][1;32m Multi line test ......... [0m[1;33mYes[0m
+[1;90mCommand output
+spanning multiple lines[0m
+
+[1;90mTips will look like this and often contains links with additional info. You can usually 
+ctrl+click links in modern terminal to open in a browser window
+See [4mhttps://stealthcopter.github.io/deepce[0m[0m
+
 [1;34m===================================[1;32m( Enumerating Platform )[1;34m===================================[0m
 [1;33m[+][1;32m Inside Container ........ [0m[1;33mYes[0m
 [1;33m[+][1;32m Container Platform ...... [0m[1;33mdocker[0m
@@ -27,8 +40,8 @@
 [1;33m[+][1;32m Docker Sock ............. [0m[1;90mNot Found[0m
 [1;33m[+][1;32m Docker Exploits ......... [0m[1;31mVersion Unknown[0m
 [1;34m==================================[1;32m( Enumerating Container )[1;34m===================================[0m
-[1;33m[+][1;32m Container ID ............ [0m[1;33me0cfabd71346[0m
-[1;33m[+][1;32m Container Full ID ....... [0m[1;33me0cfabd71346e287907713973c36ccc6250228c531d0ce0a370cb5b9e2e26185[0m
+[1;33m[+][1;32m Container ID ............ [0m[1;33m5a5d2afb7c73[0m
+[1;33m[+][1;32m Container Full ID ....... [0m[1;33m5a5d2afb7c7396750250a7c3ca679ef19b57a53c93c5089e5e2345ad962ef7a5[0m
 [1;33m[+][1;32m Container Name .......... [0m[1;31mCould not get container name through reverse DNS[0m
 [1;33m[+][1;32m Container IP ............ [0m[1;33m172.17.0.2[0m
 [1;33m[+][1;32m DNS Server(s) ........... [0m[1;33m168.63.129.16 [0m
@@ -55,17 +68,15 @@ raw disks and mount the hosts root partition in order to gain code execution.\nS
 [1;33m[+][1;32m Other mounts .............. [0m[1;33mYes[0m
 [1;90m/home/runner/work/deepce/deepce/deepce.sh /root/deepce.sh rw,relatime - ext4 /dev/sda1 rw,discard[0m
 [1;33m[+][1;32m Possible host usernames ... [0m[1;33mrunner/work/deepce/deepce/deepce.sh /root/deepce.sh rw,relatime - ext4 /dev [0m
-
 [1;34m====================================[1;32m( Interesting Files )[1;34m=====================================[0m
 [1;33m[+][1;32m Interesting environment variables ... [0m[1;90mNo[0m
 [1;90mHOME=/root
-HOSTNAME=e0cfabd71346
+HOSTNAME=5a5d2afb7c73
 PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 PWD=/
 SHLVL=1[0m
-[1;33m[+][1;32m Any common entrypoint files ......... [0m
-[1;33m[+][1;32m Interesting files in root ........... [0m
-
+[1;33m[+][1;32m Any common entrypoint files ......... [0m[1;90mNo[0m
+[1;33m[+][1;32m Interesting files in root ........... [0m[1;90mNo[0m
 [1;33m[+][1;32m Passwords in common files ........... [0m[1;90mNo[0m
 [1;33m[+][1;32m Home directories .................... [0m[1;90mNo[0m
 [1;33m[+][1;32m Hashes in shadow file ............... [0m[1;90mNo permission[0m

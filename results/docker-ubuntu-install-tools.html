@@ -17,8 +17,8 @@
 <span style="font-weight:bold;">         \______ X           __/
            \    \         __/
             \____\_______/</span>
-          __                        
-     ____/ /__  ___  ____  ________ 
+          __
+     ____/ /__  ___  ____  ________
     / __  / _ \/ _ \/ __ \/ ___/ _ \ <span style="font-weight:bold;">  ENUMERATE</span>
    / /_/ /  __/  __/ /_/ / (__/  __/ <span style="font-weight:bold;"> ESCALATE</span>
    \__,_/\___/\___/ .___/\___/\___/<span style="font-weight:bold;">  ESCAPE</span>
@@ -26,7 +26,20 @@
 
  Docker Enumeration, Escalation of Privileges and Container Escapes (DEEPCE)
  by stealthcopter
-  
+
+<span style="color:#3333FF;font-weight:bold;">==========================================</span><span style="color:lime;font-weight:bold;">( Colors )</span><span style="color:#3333FF;font-weight:bold;">==========================================</span>
+<span style="color:yellow;font-weight:bold;">[+]</span><span style="color:lime;font-weight:bold;"> Exploit Test ............ </span><span style="background-color:black;font-weight:bold;text-decoration:blink;">Exploitable - Check this out</span>
+<span style="color:yellow;font-weight:bold;">[+]</span><span style="color:lime;font-weight:bold;"> Basic Test .............. </span><span style="color:yellow;font-weight:bold;">Positive Result</span>
+<span style="color:yellow;font-weight:bold;">[+]</span><span style="color:lime;font-weight:bold;"> Another Test ............ </span><span style="color:red;font-weight:bold;">Error running check</span>
+<span style="color:yellow;font-weight:bold;">[+]</span><span style="color:lime;font-weight:bold;"> Negative Test ........... </span><span style="font-weight:bold;">No</span>
+<span style="color:yellow;font-weight:bold;">[+]</span><span style="color:lime;font-weight:bold;"> Multi line test ......... </span><span style="color:yellow;font-weight:bold;">Yes</span>
+<span style="font-weight:bold;">Command output
+spanning multiple lines</span>
+
+<span style="font-weight:bold;">Tips will look like this and often contains links with additional info. You can usually 
+ctrl+click links in modern terminal to open in a browser window
+See </span><span style="text-decoration:underline;font-weight:bold;">https://stealthcopter.github.io/deepce</span>
+
 <span style="color:#3333FF;font-weight:bold;">===================================</span><span style="color:lime;font-weight:bold;">( Installing Packages )</span><span style="color:#3333FF;font-weight:bold;">====================================</span>
 <span style="color:yellow;font-weight:bold;">[+]</span><span style="color:lime;font-weight:bold;"> Installing Packages ..... </span><span style="color:yellow;font-weight:bold;">Success</span>
 <span style="color:#3333FF;font-weight:bold;">===================================</span><span style="color:lime;font-weight:bold;">( Enumerating Platform )</span><span style="color:#3333FF;font-weight:bold;">===================================</span>
@@ -39,8 +52,8 @@
 <span style="color:yellow;font-weight:bold;">[+]</span><span style="color:lime;font-weight:bold;"> Docker Sock ............. </span><span style="font-weight:bold;">Not Found</span>
 <span style="color:yellow;font-weight:bold;">[+]</span><span style="color:lime;font-weight:bold;"> Docker Exploits ......... </span><span style="color:red;font-weight:bold;">Version Unknown</span>
 <span style="color:#3333FF;font-weight:bold;">==================================</span><span style="color:lime;font-weight:bold;">( Enumerating Container )</span><span style="color:#3333FF;font-weight:bold;">===================================</span>
-<span style="color:yellow;font-weight:bold;">[+]</span><span style="color:lime;font-weight:bold;"> Container ID ............ </span><span style="color:yellow;font-weight:bold;">af4cf61db86f</span>
-<span style="color:yellow;font-weight:bold;">[+]</span><span style="color:lime;font-weight:bold;"> Container Full ID ....... </span><span style="color:yellow;font-weight:bold;">af4cf61db86fb9ee8219f6e48273725d9b508bf3cd3f030c8d6326f66b9b4a5a</span>
+<span style="color:yellow;font-weight:bold;">[+]</span><span style="color:lime;font-weight:bold;"> Container ID ............ </span><span style="color:yellow;font-weight:bold;">4109f2963025</span>
+<span style="color:yellow;font-weight:bold;">[+]</span><span style="color:lime;font-weight:bold;"> Container Full ID ....... </span><span style="color:yellow;font-weight:bold;">4109f2963025e9cf7d4a2071238637cdd1c3e1be685ca1ee1a53fff9d2d2b4fb</span>
 <span style="color:yellow;font-weight:bold;">[+]</span><span style="color:lime;font-weight:bold;"> Container Name .......... </span><span style="color:red;font-weight:bold;">Could not get container name through reverse DNS</span>
 <span style="color:yellow;font-weight:bold;">[+]</span><span style="color:lime;font-weight:bold;"> Container IP ............ </span><span style="color:yellow;font-weight:bold;">172.17.0.2 </span>
 <span style="color:yellow;font-weight:bold;">[+]</span><span style="color:lime;font-weight:bold;"> DNS Server(s) ........... </span><span style="color:yellow;font-weight:bold;">168.63.129.16 </span>
@@ -63,13 +76,11 @@
 <span style="color:yellow;font-weight:bold;">[+]</span><span style="color:lime;font-weight:bold;"> Other mounts .............. </span><span style="color:yellow;font-weight:bold;">Yes</span>
 <span style="font-weight:bold;">/home/runner/work/deepce/deepce/deepce.sh /root/deepce.sh rw,relatime - ext4 /dev/sda1 rw,discard</span>
 <span style="color:yellow;font-weight:bold;">[+]</span><span style="color:lime;font-weight:bold;"> Possible host usernames ... </span><span style="color:yellow;font-weight:bold;">runner/work/deepce/deepce/deepce.sh /root/deepce.sh rw,relatime - ext4 /dev </span>
-
 <span style="color:#3333FF;font-weight:bold;">====================================</span><span style="color:lime;font-weight:bold;">( Interesting Files )</span><span style="color:#3333FF;font-weight:bold;">=====================================</span>
 <span style="color:yellow;font-weight:bold;">[+]</span><span style="color:lime;font-weight:bold;"> Interesting environment variables ... </span><span style="font-weight:bold;">No</span>
 <span style="font-weight:bold;">Binary file (standard input) matches</span>
-<span style="color:yellow;font-weight:bold;">[+]</span><span style="color:lime;font-weight:bold;"> Any common entrypoint files ......... </span>
-<span style="color:yellow;font-weight:bold;">[+]</span><span style="color:lime;font-weight:bold;"> Interesting files in root ........... </span>
-
+<span style="color:yellow;font-weight:bold;">[+]</span><span style="color:lime;font-weight:bold;"> Any common entrypoint files ......... </span><span style="font-weight:bold;">No</span>
+<span style="color:yellow;font-weight:bold;">[+]</span><span style="color:lime;font-weight:bold;"> Interesting files in root ........... </span><span style="font-weight:bold;">No</span>
 <span style="color:yellow;font-weight:bold;">[+]</span><span style="color:lime;font-weight:bold;"> Passwords in common files ........... </span><span style="font-weight:bold;">No</span>
 <span style="color:yellow;font-weight:bold;">[+]</span><span style="color:lime;font-weight:bold;"> Home directories .................... </span><span style="font-weight:bold;">No</span>
 <span style="color:yellow;font-weight:bold;">[+]</span><span style="color:lime;font-weight:bold;"> Hashes in shadow file ............... </span><span style="font-weight:bold;">No permission</span>
@@ -81,17 +92,17 @@ host machine, this can be used to enumerate further</span>
 
 <span style="color:yellow;font-weight:bold;">[+]</span><span style="color:lime;font-weight:bold;"> Attempting ping sweep of 172.17.0.0/24 (nmap) </span>
 Host: 172.17.0.1 ()	Status: Up
-Host: 172.17.0.2 (af4cf61db86f)	Status: Up
+Host: 172.17.0.2 (4109f2963025)	Status: Up
 <span style="color:#3333FF;font-weight:bold;">======================================</span><span style="color:lime;font-weight:bold;">( Scanning Host )</span><span style="color:#3333FF;font-weight:bold;">=======================================</span>
-<span style="color:yellow;font-weight:bold;">[+]</span><span style="color:lime;font-weight:bold;"> Scanning host 172.17.0.1 (nmap) </span>Starting Nmap 7.80 ( https://nmap.org ) at 2020-07-31 09:30 UTC
+<span style="color:yellow;font-weight:bold;">[+]</span><span style="color:lime;font-weight:bold;"> Scanning host 172.17.0.1 (nmap) </span>Starting Nmap 7.80 ( https://nmap.org ) at 2020-08-01 13:32 UTC
 Nmap scan report for 172.17.0.1
-Host is up (0.0000060s latency).
+Host is up (0.0000070s latency).
 Not shown: 65534 closed ports
 PORT   STATE SERVICE
 22/tcp open  ssh
-MAC Address: 02:42:95:17:B6:43 (Unknown)
+MAC Address: 02:42:91:53:BD:92 (Unknown)
 
-Nmap done: 1 IP address (1 host up) scanned in 0.95 seconds
+Nmap done: 1 IP address (1 host up) scanned in 1.04 seconds
 <span style="color:#3333FF;font-weight:bold;">===============================================</span><span style="color:lime;font-weight:bold;"></span><span style="color:#3333FF;font-weight:bold;">===============================================</span>
 </pre>
 </body>
