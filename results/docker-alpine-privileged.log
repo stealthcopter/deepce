@@ -40,8 +40,8 @@ See [4mhttps://stealthcopter.github.io/deepce[0m[0m
 [1;33m[+][1;32m Docker Sock ............. [0m[1;90mNot Found[0m
 [1;33m[+][1;32m Docker Exploits ......... [0m[1;31mVersion Unknown[0m
 [1;34m==================================[1;32m( Enumerating Container )[1;34m===================================[0m
-[1;33m[+][1;32m Container ID ............ [0m[1;33m6552933e7447[0m
-[1;33m[+][1;32m Container Full ID ....... [0m[1;33m6552933e744766d590884ac9a90b719b2e5af283d61e3a4f386e1b39d8a4bb96[0m
+[1;33m[+][1;32m Container ID ............ [0m[1;33m5612702659b9[0m
+[1;33m[+][1;32m Container Full ID ....... [0m[1;33m5612702659b96cf0e0646d37e9e27245be78ce3e5c12fe62c2aa046dc35c8dc0[0m
 [1;33m[+][1;32m Container Name .......... [0m[1;31mCould not get container name through reverse DNS[0m
 [1;33m[+][1;32m Container IP ............ [0m[1;33m172.17.0.2[0m
 [1;33m[+][1;32m DNS Server(s) ........... [0m[1;33m168.63.129.16 [0m
@@ -71,7 +71,7 @@ raw disks and mount the hosts root partition in order to gain code execution.\nS
 [1;34m====================================[1;32m( Interesting Files )[1;34m=====================================[0m
 [1;33m[+][1;32m Interesting environment variables ... [0m[1;90mNo[0m
 [1;90mHOME=/root
-HOSTNAME=6552933e7447
+HOSTNAME=5612702659b9
 PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 PWD=/
 SHLVL=1[0m
