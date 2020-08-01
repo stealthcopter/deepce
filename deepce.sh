@@ -613,7 +613,7 @@ enumerateContainers() {
         docker ps -a
     elif [ "$dockerSockPath" ]; then
         # Enumerate containers using sock
-        TODO
+        TODO "Enumerate container using sock"
     else
         pingSweep
     fi
