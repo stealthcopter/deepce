@@ -40,8 +40,8 @@ See [4mhttps://stealthcopter.github.io/deepce[0m[0m
 [1;33m[+][1;32m Docker Sock ............. [0m[1;90mNot Found[0m
 [1;33m[+][1;32m Docker Exploits ......... [0m[1;31mVersion Unknown[0m
 [1;34m==================================[1;32m( Enumerating Container )[1;34m===================================[0m
-[1;33m[+][1;32m Container ID ............ [0m[1;33mf466017b1a6e[0m
-[1;33m[+][1;32m Container Full ID ....... [0m[1;33mf466017b1a6ed1cc28294c0cdf5980f1fae070a3ce1ccd9cae2064205dcf6c40[0m
+[1;33m[+][1;32m Container ID ............ [0m[1;33m0bdd3a21cce2[0m
+[1;33m[+][1;32m Container Full ID ....... [0m[1;33m0bdd3a21cce2eb6e328ef7f2f805962622123d02c09c46f3f8efb31f34391740[0m
 [1;33m[+][1;32m Container Name .......... [0m[1;31mCould not get container name through reverse DNS[0m
 [1;33m[+][1;32m Container IP ............ [0m[1;33m172.17.0.2[0m
 [1;33m[+][1;32m DNS Server(s) ........... [0m[1;33m168.63.129.16 [0m
@@ -49,7 +49,7 @@ See [4mhttps://stealthcopter.github.io/deepce[0m[0m
 [1;33m[+][1;32m Operating System ........ [0m[1;90mLinux[0m
 [1;33m[+][1;32m Kernel .................. [0m[1;90m5.3.0-1032-azure[0m
 [1;33m[+][1;32m Arch .................... [0m[1;90mx86_64[0m
-[1;33m[+][1;32m CPU ..................... [0m[1;90mIntel(R) Xeon(R) CPU E5-2673 v4 @ 2.30GHz[0m
+[1;33m[+][1;32m CPU ..................... [0m[1;90mIntel(R) Xeon(R) Platinum 8171M CPU @ 2.60GHz[0m
 [1;33m[+][1;32m Useful tools installed .. [0m[1;33mYes[0m
 [1;90m/usr/bin/wget
 /usr/bin/nc
@@ -67,7 +67,7 @@ See [4mhttps://stealthcopter.github.io/deepce[0m[0m
 [1;34m====================================[1;32m( Interesting Files )[1;34m=====================================[0m
 [1;33m[+][1;32m Interesting environment variables ... [0m[1;90mNo[0m
 [1;90mHOME=/root
-HOSTNAME=f466017b1a6e
+HOSTNAME=0bdd3a21cce2
 PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 PWD=/
 SHLVL=1[0m

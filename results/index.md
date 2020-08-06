@@ -7,6 +7,7 @@
 | [docker-alpine-payload-new-root-user](docker-alpine-payload-new-root-user.html) [🖹](docker-alpine-payload-new-root-user.log) | ✅ PASSED |
 | [docker-alpine-privileged](docker-alpine-privileged.html) [🖹](docker-alpine-privileged.log) | ✅ PASSED |
 | [docker-alpine-secrets](docker-alpine-secrets.html) [🖹](docker-alpine-secrets.log) | ✅ PASSED |
+| [docker-alpine-shadow](docker-alpine-shadow.html) [🖹](docker-alpine-shadow.log) | ✅ PASSED |
 | [docker-alpine](docker-alpine.html) [🖹](docker-alpine.log) | ✅ PASSED |
 | [docker-arch](docker-arch.html) [🖹](docker-arch.log) | ✅ PASSED |
 | [docker-busybox](docker-busybox.html) [🖹](docker-busybox.log) | ✅ PASSED |
@@ -19,6 +20,6 @@
 
 | Status | Frequency |
 |-------|-------|
-|Passed|12|
+|Passed|13|
 |Ignored|1|
 |Failed|0|

