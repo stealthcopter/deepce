@@ -108,11 +108,15 @@ GREP_SOCK_INFOS_IGNORE="IndexConfig"
 GREP_IGNORE_MOUNTS="/ /\|/cgroup\|/var/lib/docker/\|/null \| proc proc \|/dev/console\|docker.sock"
 
 TIP_NETWORK_ENUM="By default containers can communicate with other containers on the same network and the host machine, this can be used to enumerate further"
-TIP_WRITABLE_SOCK="The docker sock is writable, we should be able to enumerate docker, create containers and obtain root privs on the host machine\nSee ${UNDERLINED}https://stealthcopter.github.io/deepce/guides/docker-sock.md${NC}"
+TIP_WRITABLE_SOCK="The docker sock is writable, we should be able to enumerate docker, create containers and obtain root privs on the host machine
+See ${UNDERLINED}https://stealthcopter.github.io/deepce/guides/docker-sock.md${NC}"
 TIP_DNS_CONTAINER_NAME="Reverse DNS lookup of container name requires host, dig or nslookup to get the container name"
-TIP_DOCKER_GROUP="Users in the docker group can escalate to root on the host by mounting the host partition inside the container and chrooting into it.\ndeepce.sh -e DOCKER\nSee ${UNDERLINED}https://stealthcopter.github.io/deepce/guides/docker-group.md${NC}"
+TIP_DOCKER_GROUP="Users in the docker group can escalate to root on the host by mounting the host partition inside the container and chrooting into it.
+deepce.sh -e DOCKER
+See ${UNDERLINED}https://stealthcopter.github.io/deepce/guides/docker-group.md${NC}"
 TIP_DOCKER_CMD="If we have permission to create new docker containers we can mount the host's root partition and chroot into it and execute commands on the host OS."
-TIP_PRIVILEGED_MODE="The container appears to be running in privilege mode, we should be able to access the raw disks and mount the hosts root partition in order to gain code execution.\nSee ${UNDERLINED}https://stealthcopter.github.io/deepce/guides/docker-privileged.md${NC}"
+TIP_PRIVILEGED_MODE="The container appears to be running in privilege mode, we should be able to access the raw disks and mount the hosts root partition in order to gain code execution.
+See ${UNDERLINED}https://stealthcopter.github.io/deepce/guides/docker-privileged.md${NC}"
 
 TIP_CVE_2019_5021="Alpine linux version 3.3.x-3.5.x accidentally allow users to login as root with a blank password, if we have command execution in the container we can become root using su root"
 TIP_CVE_2019_13139="Docker versions before 18.09.4 are vulnerable to a command execution vulnerability when parsing URLs"
@@ -120,7 +124,7 @@ TIP_CVE_2019_5736="Docker versions before 18.09.2 are vulnerable to a container 
 
 DANGEROUS_GROUPS="docker\|lxd\|root\|sudo\|wheel"
 
-CONTAINER_CMDS="docker lxc rkt kubectl"
+CONTAINER_CMDS="docker lxc rkt kubectl podman"
 USEFUL_CMDS="curl wget gcc nc netcat ncat jq nslookup host hostname dig python python2 python3 nmap"
 
 ###########################################

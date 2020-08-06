@@ -36,7 +36,7 @@ DEEPCE can be downloaded onto a host or container using one of the following one
 
 ```bash
 wget https://github.com/stealthcopter/deepce/raw/master/deepce.sh
-curl -s https://github.com/stealthcopter/deepce/raw/master/deepce.sh -o deepce.sh
+curl -sL https://github.com/stealthcopter/deepce/raw/master/deepce.sh -o deepce.sh
 # Or using python requests
 python -c 'import requests;print(requests.get("https://github.com/stealthcopter/deepce/raw/master/deepce.sh").content)' > deepce.sh 
 python3 -c 'import requests;print(requests.get("https://github.com/stealthcopter/deepce/raw/master/deepce.sh").content.decode("utf-8"))' > deepce.sh  
@@ -109,7 +109,7 @@ It is possible to download and run deepce without touching the disk, however you
 
 ```bash
 wget -O - https://github.com/stealthcopter/deepce/raw/master/deepce.sh | sh
-curl -s https://github.com/stealthcopter/deepce/raw/master/deepce.sh | sh
+curl -sL https://github.com/stealthcopter/deepce/raw/master/deepce.sh | sh
 ```
 
 # Inspiration
