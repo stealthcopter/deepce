@@ -561,7 +561,7 @@ containerServices() {
   # shellcheck disable=SC2181
   if [ $? -eq 0 ]; then
     if [ -f "/etc/ssh/sshd_config" ]; then
-      sshPort=$(grep /etc/ssh/sshd_config  "^Port" || echo "Port 22" | cut -d' ' -f2)
+      sshPort=$(grep "^Port" /etc/ssh/sshd_config || echo "Port 22" | cut -d' ' -f2)
       printSuccess "Yes (port $sshPort)"
     else
       printSuccess "Yes"
