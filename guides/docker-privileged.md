@@ -1,7 +1,7 @@
 # Privileged Docker Container
 
 ## Issue
-Any docker container running as privileged has sufficient privledges to execute commands as root on the host operating system via:
+Any docker container running as privileged has sufficient privileges to execute commands as root on the host operating system via:
 
 1. Mounting the host root partition
 2. Directly executing processes outside of the container namespace

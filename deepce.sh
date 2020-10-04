@@ -57,14 +57,14 @@ Usage: ${0##*/} [OPTIONS...]
 
   --install              Install useful packages before running script, this will maximise enumeration and exploitation potential
 
-  -doc, --delete-on-complete Script will delete itself on completion
+  -doc, --delete         Script will delete itself on completion
 
   ${DG}[Exploits]$NC
   -e, --exploit          Use one of the following exploits (eg. -e SOCK)
 
-    DOCKER         use docker command to create new contains and mount root partition to priv esc
-    PRIVILEGED     exploit a container with privileged mode to run commands on the host
-    SOCK           use an exposed docker sock to create a new container and mount root partition to priv esc
+    DOCKER               use docker command to create new contains and mount root partition to priv esc
+    PRIVILEGED           exploit a container with privileged mode to run commands on the host
+    SOCK                 use an exposed docker sock to create a new container and mount root partition to priv esc
     CVE-2019-5746
     CVE-2019-5021
 

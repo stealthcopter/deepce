@@ -31,6 +31,6 @@ do
     echo "Running deepce on lxc container: $container"
     lxc exec "$container" -- mkdir -p /deepce
     lxc file push "$SCRIPTPATH/deepce.sh" "$container/deepce/"
-    lxc exec "$container" "/deepce/deepce.sh" | tee "lxc-$container.log"
+    lxc exec "$container" "/deepce/deepce.sh" --delete | tee "lxc-$container.log"
     lxc exec "$container" -- rm -rf /deepce
 done

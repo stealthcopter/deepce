@@ -31,6 +31,6 @@ do
     echo "Running deepce on docker container: $container"
     docker exec "$container" mkdir -p /deepce
     docker cp "$SCRIPTPATH/deepce.sh" "$container:/deepce/"
-    docker exec "$container" /deepce/deepce.sh | tee "docker-$container.log"
+    docker exec "$container" /deepce/deepce.sh --delete | tee "docker-$container.log"
     docker exec "$container" rm -rf /deepce
 done
