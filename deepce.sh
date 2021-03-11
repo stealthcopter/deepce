@@ -136,7 +136,7 @@ USEFUL_CMDS="curl wget gcc nc netcat ncat jq nslookup host hostname dig python p
 # Convert version numbers into a regular number so we can do simple comparisons (use floats because sh can interpret 0 prefix numbers incorrectly otherwise).
 # shellcheck disable=SC2046
 # shellcheck disable=SC2183 # word splitting here is on purpose
-ver() { printf "%03.0f%03.0f%03.0f" $(echo "$1" | tr '.' ' '); }
+ver() { printf "%03.0f%03.0f%03.0f" $(echo "$1" | tr '.' ' ' | cut -d '-' -f1); }
 
 ###########################################
 #--------------) Printing (---------------#
