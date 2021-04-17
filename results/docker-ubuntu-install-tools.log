@@ -40,10 +40,10 @@ See [4mhttps://stealthcopter.github.io/deepce[0m[0m
 [1;33m[+][1;32m Groups .................. [0m[1;90m[1;37m[48;5;1mroot[0m[1;90m[0m
 [1;33m[+][1;32m Docker Executable ....... [0m[1;90mNot Found[0m
 [1;33m[+][1;32m Docker Sock ............. [0m[1;90mNot Found[0m
-[1;33m[+][1;32m Docker Exploits ......... [0m[1;31mVersion Unknown[0m
+[1;33m[+][1;32m Docker Version .......... [0m[1;31mVersion Unknown[0m
 [1;34m==================================[1;32m( Enumerating Container )[1;34m===================================[0m
-[1;33m[+][1;32m Container ID ............ [0m[1;33m8cb0084f620b[0m
-[1;33m[+][1;32m Container Full ID ....... [0m[1;33m8cb0084f620b3d9b9bf4c65267a4c6fb312c00b0d1c82526c06170674bc8df5f[0m
+[1;33m[+][1;32m Container ID ............ [0m[1;33m8f934147f688[0m
+[1;33m[+][1;32m Container Full ID ....... [0m[1;33m8f934147f688a1b30502832ed91f99c430b321610783506383a4f03b0241b095[0m
 [1;33m[+][1;32m Container Name .......... [0m[1;31mCould not get container name through reverse DNS[0m
 [1;33m[+][1;32m Container IP ............ [0m[1;33m172.17.0.2 [0m
 [1;33m[+][1;32m DNS Server(s) ........... [0m[1;33m168.63.129.16 [0m
@@ -80,16 +80,16 @@ host machine, this can be used to enumerate further[0m
 
 [1;33m[+][1;32m Attempting ping sweep of 172.17.0.0/24 (nmap) [0m
 Host: 172.17.0.1 ()	Status: Up
-Host: 172.17.0.2 (8cb0084f620b)	Status: Up
+Host: 172.17.0.2 (8f934147f688)	Status: Up
 [1;34m======================================[1;32m( Scanning Host )[1;34m=======================================[0m
-[1;33m[+][1;32m Scanning host 172.17.0.1 (nmap) [0mStarting Nmap 7.80 ( https://nmap.org ) at 2021-04-02 12:23 UTC
+[1;33m[+][1;32m Scanning host 172.17.0.1 (nmap) [0mStarting Nmap 7.80 ( https://nmap.org ) at 2021-04-17 16:41 UTC
 Nmap scan report for 172.17.0.1
-Host is up (0.0000050s latency).
+Host is up (0.0000070s latency).
 Not shown: 65533 closed ports
 PORT     STATE SERVICE
 22/tcp   open  ssh
 8084/tcp open  unknown
-MAC Address: 02:42:AE:66:F1:7F (Unknown)
+MAC Address: 02:42:EB:52:0B:1C (Unknown)
 
-Nmap done: 1 IP address (1 host up) scanned in 1.01 seconds
+Nmap done: 1 IP address (1 host up) scanned in 1.05 seconds
 [1;34m===============================================[1;32m[1;34m===============================================[0m
