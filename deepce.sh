@@ -119,6 +119,7 @@ See ${UNDERLINED}https://stealthcopter.github.io/deepce/guides/docker-group.md${
 TIP_DOCKER_CMD="If we have permission to create new docker containers we can mount the host's root partition and chroot into it and execute commands on the host OS."
 TIP_PRIVILEGED_MODE="The container appears to be running in privilege mode, we should be able to access the raw disks and mount the hosts root partition in order to gain code execution.
 See ${UNDERLINED}https://stealthcopter.github.io/deepce/guides/docker-privileged.md${NC}"
+TIP_DOCKER_ROOTLESS="In rootless mode privilege escalation to root will not be possible."
 
 TIP_CVE_2019_5021="Alpine linux version 3.3.x-3.5.x accidentally allow users to login as root with a blank password, if we have command execution in the container we can become root using su root"
 TIP_CVE_2019_13139="Docker versions before 18.09.4 are vulnerable to a command execution vulnerability when parsing URLs"
@@ -389,39 +390,37 @@ dockerSockCheck() {
   if [ "$dockerSockPath" ]; then
 
     printInfo "$(ls -lah $dockerSockPath)"
-    nl
 
     # Is docker sock writable
     printQuestion "Sock is writable ........"
     if test -r "$dockerSockPath"; then
       printYesEx
       printTip "$TIP_WRITABLE_SOCK"
+      if [ -x "$(command -v curl)" ]; then
+        sockInfoCmd="curl -s --unix-socket $dockerSockPath http://localhost/info"
+        sockInfoRepsonse="$($sockInfoCmd)"
+
+        printTip "To see full info from the docker sock output run the following"
+        printStatus "$sockInfoCmd"
+        nl
+
+        # Docker version unknown lets get it from the sock
+        if [ -z "$dockerVersion" ]; then
+          # IF jq...
+          #dockerVersion=`$sockInfoCmd | jq -r '.ServerVersion'`
+          dockerVersion=$(echo "$sockInfoRepsonse" | tr ',' '\n' | grep 'ServerVersion' | cut -d'"' -f 4)
+        fi
+
+        # Get info from sock
+        info=$(echo "$sockInfoRepsonse" | tr ',' '\n' | grep "$GREP_SOCK_INFOS" | grep -v "$GREP_SOCK_INFOS_IGNORE" | tr -d '"')
+
+        printInfo "$info"
+      else
+        printError "Could not interact with the docker sock, as curl is not installed"
+        printInstallAdvice "curl"
+      fi
     else
       printNo
-    fi
-
-    if [ -x "$(command -v curl)" ]; then
-      sockInfoCmd="curl -s --unix-socket $dockerSockPath http://localhost/info"
-      sockInfoRepsonse="$($sockInfoCmd)"
-
-      printTip "To see full info from the docker sock output run the following"
-      printStatus "$sockInfoCmd"
-      nl
-
-      # Docker version unknown lets get it from the sock
-      if [ -z "$dockerVersion" ]; then
-        # IF jq...
-        #dockerVersion=`$sockInfoCmd | jq -r '.ServerVersion'`
-        dockerVersion=$(echo "$sockInfoRepsonse" | tr ',' '\n' | grep 'ServerVersion' | cut -d'"' -f 4)
-      fi
-
-      # Get info from sock
-      info=$(echo "$sockInfoRepsonse" | tr ',' '\n' | grep "$GREP_SOCK_INFOS" | grep -v "$GREP_SOCK_INFOS_IGNORE" | tr -d '"')
-
-      printInfo "$info"
-    else
-      printError "Could not interact with the docker sock, as curl is not installed"
-      printInstallAdvice "curl"
     fi
   fi
 }
@@ -809,14 +808,27 @@ findInterestingFiles() {
 
 }
 
+checkDockerRootless() {
+  printQuestion "Rootless ................"
+  if docker info 2>/dev/null|grep -q rootless; then
+    printYes
+    printTip "$TIP_DOCKER_ROOTLESS"
+  else
+    printNo
+  fi
+}
+
 getDockerVersion() {
   printQuestion "Docker Executable ......."
   if [ "$(command -v docker)" ]; then
     dockerCommand="$(command -v docker)"
     dockerVersion="$(docker -v | cut -d',' -f1 | cut -d' ' -f3)"
+
     printSuccess "$dockerCommand"
     printQuestion "Docker version .........."
     printSuccess "$dockerVersion"
+
+    checkDockerRootless
 
     printQuestion "User in Docker group ...."
     if groups | grep -q '\bdocker\b'; then
@@ -832,7 +844,7 @@ getDockerVersion() {
 
 checkDockerVersionExploits() {
   # Check version for known exploits
-  printResult "Docker Exploits ........." "$dockerVersion" "Version Unknown"
+  printResult "Docker Version .........." "$dockerVersion" "Version Unknown"
   if ! [ "$dockerVersion" ]; then
     return
   fi
@@ -949,6 +961,8 @@ exploitDocker() {
     printError "Docker command not found, but required for this exploit"
     exit
   fi
+
+  checkDockerRootless
 
   prepareExploit
   printQuestion "Exploiting"
