@@ -32,7 +32,7 @@ Please see below for a list of the enumerations, exploits and payloads DEEPCE ca
 
 # Downloading
 
-DEEPCE can be downloaded onto a host or container using one of the following one-liners. Tip: download to `/dev/shm` to avoid touching the disk when downloading.
+DEEPCE can be downloaded onto a host or container using one of the following one-liners. Tip: download to `/dev/shm` to avoid touching the disk.
 
 ```bash
 wget https://github.com/stealthcopter/deepce/raw/master/deepce.sh
