@@ -35,15 +35,15 @@ Please see below for a list of the enumerations, exploits and payloads DEEPCE ca
 DEEPCE can be downloaded onto a host or container using one of the following one-liners. Tip: download to `/dev/shm` to avoid touching the disk.
 
 ```bash
-wget https://github.com/stealthcopter/deepce/raw/master/deepce.sh
-curl -sL https://github.com/stealthcopter/deepce/raw/master/deepce.sh -o deepce.sh
+wget https://github.com/stealthcopter/deepce/raw/main/deepce.sh
+curl -sL https://github.com/stealthcopter/deepce/raw/main/deepce.sh -o deepce.sh
 # Or using python requests
-python -c 'import requests;print(requests.get("https://github.com/stealthcopter/deepce/raw/master/deepce.sh").content)' > deepce.sh 
-python3 -c 'import requests;print(requests.get("https://github.com/stealthcopter/deepce/raw/master/deepce.sh").content.decode("utf-8"))' > deepce.sh  
+python -c 'import requests;print(requests.get("https://github.com/stealthcopter/deepce/raw/main/deepce.sh").content)' > deepce.sh 
+python3 -c 'import requests;print(requests.get("https://github.com/stealthcopter/deepce/raw/main/deepce.sh").content.decode("utf-8"))' > deepce.sh  
 ```
 
 # Screenshots
-For more please view the [docs folder](https://github.com/stealthcopter/deepce/tree/master/docs)
+For more please view the [docs folder](https://github.com/stealthcopter/deepce/tree/main/docs)
 ![screenshot1](docs/images/ubuntu-install-tools.png "Screenshot 1")
 
 ## Enumerations
@@ -108,8 +108,8 @@ The following examples show the different kinds of exploits that can be performe
 It is possible to download and run deepce without touching the disk, however you will be unable to easily set arguments (direct manipulation of variables is possible using export).
 
 ```bash
-wget -O - https://github.com/stealthcopter/deepce/raw/master/deepce.sh | sh
-curl -sL https://github.com/stealthcopter/deepce/raw/master/deepce.sh | sh
+wget -O - https://github.com/stealthcopter/deepce/raw/main/deepce.sh | sh
+curl -sL https://github.com/stealthcopter/deepce/raw/main/deepce.sh | sh
 ```
 
 # Inspiration
@@ -124,7 +124,7 @@ There are some great container enumeration/escape scripts and enumeration tools 
 # Resources
 
 Developers looking for Docker security tips
-https://github.com/OWASP/CheatSheetSeries/blob/master/cheatsheets/Docker_Security_Cheat_Sheet.md
+https://github.com/OWASP/CheatSheetSeries/blob/main/cheatsheets/Docker_Security_Cheat_Sheet.md
 
 
 # Contributing
