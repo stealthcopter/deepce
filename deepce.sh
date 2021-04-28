@@ -126,6 +126,7 @@ TIP_CVE_2019_13139="Docker versions before 18.09.4 are vulnerable to a command e
 TIP_CVE_2019_5736="Docker versions before 18.09.2 are vulnerable to a container escape by overwriting the runC binary"
 
 DANGEROUS_GROUPS="docker\|lxd\|root\|sudo\|wheel"
+DANGEROUS_CAPABILITIES="cap_sys_admin\|cap_sys_ptrace\|cap_sys_module\|dac_read_search\|dac_override"
 
 CONTAINER_CMDS="docker lxc rkt kubectl podman"
 USEFUL_CMDS="curl wget gcc nc netcat ncat jq nslookup host hostname dig python python2 python3 nmap"
@@ -273,7 +274,7 @@ installPackages() {
         return
     fi
 
-    if apt install --no-install-recommends --force-yes -y dnsutils curl nmap iputils-ping >/dev/null 2>&1; then
+    if apt install --no-install-recommends --force-yes -y dnsutils curl nmap iputils-ping libcap2-bin >/dev/null 2>&1; then
         printSuccess "Success"
     else
         printError "Failed"
@@ -281,13 +282,13 @@ installPackages() {
 
   elif [ -x "$(command -v apk)" ]; then
     # Alpine
-    apk add bind-tools curl nmap
+    apk add bind-tools curl nmap libcap
   elif [ -x "$(command -v yum)" ]; then
     # CentOS / Fedora
-    yum install bind-utils curl nmap
+    yum install bind-utils curl nmap libcap
   elif [ -x "$(command -v apt-get)" ]; then
     # Old Debian
-    apt-get install -y dnsutils curl nmap
+    apt-get install -y dnsutils curl nmap inetutils-ping libcap2-bin
   fi
 }
 
@@ -431,6 +432,7 @@ enumerateContainer() {
   containerName
   containerIPs
   getContainerInformation
+  containerCapabilities
   containerServices
   containerPrivileges
   containerExploits
@@ -545,6 +547,21 @@ getContainerInformation() {
   printResultLong "Useful tools installed .." "$(echo $tools | tr ' ' '\n')"
 }
 
+containerCapabilities() {
+  printQuestion "Dangerous Capabilities .."
+  if [ -x "$(command -v capsh)" ]; then
+    if capsh --print| grep -q "$DANGEROUS_CAPABILITIES"; then
+        caps=$(capsh --print |grep 'cap_' | sed "s/\($DANGEROUS_CAPABILITIES\)/${LG}${EX}&${NC}${DG}/g")
+        printYes
+        printStatus "$caps"
+    else
+        printNo
+    fi
+  else
+    printError "Unknown (capsh not installed)"
+  fi
+}
+
 containerServices() {
   # SSHD
 
@@ -571,7 +588,6 @@ containerServices() {
 }
 
 containerPrivileges() {
-
   printQuestion "Privileged Mode ........."
   if [ -x "$(command -v fdisk)" ]; then
     if [ "$(fdisk -l 2>/dev/null | wc -l)" -gt 0 ]; then
@@ -583,7 +599,6 @@ containerPrivileges() {
   else
     printError "Unknown"
   fi
-
 }
 
 containerExploits() {
@@ -755,7 +770,7 @@ findInterestingFiles() {
   printStatus "$boringVars"
 
   # Any common entrypoint files etc?
-  entrypoint=$(ls -lah /entrypoint.sh /deploy 2>/dev/null)
+  entrypoint=$(ls -lah /*.sh /*entrypoint* /**/entrypoint* /**/*.sh /deploy* 2>/dev/null)
   printResultLong "Any common entrypoint files ........." "$entrypoint"
 
   # Any files in root dir
@@ -790,7 +805,7 @@ findInterestingFiles() {
     printStatus "$hashes"
   elif test -r /etc/shadow; then
     # Cannot check...
-    printFail "No permission"
+    printFail "No permissions"
   else
     printNo
   fi
