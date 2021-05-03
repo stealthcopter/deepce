@@ -1205,7 +1205,8 @@ EOF
   if insmod "$module_name.ko" 1>/dev/null ; then
     printSuccess "Done"
   else
-    printError "Failed to mount module" && exit 1
+    printError "Failed to mount module"
+    && exit 1
   fi
 
   printQuestion "Cleaning up..."
