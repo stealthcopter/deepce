@@ -1206,7 +1206,7 @@ EOF
     printSuccess "Done"
   else
     printError "Failed to mount module"
-    && exit 1
+    exit 1
   fi
 
   printQuestion "Cleaning up..."
