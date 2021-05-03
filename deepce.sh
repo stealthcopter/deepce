@@ -1158,7 +1158,7 @@ exploitSysModule(){
   module_name=$(tr -dc A-Za-z </dev/urandom | head -c 13)
   sys_cwd=$(pwd)
 
-  mkdir /dev/shm/rev && cd /dev/shm/rev
+  mkdir /dev/shm/rev && cd /dev/shm/rev || exit 1
 
   printQuestion "Writing scripts..."
 
