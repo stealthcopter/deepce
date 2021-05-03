@@ -1196,7 +1196,8 @@ EOF
   if make 1>/dev/null ; then
     printSuccess "Done"
   else
-    printError "Failed to make. Do you have all the required libraries installed?" && exit 1
+    printError "Failed to make. Do you have all the required libraries installed?"
+    exit 1
   fi
 
   printQuestion "Mounting kernel module..."
