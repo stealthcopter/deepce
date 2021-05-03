@@ -16,7 +16,7 @@ Test docker is available to the current user
 docker --version
 ```
 
-Create a run your first container
+Create and run your first container
 ```bash
 docker run hello-world
 ```
@@ -47,7 +47,7 @@ chmod +x ./deepce.sh
 
 
 ## LXC
-LXC is only available on Linux and it can be installed via a package manager as follows: 
+LXC is only available on Linux, and it can be installed via a package manager as follows: 
 
 ```bash
 sudo apt-get install lxc

