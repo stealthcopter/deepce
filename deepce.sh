@@ -1163,7 +1163,7 @@ exploitSysModule(){
   printQuestion "Writing scripts..."
 
   # POC modified from https://blog.pentesteracademy.com/abusing-sys-module-capability-to-perform-docker-container-breakout-cf5c29956edd
-cat << EOF > $module_name.c
+cat << EOF > "$module_name.c"
 #include <linux/kmod.h>
 #include <linux/module.h>
 MODULE_LICENSE("GPL");
@@ -1207,7 +1207,7 @@ EOF
 
   rm -r /dev/shm/rev
 
-  cd $sys_cwd
+  cd "$sys_cwd"
 
   printSuccess "Done"
 
