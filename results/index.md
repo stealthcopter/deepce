@@ -12,6 +12,7 @@
 | [docker-arch](docker-arch.html) [🖹](docker-arch.log) | ✅ PASSED |
 | [docker-busybox](docker-busybox.html) [🖹](docker-busybox.log) | ✅ PASSED |
 | [docker-fedora](docker-fedora.html) [🖹](docker-fedora.log) | ✅ PASSED |
+| [docker-ubuntu-exploit-sys-module](docker-ubuntu-exploit-sys-module.html) [🖹](docker-ubuntu-exploit-sys-module.log) | ✅ PASSED |
 | [docker-ubuntu-install-tools](docker-ubuntu-install-tools.html) [🖹](docker-ubuntu-install-tools.log) | ✅ PASSED |
 | [docker-ubuntu-sock](docker-ubuntu-sock.html) [🖹](docker-ubuntu-sock.log) | ✅ PASSED |
 | [docker-ubuntu](docker-ubuntu.html) [🖹](docker-ubuntu.log) | ✅ PASSED |
@@ -20,6 +21,6 @@
 
 | Status | Frequency |
 |-------|-------|
-|Passed|13|
+|Passed|14|
 |Ignored|1|
 |Failed|0|
