@@ -774,6 +774,7 @@ findInterestingFiles() {
   printStatus "$boringVars"
 
   # Any common entrypoint files etc?
+  # shellcheck disable=SC2010
   entrypoint=$(ls -lah /*.sh /*entrypoint* /**/entrypoint* /**/*.sh /deploy* 2>/dev/null | grep -v "deepce.sh")
   printResultLong "Any common entrypoint files ........." "$entrypoint"
 
