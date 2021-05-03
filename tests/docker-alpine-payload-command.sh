@@ -22,7 +22,7 @@ result=$(docker run --rm --name "$name" \
           /root/deepce.sh -nn \
           --install \
           -e SOCK \
-          --command "touch /tmp/$name.hacked" \
+          --command "touch /tmp/$name.hacked && ls -lah /tmp" \
           )
 
 # Save the output
@@ -34,7 +34,7 @@ if echo "$result" | grep -q "command not found"; then
   exit 2
 fi
 
-# Check if a new root user was added
+# Check if a the file was created on the host
 if test -f "/tmp/$name.hacked"; then
   echo "Custom command ran successfully"
 else
