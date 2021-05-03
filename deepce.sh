@@ -1211,7 +1211,7 @@ EOF
 
   rm -r /dev/shm/rev
 
-  cd "$sys_cwd"
+  cd "$sys_cwd" || exit
 
   printSuccess "Done"
 
