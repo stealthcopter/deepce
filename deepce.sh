@@ -1133,7 +1133,7 @@ exploitSysModule() {
   if [ "$install" ]; then
     # If install option is provided install the following
     # TODO: Make this os independent
-    apt install make gcc kmod
+    apt install -y make gcc kmod
   fi
 
   if ! [ -x "$(command -v make)" ]; then
