@@ -347,7 +347,7 @@ containerCheck() {
   # Are we inside kubenetes?
   if grep "/kubepod" /proc/1/cgroup -qa; then
     inContainer="1"
-    containerType="kubentes"
+    containerType="kubernetes"
   fi
 
   # Are we inside LXC?
