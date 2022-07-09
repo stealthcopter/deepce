@@ -76,7 +76,6 @@ For each of the exploits above payloads can be defined in order to exploit the h
 - Print /etc/shadow
 - Add new root user
 - Run custom commands
-- Run custom payload binaries
 
 # Examples
 ```bash
