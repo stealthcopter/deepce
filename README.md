@@ -124,7 +124,7 @@ There are some great container enumeration/escape scripts and enumeration tools 
 # Resources
 
 Developers looking for Docker security tips
-https://github.com/OWASP/CheatSheetSeries/blob/main/cheatsheets/Docker_Security_Cheat_Sheet.md
+https://github.com/OWASP/CheatSheetSeries/blob/master/cheatsheets/Docker_Security_Cheat_Sheet.md
 
 
 # Contributing
