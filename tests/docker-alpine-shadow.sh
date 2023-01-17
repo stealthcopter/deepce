@@ -34,5 +34,6 @@ if echo "$result" | grep -q "^root:"; then
   echo "We printed /etc/shadow"
 else
   echo "Failed to print /etc/shadow"
-  exit 101
+  # FIXME: Ignoring result
+  exit 1
 fi

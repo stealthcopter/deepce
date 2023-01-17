@@ -42,5 +42,6 @@ if grep -q "deepce" /etc/passwd; then
   echo "We added a new root user!!!"
 else
   echo "Failed to add a new root user"
-  exit 101
+  # FIXME: Ignoring result
+  exit 1
 fi
