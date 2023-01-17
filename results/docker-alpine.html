@@ -3,7 +3,7 @@
 <!-- This file was created with the aha Ansi HTML Adapter. https://github.com/theZiz/aha -->
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<meta http-equiv="Content-Type" content="application/xml+xhtml; charset=UTF-8" />
+<meta http-equiv="Content-Type" content="application/xml+xhtml; charset=UTF-8"/>
 <title>results/docker-alpine.log</title>
 </head>
 <body style="color:white; background-color:black">
@@ -50,40 +50,50 @@ See </span><span style="text-decoration:underline;font-weight:bold;filter: contr
 <span style="font-weight:bold;color:yellow;">[+]</span><span style="font-weight:bold;color:lime;"> Docker Sock ............. </span><span style="font-weight:bold;filter: contrast(70%) brightness(190%);color:dimgray;">Not Found</span>
 <span style="font-weight:bold;color:yellow;">[+]</span><span style="font-weight:bold;color:lime;"> Docker Version .......... </span><span style="font-weight:bold;color:red;">Version Unknown</span>
 <span style="font-weight:bold;color:#3333FF;">==================================</span><span style="font-weight:bold;color:lime;">( Enumerating Container )</span><span style="font-weight:bold;color:#3333FF;">===================================</span>
-<span style="font-weight:bold;color:yellow;">[+]</span><span style="font-weight:bold;color:lime;"> Container ID ............ </span><span style="font-weight:bold;color:yellow;">39e6bf20c6d1</span>
-<span style="font-weight:bold;color:yellow;">[+]</span><span style="font-weight:bold;color:lime;"> Container Full ID ....... </span><span style="font-weight:bold;color:yellow;">39e6bf20c6d1e100eeb820374dae877f1880eba194a5ba900af5deb81d2d6670</span>
+<span style="font-weight:bold;color:yellow;">[+]</span><span style="font-weight:bold;color:lime;"> Container ID ............ </span><span style="font-weight:bold;color:yellow;">b5a5d6cc5199</span>
+<span style="font-weight:bold;color:yellow;">[+]</span><span style="font-weight:bold;color:lime;"> Container Full ID ....... </span><span style="font-weight:bold;color:yellow;">/</span>
 <span style="font-weight:bold;color:yellow;">[+]</span><span style="font-weight:bold;color:lime;"> Container Name .......... </span><span style="font-weight:bold;color:red;">Could not get container name through reverse DNS</span>
 <span style="font-weight:bold;color:yellow;">[+]</span><span style="font-weight:bold;color:lime;"> Container IP ............ </span><span style="font-weight:bold;color:yellow;">172.17.0.2</span>
 <span style="font-weight:bold;color:yellow;">[+]</span><span style="font-weight:bold;color:lime;"> DNS Server(s) ........... </span><span style="font-weight:bold;color:yellow;">168.63.129.16 </span>
 <span style="font-weight:bold;color:yellow;">[+]</span><span style="font-weight:bold;color:lime;"> Host IP ................. </span><span style="font-weight:bold;color:yellow;">172.17.0.1</span>
 <span style="font-weight:bold;color:yellow;">[+]</span><span style="font-weight:bold;color:lime;"> Operating System ........ </span><span style="font-weight:bold;filter: contrast(70%) brightness(190%);color:dimgray;">Linux</span>
-<span style="font-weight:bold;color:yellow;">[+]</span><span style="font-weight:bold;color:lime;"> Kernel .................. </span><span style="font-weight:bold;filter: contrast(70%) brightness(190%);color:dimgray;">5.11.0-1021-azure</span>
+<span style="font-weight:bold;color:yellow;">[+]</span><span style="font-weight:bold;color:lime;"> Kernel .................. </span><span style="font-weight:bold;filter: contrast(70%) brightness(190%);color:dimgray;">5.15.0-1030-azure</span>
 <span style="font-weight:bold;color:yellow;">[+]</span><span style="font-weight:bold;color:lime;"> Arch .................... </span><span style="font-weight:bold;filter: contrast(70%) brightness(190%);color:dimgray;">x86_64</span>
-<span style="font-weight:bold;color:yellow;">[+]</span><span style="font-weight:bold;color:lime;"> CPU ..................... </span><span style="font-weight:bold;filter: contrast(70%) brightness(190%);color:dimgray;">Intel(R) Xeon(R) Platinum 8272CL CPU @ 2.60GHz</span>
+<span style="font-weight:bold;color:yellow;">[+]</span><span style="font-weight:bold;color:lime;"> CPU ..................... </span><span style="font-weight:bold;filter: contrast(70%) brightness(190%);color:dimgray;">Intel(R) Xeon(R) Platinum 8171M CPU @ 2.60GHz</span>
 <span style="font-weight:bold;color:yellow;">[+]</span><span style="font-weight:bold;color:lime;"> Useful tools installed .. </span><span style="font-weight:bold;color:yellow;">Yes</span>
 <span style="font-weight:bold;filter: contrast(70%) brightness(190%);color:dimgray;">/usr/bin/wget
 /usr/bin/nc
 /usr/bin/nslookup
 /bin/hostname</span>
-<span style="font-weight:bold;color:yellow;">[+]</span><span style="font-weight:bold;color:lime;"> Dangerous Capabilities .. </span><span style="font-weight:bold;color:red;">Unknown (capsh not installed)</span>
+<span style="font-weight:bold;color:yellow;">[+]</span><span style="font-weight:bold;color:lime;"> Dangerous Capabilities .. </span><span style="font-weight:bold;color:red;">capsh not installed, listing raw capabilities</span>
+<span style="font-weight:bold;color:red;">libcap2-bin is required but not installed</span>
+<span style="font-weight:bold;color:red;">apk add libcap2-bin</span>
+
+<span style="font-weight:bold;filter: contrast(70%) brightness(190%);color:dimgray;">Current capabilities are:</span>
+<span style="font-weight:bold;filter: contrast(70%) brightness(190%);color:dimgray;">CapInh:	0000000000000000
+CapPrm:	00000000a80425fb
+CapEff:	00000000a80425fb
+CapBnd:	00000000a80425fb
+CapAmb:	0000000000000000</span>
+<span style="font-weight:bold;filter: contrast(70%) brightness(190%);color:dimgray;">&gt; This can be decoded with: &quot;capsh --decode=00000000a80425fb&quot;</span>
 <span style="font-weight:bold;color:yellow;">[+]</span><span style="font-weight:bold;color:lime;"> SSHD Service ............ </span><span style="font-weight:bold;filter: contrast(70%) brightness(190%);color:dimgray;">No</span>
 <span style="font-weight:bold;color:yellow;">[+]</span><span style="font-weight:bold;color:lime;"> Privileged Mode ......... </span><span style="font-weight:bold;filter: contrast(70%) brightness(190%);color:dimgray;">No</span>
-<span style="font-weight:bold;color:yellow;">[+]</span><span style="font-weight:bold;color:lime;"> Alpine Linux Version .... </span><span style="font-weight:bold;color:yellow;">3.14.3</span>
+<span style="font-weight:bold;color:yellow;">[+]</span><span style="font-weight:bold;color:lime;"> Alpine Linux Version .... </span><span style="font-weight:bold;color:yellow;">3.17.1</span>
 <span style="font-weight:bold;color:yellow;">[+]</span><span style="font-weight:bold;color:lime;"> └── CVE-2019-5021 ....... </span><span style="font-weight:bold;filter: contrast(70%) brightness(190%);color:dimgray;">No</span>
 <span style="font-weight:bold;color:#3333FF;">====================================</span><span style="font-weight:bold;color:lime;">( Enumerating Mounts )</span><span style="font-weight:bold;color:#3333FF;">====================================</span>
 <span style="font-weight:bold;color:yellow;">[+]</span><span style="font-weight:bold;color:lime;"> Docker sock mounted ....... </span><span style="font-weight:bold;filter: contrast(70%) brightness(190%);color:dimgray;">No</span>
 <span style="font-weight:bold;color:yellow;">[+]</span><span style="font-weight:bold;color:lime;"> Other mounts .............. </span><span style="font-weight:bold;color:yellow;">Yes</span>
-<span style="font-weight:bold;filter: contrast(70%) brightness(190%);color:dimgray;">/home/runner/work/deepce/deepce/deepce.sh /root/deepce.sh rw,relatime - ext4 /dev/root rw,discard</span>
+<span style="font-weight:bold;filter: contrast(70%) brightness(190%);color:dimgray;">/home/runner/work/deepce/deepce/deepce.sh /root/deepce.sh rw,relatime - ext4 /dev/root rw,discard,errors=remount-ro</span>
 <span style="font-weight:bold;color:yellow;">[+]</span><span style="font-weight:bold;color:lime;"> Possible host usernames ... </span><span style="font-weight:bold;color:yellow;">runner </span>
 <span style="font-weight:bold;color:#3333FF;">====================================</span><span style="font-weight:bold;color:lime;">( Interesting Files )</span><span style="font-weight:bold;color:#3333FF;">=====================================</span>
 <span style="font-weight:bold;color:yellow;">[+]</span><span style="font-weight:bold;color:lime;"> Interesting environment variables ... </span><span style="font-weight:bold;filter: contrast(70%) brightness(190%);color:dimgray;">No</span>
 <span style="font-weight:bold;filter: contrast(70%) brightness(190%);color:dimgray;">HOME=/root
-HOSTNAME=39e6bf20c6d1
+HOSTNAME=b5a5d6cc5199
 PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 PWD=/
 SHLVL=1</span>
 <span style="font-weight:bold;color:yellow;">[+]</span><span style="font-weight:bold;color:lime;"> Any common entrypoint files ......... </span><span style="font-weight:bold;color:yellow;">Yes</span>
-<span style="font-weight:bold;filter: contrast(70%) brightness(190%);color:dimgray;">-rwxr-xr-x    1 1001     121        37.3K Nov 18 18:06 /root/deepce.sh</span>
+<span style="font-weight:bold;filter: contrast(70%) brightness(190%);color:dimgray;">-rwxr-xr-x    1 1001     ntp        37.6K Jan 17 19:36 /root/deepce.sh</span>
 <span style="font-weight:bold;color:yellow;">[+]</span><span style="font-weight:bold;color:lime;"> Interesting files in root ........... </span><span style="font-weight:bold;filter: contrast(70%) brightness(190%);color:dimgray;">No</span>
 <span style="font-weight:bold;color:yellow;">[+]</span><span style="font-weight:bold;color:lime;"> Passwords in common files ........... </span><span style="font-weight:bold;filter: contrast(70%) brightness(190%);color:dimgray;">No</span>
 <span style="font-weight:bold;color:yellow;">[+]</span><span style="font-weight:bold;color:lime;"> Home directories .................... </span><span style="font-weight:bold;filter: contrast(70%) brightness(190%);color:dimgray;">No</span>
