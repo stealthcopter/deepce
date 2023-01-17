@@ -561,13 +561,13 @@ containerCapabilities() {
         printNo
     fi
   else
-    caps=$(cat /proc/$PPID/status | grep Cap)
-    capEff=$(cat /proc/$PPID/status | grep CapEff | cut -d ':' -f 2 | tr -d '\t')
-    printError "Unknown"
+    caps=$(grep Cap /proc/self/status)
+    capEff=$(grep CapEff /proc/self/status | cut -d ':' -f 2 | tr -d '\t')
+    printError "capsh not installed, listing raw capabilities"
     printInstallAdvice "libcap2-bin"
-    printStatus "Current PPID capabilities are:"
+    printStatus "Current capabilities are:"
     printStatus "$caps"
-    printStatus "> Try to decode them with \"capsh --decode=00000000a80425fb\""
+    printStatus "> This can be decoded with: \"capsh --decode=${capEff}\""
   fi
 }
 
