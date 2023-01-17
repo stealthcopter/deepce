@@ -561,7 +561,13 @@ containerCapabilities() {
         printNo
     fi
   else
-    printError "Unknown (capsh not installed)"
+    caps=$(cat /proc/$PPID/status | grep Cap)
+    capEff=$(cat /proc/$PPID/status | grep CapEff | cut -d ':' -f 2 | tr -d '\t')
+    printError "Unknown"
+    printInstallAdvice "libcap2-bin"
+    printStatus "Current PPID capabilities are:"
+    printStatus "$caps"
+    printStatus "> Try to decode them with \"capsh --decode=00000000a80425fb\""
   fi
 }
 
