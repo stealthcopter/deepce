@@ -19,6 +19,7 @@
 
 ![ShellCheck](https://github.com/stealthcopter/deepce/workflows/ShellCheck/badge.svg)
 ![ContainerTests](https://github.com/stealthcopter/deepce/workflows/ContainerTests/badge.svg)
+<a href="https://www.buymeacoffee.com/stealthcopter"><img src="https://cdn.buymeacoffee.com/buttons/v2/arial-yellow.png" height="20px"></a>
 
 [Website](https://stealthcopter.github.io/deepce/)
 
@@ -41,6 +42,11 @@ curl -sL https://github.com/stealthcopter/deepce/raw/main/deepce.sh -o deepce.sh
 python -c 'import requests;print(requests.get("https://github.com/stealthcopter/deepce/raw/main/deepce.sh").content)' > deepce.sh 
 python3 -c 'import requests;print(requests.get("https://github.com/stealthcopter/deepce/raw/main/deepce.sh").content.decode("utf-8"))' > deepce.sh  
 ```
+
+# Support
+If you love what I'm doing with Deepce and my other projects, you can now support my work directly! By buying me a coffee ☕, you're not just fueling my caffeine needs – you're helping me dedicate more time to developing and improving these open source projects. Every coffee counts and brings more innovation to the cybersecurity world. Thank you for your support – it means the world to me and the open source community!
+
+<a href="https://www.buymeacoffee.com/stealthcopter"><img src="https://cdn.buymeacoffee.com/buttons/v2/arial-yellow.png" height="50px"></a>
 
 # Screenshots
 For more please view the [docs folder](https://github.com/stealthcopter/deepce/tree/main/docs)
