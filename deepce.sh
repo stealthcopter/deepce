@@ -195,7 +195,7 @@ printTip() {
   if [ "$quiet" ]; then
     return
   fi
-  printer "$DG" "$1" | fold -s -w 95
+    printer "$DG" "$1" | fold -s -w 95
   nl
 }
 
@@ -369,7 +369,7 @@ userCheck() {
   printQuestion "User ...................."
   if [ "$(id -u)" = 0 ]; then
     isUserRoot="1"
-    printSuccess "root"
+    printEx "root"
   else
     printSuccess "$(whoami)"
   fi
@@ -377,6 +377,29 @@ userCheck() {
   printQuestion "Groups .................."
   groups=$(groups| sed "s/\($DANGEROUS_GROUPS\)/${LG}${EX}&${NC}${DG}/g")
   printStatus "$groups" "None"
+
+  if ! [ $isUserRoot ]; then
+    printQuestion "Sudo ...................."
+    if [ -x "$(command -v sudo)" ]; then
+      if sudo -n -l 2>/dev/null; then
+        printEx "Passwordless Sudo"
+        isUserHasSudo="1"
+      else
+        printError "Password required"
+      fi
+    else
+      printError "sudo not found"
+    fi
+  else
+    printQuestion "Sudoers ................."
+    if [ -r /etc/sudoers ]; then
+      sudoers=$(grep -v "#\|^$\|^Defaults\|@include" /etc/sudoers)
+      printYes
+      printStatus "$sudoers"
+    else
+      printNo
+    fi
+  fi
 }
 
 dockerSockCheck() {
@@ -443,9 +466,7 @@ enumerateContainer() {
 
 containerID() {
   # Get container ID
-  containerID="$(cat /etc/hostname)"
-  #containerID="$(hostname)"
-  #containerID="$(uname -n)"
+  containerID="$(cat /etc/hostname || uname -n || hostname)"
   # Get container full ID
   printResult "Container ID ............" "$containerID" "Unknown"
 
@@ -499,13 +520,13 @@ containerName() {
     # Requires containerIP
     if [ "$containerIP" ]; then
         if [ -x "$(command -v host)" ]; then
-        containerName=$(host "$containerIP" | rev | cut -d' ' -f1 | rev)
+          containerName=$(host "$containerIP" | rev | cut -d' ' -f1 | rev)
         elif [ -x "$(command -v dig)" ]; then
-        containerName=$(dig -x "$containerIP" +noall +answer | grep 'PTR' | rev | cut -f1 | rev)
+          containerName=$(dig -x "$containerIP" +noall +answer | grep 'PTR' | rev | cut -f1 | rev)
         elif [ -x "$(command -v nslookup)" ]; then
-        containerName=$(nslookup "$containerIP" 2>/dev/null | grep 'name = ' | rev | cut -d' ' -f1 | rev)
+          containerName=$(nslookup "$containerIP" 2>/dev/null | grep 'name = ' | rev | cut -d' ' -f1 | rev)
         else
-        missingTools="1"
+          missingTools="1"
         fi
     fi
   else
@@ -807,16 +828,17 @@ findInterestingFiles() {
     printNo
   fi
 
-  hashes=$(cut -d':' -f2 < /etc/shadow 2>/dev/null | grep -v '^*$\|^!')
   printQuestion "Hashes in shadow file ..............."
-  if [ "$hashes" ]; then
-    printYes
-    printStatus "$hashes"
-  elif test -r /etc/shadow; then
-    # Cannot check...
-    printFail "No permissions"
+  if test -r /etc/shadow; then
+    hashes=$(cut -d':' -f2 < /etc/shadow 2>/dev/null | grep -v '^*$\|^!')
+    if [ "$hashes" ]; then
+      printYes
+      printStatus "$hashes"
+    else
+      printNo
+    fi
   else
-    printNo
+    printFail "Not readable"
   fi
 
   # TODO: Check this file /run/secrets/
@@ -829,7 +851,6 @@ findInterestingFiles() {
       printMsg "$(ls -lAh "$p")"
     fi
   done
-
 }
 
 checkDockerRootless() {
