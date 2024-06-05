@@ -21,6 +21,8 @@
 ![ContainerTests](https://github.com/stealthcopter/deepce/workflows/ContainerTests/badge.svg)
 <a href="https://www.buymeacoffee.com/stealthcopter"><img src="https://cdn.buymeacoffee.com/buttons/v2/arial-yellow.png" height="20px"></a>
 
+[![Twitter](https://img.shields.io/badge/-@stealthcopter-%232B90D9?style=for-the-badge&logo=twitter&logoColor=white&label=twitter)](https://twitter.com/stealthcopter)
+
 [Website](https://stealthcopter.github.io/deepce/)
 
 Docker Enumeration, Escalation of Privileges and Container Escapes (DEEPCE)
