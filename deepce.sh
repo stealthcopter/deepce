@@ -379,7 +379,7 @@ userCheck() {
   groups=$(groups| sed "s/\($DANGEROUS_GROUPS\)/${LG}${EX}&${NC}${DG}/g")
   printStatus "$groups" "None"
 
-  if ! [ $isUserRoot ]; then
+  if ! [ "$isUserRoot" ]; then
     printQuestion "Sudo ...................."
     if [ -x "$(command -v sudo)" ]; then
       if sudo -n -l 2>/dev/null; then
@@ -632,7 +632,7 @@ containerPrivileges() {
   fi
 }
 
-containerExploits() {
+containerExploitAlpine() {
   # If we are on an alpine linux disto check for CVE–2019–5021
   if [ -f "/etc/alpine-release" ]; then
     alpineVersion=$(cat /etc/alpine-release)
@@ -647,50 +647,62 @@ containerExploits() {
       printNo
     fi
   fi
+}
 
-  # If docker api is exposed check for CVE-2025-9074
+containerExploitAPI() {
+  # Check if docker api is exposed (including CVE-2025-9074)
+  api_available="0"
+  api_host=""
+  api_hosts="192.168.65.7:2375 172.17.0.1:2375"
+
+  printQuestion "Docker API exposed ......"
+
   if [ -x "$(command -v curl)" ] || [ -x "$(command -v wget)" ]; then
-    printQuestion "Docker API exposed ......."
-    api_available="0"
-    
-    if [ -x "$(command -v curl)" ]; then
-      curl -s --connect-timeout 1 http://192.168.65.7:2375/version >/dev/null 2>&1
-      if [ $? -eq 0 ]; then
-        api_available="1"
+    for host in $api_hosts; do
+      if [ -x "$(command -v curl)" ]; then
+        if curl -s --connect-timeout 1 "http://$host/version" >/dev/null 2>&1; then
+          api_available="1"
+          api_host="$host"
+          break
+        fi
+      else
+        if wget -O - "http://$host/version" --connect-timeout=1 --tries=1 -q >/dev/null 2>&1; then
+          api_available="1"
+          api_host="$host"
+          break
+        fi
       fi
-    elif [ -x "$(command -v wget)" ]; then
-      wget -O - http://192.168.65.7:2375/version --connect-timeout=1 --tries=1 -q >/dev/null 2>&1
-      if [ $? -eq 0 ]; then
-        api_available="1"
-      fi
-    fi
-    
+    done
+
     if [ "$api_available" = "0" ]; then
       printNo
       return
     fi
-    
-    printSuccess "Yes"
+
+    printSuccess "Yes ($api_host)"
     printQuestion "└── CVE-2025-9074 ......."
-    
+
     if [ -x "$(command -v curl)" ]; then
-      curl -s --connect-timeout 1 http://192.168.65.7:2375/containers/json >/dev/null 2>&1
-      if [ $? -eq 0 ]; then
+      if curl -s --connect-timeout 1 "http://$api_host/containers/json" >/dev/null 2>&1; then
         printYesEx
         printTip "$TIP_CVE_2025_9074"
       else
         printNo
       fi
-    elif [ -x "$(command -v wget)" ]; then
-      wget -O - http://192.168.65.7:2375/containers/json --connect-timeout=1 --tries=1 -q >/dev/null 2>&1
-      if [ $? -eq 0 ]; then
+    elif wget -O - "http://$api_host/containers/json" --connect-timeout=1 --tries=1 -q >/dev/null 2>&1; then
         printYesEx
         printTip "$TIP_CVE_2025_9074"
-      else
-        printNo
-      fi
+    else
+      printNo
     fi
+  else
+    printError "Unknown (curl/wget not installed)"
   fi
+}
+
+containerExploits() {
+  containerExploitAlpine
+  containerExploitAPI
 }
 
 enumerateContainers() {
