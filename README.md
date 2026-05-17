@@ -25,7 +25,7 @@
 
 [Website](https://stealthcopter.github.io/deepce/)
 
-Docker Enumeration, Escalation of Privileges and Container Escapes (DEEPCE)
+Docker & Kubernetes Enumeration, Escalation of Privileges and Container Escapes (DEEPCE)
 
 In order for it to be compatible with the maximum number of containers DEEPCE is written in pure `sh` with no dependencies. It will make use of additional tools such as curl, nmap, nslookup and dig if available but for the most part is not reliant upon them for enumeration.
 
